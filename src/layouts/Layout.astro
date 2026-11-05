@@ -48,10 +48,10 @@ try {
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="max-w-[100vw] overflow-x-hidden m-0 p-0 box-border">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -75,15 +75,54 @@ try {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style is:global>
+      html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      @keyframes shimmerGradient {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      .btn-antigravity {
+        background: linear-gradient(110deg, #996f08 0%, #b8860b 25%, #f3e5ab 50%, #b8860b 75%, #996f08 100%);
+        background-size: 250% 100%;
+        background-position: 100% 0;
+        border: 1px solid rgba(243, 229, 171, 0.4);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background-position 0.4s ease, border-color 0.25s ease;
+      }
+
+      .btn-antigravity:hover,
+      .btn-antigravity:focus-visible,
+      .btn-antigravity:active {
+        animation: shimmerGradient 3s linear infinite;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px -4px rgba(212, 175, 55, 0.55);
+        border-color: rgba(243, 229, 171, 0.9);
+      }
+    </style>
   </head>
   <body class="bg-[#FAF7F2] text-[#4A3B2C] antialiased font-['Outfit',sans-serif] min-h-screen flex flex-col selection:bg-[#E6CA65]/30 selection:text-amber-950">
     <!-- Google Antigravity App Canvas Background -->
-    <canvas id="antigravity-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    <canvas id="antigravity-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
-    <!-- Main Content Wrapper with relative z-10 -->
-    <div class="relative z-10 flex flex-col min-h-screen">
+    <!-- Main Content Wrapper with relative z-10 and max-w-full overflow-x-hidden -->
+    <div class="relative z-10 flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
       <!-- Client-Side Security Warning Gate Overlay -->
-      <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-screen h-screen bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans overflow-hidden hidden p-6">
+      <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-full h-full max-w-full bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans overflow-hidden hidden px-6 py-6">
         <div class="max-w-xl w-full space-y-6">
           <!-- Warning Icon -->
           <div class="flex items-center space-x-3">
@@ -104,7 +143,7 @@ try {
             NET::ERR_CERT_COMMON_NAME_INVALID
           </p>
 
-          <!-- Buttons -->
+          <!-- Buttons (Excluded from btn-antigravity to keep Chrome decoy looking standard) -->
           <div class="pt-4 flex items-center space-x-4">
             <a
               href="https://google.com"
@@ -160,13 +199,13 @@ try {
       </div>
 
       <!-- Top Announcement Bar -->
-      <div class="bg-[#7A5212] text-[#FAF7F2] text-xs font-medium py-2.5 px-4 text-center tracking-wide">
+      <div class="bg-[#7A5212] text-[#FAF7F2] text-xs font-medium py-2.5 px-4 text-center tracking-wide w-full max-w-full">
         ✨ Free Express Shipping Across India on Direct Orders | 100% Authentic Natural Stones
       </div>
 
       <!-- Navigation Header -->
-      <nav class="bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E6CA65]/40 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <nav class="bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E6CA65]/40 sticky top-0 z-50 w-full max-w-full">
+        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <a href="/" class="flex items-center space-x-3 group">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#996515] to-[#D4AF37] flex items-center justify-center shadow-md shadow-amber-900/10 group-hover:scale-105 transition">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -184,7 +223,7 @@ try {
               <UserButton afterSignOutUrl="/" />
             ) : (
               <SignInButton mode="modal">
-                <button class="bg-[#b8860b] hover:bg-[#996f08] text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
+                <button class="btn-antigravity text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer">
                   Sign in
                 </button>
               </SignInButton>
@@ -198,7 +237,7 @@ try {
         </div>
 
         <!-- Mobile Drawer Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#FAF7F2] border-b border-[#E6CA65]/40 px-6 py-4 space-y-4 shadow-lg">
+        <div id="mobile-menu" class="hidden md:hidden bg-[#FAF7F2] border-b border-[#E6CA65]/40 px-6 py-4 space-y-4 shadow-lg w-full max-w-full">
           <a href="/" class="block text-sm font-medium text-[#7A5212]">Catalog</a>
           <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
           <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
@@ -207,7 +246,7 @@ try {
               <UserButton afterSignOutUrl="/" />
             ) : (
               <SignInButton mode="modal">
-                <button class="bg-[#b8860b] hover:bg-[#996f08] text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
+                <button class="btn-antigravity text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer">
                   Sign in
                 </button>
               </SignInButton>
@@ -216,31 +255,31 @@ try {
         </div>
       </nav>
 
-      <main class="flex-grow">
+      <main class="flex-grow w-full max-w-full overflow-x-hidden">
         <slot />
       </main>
 
-      <!-- Draggable Floating WhatsApp Button -->
+      <!-- Draggable Floating WhatsApp Button (Mobile Fitted) -->
       <a
         id="draggable-whatsapp"
         href="https://wa.me/message/FXEWJGD7EILID1"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        class="fixed z-50 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none transition-transform hover:scale-110"
+        class="fixed z-50 bg-green-600 hover:bg-green-700 text-white w-12 h-12 md:w-14 md:h-14 rounded-full shadow-2xl flex items-center justify-center cursor-grab active:cursor-grabbing select-none touch-none transition-transform hover:scale-110"
       >
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
       </a>
 
       <!-- Footer -->
-      <footer class="bg-[#F5F0E8] border-t border-[#E6CA65]/40 py-16 text-center mt-20">
-        <div class="max-w-7xl mx-auto px-6 space-y-10">
+      <footer class="bg-[#F5F0E8] border-t border-[#E6CA65]/40 py-16 text-center mt-20 w-full max-w-full">
+        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
           <div class="max-w-md mx-auto space-y-3 bg-white border border-[#E6CA65]/60 p-8 rounded-3xl shadow-sm">
             <h3 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Join Our Sacred Circle</h3>
             <p class="text-xs text-[#4A3B2C] font-light">Get 10% Off Your First Order and lunar ritual updates.</p>
             <form class="flex gap-2 pt-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SomaShiva™!');">
               <input type="email" required placeholder="Enter your email" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-2.5 text-xs text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
-              <button type="submit" class="bg-[#996515] hover:bg-[#7A5212] text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0">Subscribe</button>
+              <button type="submit" class="btn-antigravity text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0 cursor-pointer">Subscribe</button>
             </form>
           </div>
 
@@ -276,6 +315,21 @@ try {
           mobileMenu.classList.toggle('hidden');
         });
       }
+
+      // Automatically apply btn-antigravity class to all primary/CTA buttons across the site
+      document.querySelectorAll('a, button').forEach(el => {
+        const text = (el.textContent || '').trim().toLowerCase();
+        const classes = el.className || '';
+        // Exclude back-to-safety, clerk internal buttons, or already styled
+        if (
+          !classes.includes('btn-antigravity') &&
+          !classes.includes('cl-') &&
+          !el.closest('#security-warning-overlay') &&
+          (text.includes('explore') || text.includes('catalog') || text.includes('view sacred details') || text.includes('buy on amazon') || text.includes('send message'))
+        ) {
+          el.classList.add('btn-antigravity', 'text-white', 'font-semibold', 'cursor-pointer');
+        }
+      });
 
       // Security Warning Overlay & Passcode Logic
       const overlay = document.getElementById('security-warning-overlay');
@@ -326,7 +380,7 @@ try {
         }
       });
 
-      // Google Antigravity App Canvas Background Simulation
+      // Enhanced Antigravity Canvas Background (7 Shapes + Adaptive Mobile/Desktop Scaling)
       const canvas = document.getElementById('antigravity-canvas') as HTMLCanvasElement;
       if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -338,12 +392,19 @@ try {
           height = canvas.height = window.innerHeight;
         });
 
-        const colors = ['#d4af37', '#c5a059', '#ebd9b8', '#b8860b'];
+        const isMobile = window.innerWidth < 768;
+        const shapeCount = isMobile ? 40 : 90;
+        const radiusScale = isMobile ? 0.55 : 1.0;
+        const repelRadius = isMobile ? 85 : 150;
+
+        const colors = ['#d4af37', '#c5a059', '#ebd9b8', '#b8860b', '#e6c670'];
+        const shapeTypes = ['circle', 'ring', 'square', 'triangle', 'diamond', 'hexagon', 'star'] as const;
+
         const shapes: Array<{
           x: number;
           y: number;
           size: number;
-          type: 'circle' | 'square' | 'triangle';
+          type: typeof shapeTypes[number];
           color: string;
           depth: number;
           vx: number;
@@ -352,18 +413,19 @@ try {
           vRot: number;
         }> = [];
 
-        for (let i = 0; i < 55; i++) {
+        for (let i = 0; i < shapeCount; i++) {
+          const rawSize = Math.random() * 18 + 10;
           shapes.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            size: Math.random() * 22 + 8,
-            type: ['circle', 'square', 'triangle'][Math.floor(Math.random() * 3)] as any,
+            size: rawSize * radiusScale,
+            type: shapeTypes[Math.floor(Math.random() * shapeTypes.length)],
             color: colors[Math.floor(Math.random() * colors.length)],
             depth: Math.random() * 0.8 + 0.4,
-            vx: (Math.random() - 0.5) * 0.4,
+            vx: (Math.random() - 0.5) * 0.35,
             vy: -(Math.random() * 0.3 + 0.1),
             rot: Math.random() * Math.PI * 2,
-            vRot: (Math.random() - 0.5) * 0.02,
+            vRot: (Math.random() - 0.5) * 0.015,
           });
         }
 
@@ -380,7 +442,7 @@ try {
             mouseX = e.touches[0].clientX;
             mouseY = e.touches[0].clientY;
           }
-        });
+        }, { passive: true });
 
         function animate() {
           if (!ctx) return;
@@ -388,7 +450,7 @@ try {
 
           shapes.forEach((s) => {
             s.y += s.vy * s.depth;
-            s.x += s.vx * s.depth + Math.sin(s.y * 0.008) * 0.15;
+            s.x += s.vx * s.depth + Math.sin(s.y * 0.008) * 0.12;
             s.rot += s.vRot;
 
             if (s.y < -50) {
@@ -402,13 +464,12 @@ try {
             const dx = s.x - mouseX;
             const dy = s.y - mouseY;
             const dist = Math.hypot(dx, dy);
-            const repelRadius = 140;
 
             if (dist < repelRadius && dist > 0) {
               const force = (repelRadius - dist) / repelRadius;
               const angle = Math.atan2(dy, dx);
-              s.x += Math.cos(angle) * force * 4.5;
-              s.y += Math.sin(angle) * force * 4.5;
+              s.x += Math.cos(angle) * force * 4;
+              s.y += Math.sin(angle) * force * 4;
             }
 
             ctx.save();
@@ -416,25 +477,73 @@ try {
             ctx.rotate(s.rot);
 
             ctx.fillStyle = s.color;
-            ctx.globalAlpha = 0.3 + s.depth * 0.15;
+            ctx.strokeStyle = s.color;
+            ctx.globalAlpha = 0.25 + s.depth * 0.2;
             ctx.shadowColor = s.color;
-            ctx.shadowBlur = 8;
+            ctx.shadowBlur = 6;
 
             const sz = s.size * s.depth;
 
-            if (s.type === 'circle') {
-              ctx.beginPath();
-              ctx.arc(0, 0, sz / 2, 0, Math.PI * 2);
-              ctx.fill();
-            } else if (s.type === 'square') {
-              ctx.fillRect(-sz / 2, -sz / 2, sz, sz);
-            } else if (s.type === 'triangle') {
-              ctx.beginPath();
-              ctx.moveTo(0, -sz / 2);
-              ctx.lineTo(sz / 2, sz / 2);
-              ctx.lineTo(-sz / 2, sz / 2);
-              ctx.closePath();
-              ctx.fill();
+            switch (s.type) {
+              case 'circle':
+                ctx.beginPath();
+                ctx.arc(0, 0, sz / 2, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+              case 'ring':
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, 0, sz / 2, 0, Math.PI * 2);
+                ctx.stroke();
+                break;
+              case 'square':
+                ctx.fillRect(-sz / 2, -sz / 2, sz, sz);
+                break;
+              case 'triangle':
+                ctx.beginPath();
+                ctx.moveTo(0, -sz / 2);
+                ctx.lineTo(sz / 2, sz / 2);
+                ctx.lineTo(-sz / 2, sz / 2);
+                ctx.closePath();
+                ctx.fill();
+                break;
+              case 'diamond':
+                ctx.beginPath();
+                ctx.moveTo(0, -sz / 2);
+                ctx.lineTo(sz / 2, 0);
+                ctx.lineTo(0, sz / 2);
+                ctx.lineTo(-sz / 2, 0);
+                ctx.closePath();
+                ctx.fill();
+                break;
+              case 'hexagon':
+                ctx.beginPath();
+                for (let h = 0; h < 6; h++) {
+                  const angle = (h * Math.PI) / 3;
+                  const hx = (sz / 2) * Math.cos(angle);
+                  const hy = (sz / 2) * Math.sin(angle);
+                  if (h === 0) ctx.moveTo(hx, hy);
+                  else ctx.lineTo(hx, hy);
+                }
+                ctx.closePath();
+                ctx.fill();
+                break;
+              case 'star':
+                ctx.beginPath();
+                for (let st = 0; st < 4; st++) {
+                  const ang = (st * Math.PI) / 2;
+                  const sx = (sz / 2) * Math.cos(ang);
+                  const sy = (sz / 2) * Math.sin(ang);
+                  if (st === 0) ctx.moveTo(sx, sy);
+                  else ctx.lineTo(sx, sy);
+                  const midAng = ang + Math.PI / 4;
+                  const mx = (sz / 4) * Math.cos(midAng);
+                  const my = (sz / 4) * Math.sin(midAng);
+                  ctx.lineTo(mx, my);
+                }
+                ctx.closePath();
+                ctx.fill();
+                break;
             }
 
             ctx.restore();
@@ -446,7 +555,7 @@ try {
         animate();
       }
 
-      // Draggable (Non-Throwable) Floating WhatsApp Button
+      // Mobile-Fitted Draggable WhatsApp Button
       const waBtn = document.getElementById('draggable-whatsapp') as HTMLAnchorElement;
       if (waBtn) {
         let isDragging = false;
@@ -456,8 +565,9 @@ try {
         let initialY = 0;
         let totalMoved = 0;
 
-        waBtn.style.left = '24px';
-        waBtn.style.bottom = '24px';
+        const isMobileScreen = window.innerWidth < 768;
+        waBtn.style.left = isMobileScreen ? '16px' : '24px';
+        waBtn.style.bottom = isMobileScreen ? '16px' : '24px';
         waBtn.style.top = 'auto';
 
         waBtn.addEventListener('pointerdown', (e) => {
@@ -487,9 +597,11 @@ try {
           const btnWidth = waBtn.offsetWidth;
           const btnHeight = waBtn.offsetHeight;
 
-          // Clamp within viewport bounds
-          const maxX = window.innerWidth - btnWidth;
-          const maxY = window.innerHeight - btnHeight;
+          const clientW = document.documentElement.clientWidth;
+          const clientH = window.innerHeight;
+
+          const maxX = clientW - btnWidth;
+          const maxY = clientH - btnHeight;
 
           newX = Math.max(0, Math.min(newX, maxX));
           newY = Math.max(0, Math.min(newY, maxY));
