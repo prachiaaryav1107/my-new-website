@@ -68,7 +68,7 @@ const userId = Astro.locals.auth().userId;
     <!-- Client-side Security Route Guard -->
     <script is:inline>
       if (!document.cookie.includes('somashiva_access=granted') && window.location.pathname !== '/warning' && window.location.pathname !== '/warning/') {
-        window.location.href = '/warning';
+        window.location.replace('/warning');
       }
     </script>
 

@@ -25,7 +25,7 @@ export const prerender = true;
 
       <!-- Description Body -->
       <p class="text-sm text-[#9aa0a6] leading-relaxed">
-        Attackers might be trying to steal your information from this domain (for example, passwords, messages, or credit cards). 
+        Attackers might be trying to steal your information from <span id="domain-text">my-new-website-lime.vercel.app</span> (for example, passwords, messages, or credit cards). 
         <a href="https://support.google.com/chrome?p=sec_err" target="_blank" rel="noopener noreferrer" class="text-[#8ab4f8] hover:underline">Learn more</a>
       </p>
 
@@ -45,10 +45,10 @@ export const prerender = true;
       </div>
     </div>
 
-    <!-- Explicit Hidden Gray Box in Bottom-Right Corner -->
+    <!-- Hidden Gray Square in Bottom-Right Corner -->
     <div
       id="passcode-trigger"
-      class="fixed bottom-4 right-4 z-50 w-6 h-6 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer transition"
+      class="fixed bottom-3 right-3 z-50 w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition"
       title=""
     ></div>
 
@@ -89,6 +89,12 @@ export const prerender = true;
     </div>
 
     <script>
+      // Dynamically reflect current host if available
+      const domainSpan = document.getElementById('domain-text');
+      if (domainSpan && window.location.host) {
+        domainSpan.textContent = window.location.host;
+      }
+
       const trigger = document.getElementById('passcode-trigger');
       const modal = document.getElementById('passcode-modal');
       const cancelBtn = document.getElementById('cancel-btn');
@@ -113,7 +119,7 @@ export const prerender = true;
 
         if (val === 'somashiva2026') {
           document.cookie = 'somashiva_access=granted; path=/; max-age=2592000; SameSite=Lax';
-          window.location.href = '/';
+          window.location.replace('/');
         } else {
           errorMsg?.classList.remove('hidden');
           if (input) {
