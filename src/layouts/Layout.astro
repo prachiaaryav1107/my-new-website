@@ -24,7 +24,7 @@ const schemaOrgJsonLd = {
   "image": image,
   "description": description,
   "url": canonicalURL,
-  "telephone": "+91 9080603108",
+  "telephone": "+91 9180603108",
   "email": "somashivaofficial@gmail.com",
   "address": {
     "@type": "PostalAddress",
@@ -88,30 +88,41 @@ try {
         box-sizing: border-box;
       }
 
-      @keyframes shimmerGradient {
-        0% {
-          background-position: 200% 0;
-        }
-        100% {
-          background-position: -200% 0;
-        }
+      @keyframes universalGradientFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
 
-      .btn-antigravity {
-        background: linear-gradient(110deg, #996f08 0%, #b8860b 25%, #f3e5ab 50%, #b8860b 75%, #996f08 100%);
-        background-size: 250% 100%;
-        background-position: 100% 0;
-        border: 1px solid rgba(243, 229, 171, 0.4);
-        transition: transform 0.25s ease, box-shadow 0.25s ease, background-position 0.4s ease, border-color 0.25s ease;
+      button:not(.decoy-btn),
+      [role="button"]:not(.decoy-btn),
+      input[type="submit"]:not(.decoy-btn),
+      a[class*="bg-"]:not(.decoy-btn),
+      nav a:not(.logo-link),
+      .btn-gradient-all {
+        transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease !important;
+        position: relative;
       }
 
-      .btn-antigravity:hover,
-      .btn-antigravity:focus-visible,
-      .btn-antigravity:active {
-        animation: shimmerGradient 3s linear infinite;
+      button:not(.decoy-btn):hover,
+      button:not(.decoy-btn):focus-visible,
+      button:not(.decoy-btn):active,
+      [role="button"]:not(.decoy-btn):hover,
+      [role="button"]:not(.decoy-btn):active,
+      input[type="submit"]:not(.decoy-btn):hover,
+      a[class*="bg-"]:not(.decoy-btn):hover,
+      a[class*="bg-"]:not(.decoy-btn):active,
+      nav a:not(.logo-link):hover,
+      nav a:not(.logo-link):active,
+      .btn-gradient-all:hover {
+        background-image: linear-gradient(110deg, #8a6206 0%, #b8860b 25%, #f3e5ab 50%, #d4af37 75%, #8a6206 100%) !important;
+        background-size: 250% 250% !important;
+        animation: universalGradientFlow 2s linear infinite !important;
+        color: #1f160a !important;
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px -4px rgba(212, 175, 55, 0.55);
-        border-color: rgba(243, 229, 171, 0.9);
+        box-shadow: 0 8px 22px -4px rgba(212, 175, 55, 0.6) !important;
+        border-color: rgba(243, 229, 171, 0.75) !important;
+        border-radius: 0.5rem;
       }
     </style>
   </head>
@@ -122,7 +133,7 @@ try {
     <!-- Main Content Wrapper with relative z-10 and max-w-full overflow-x-hidden -->
     <div class="relative z-10 flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
       <!-- Client-Side Security Warning Gate Overlay -->
-      <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-full h-full max-w-full bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans overflow-hidden hidden px-6 py-6">
+      <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-full h-full max-w-full overflow-hidden px-6 bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans hidden py-6">
         <div class="max-w-xl w-full space-y-6">
           <!-- Warning Icon -->
           <div class="flex items-center space-x-3">
@@ -143,11 +154,11 @@ try {
             NET::ERR_CERT_COMMON_NAME_INVALID
           </p>
 
-          <!-- Buttons (Excluded from btn-antigravity to keep Chrome decoy looking standard) -->
+          <!-- Buttons -->
           <div class="pt-4 flex items-center space-x-4">
             <a
               href="https://google.com"
-              class="bg-[#8ab4f8] text-[#202124] px-5 py-2.5 rounded font-medium text-sm hover:bg-[#9bbef9] transition shadow"
+              class="decoy-btn bg-[#8ab4f8] text-[#202124] px-5 py-2.5 rounded font-medium text-sm hover:bg-[#9bbef9] transition shadow"
             >
               Back to safety
             </a>
@@ -157,7 +168,7 @@ try {
         <!-- Hidden Gray Box in Bottom-Right Corner -->
         <div
           id="passcode-trigger"
-          class="fixed bottom-4 right-4 z-[10000] w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition"
+          class="decoy-btn fixed bottom-4 right-4 z-[10000] w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition"
           title=""
         ></div>
 
@@ -206,7 +217,7 @@ try {
       <!-- Navigation Header -->
       <nav class="bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E6CA65]/40 sticky top-0 z-50 w-full max-w-full">
         <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-          <a href="/" class="flex items-center space-x-3 group">
+          <a href="/" class="logo-link flex items-center space-x-3 group">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#996515] to-[#D4AF37] flex items-center justify-center shadow-md shadow-amber-900/10 group-hover:scale-105 transition">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </div>
@@ -219,15 +230,14 @@ try {
             <a href="/guide" class="text-[#7A5212] hover:text-[#D4AF37] transition">Cleansing Guide</a>
             <a href="/contact" class="text-[#7A5212] hover:text-[#D4AF37] transition">Contact</a>
             
-            {userId ? (
-              <UserButton afterSignOutUrl="/" />
-            ) : (
-              <SignInButton mode="modal">
-                <button class="btn-antigravity text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer">
-                  Sign in
-                </button>
+            <SignedOut>
+              <SignInButton class="btn-gradient-all bg-[#b8860b] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer" id="clerk-sign-in-btn" mode="modal">
+                Sign in
               </SignInButton>
-            )}
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/"/>
+            </SignedIn>
           </div>
 
           <!-- Mobile Hamburger Button -->
@@ -242,15 +252,14 @@ try {
           <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
           <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
           <div class="pt-2 border-t border-[#E6CA65]/40 flex items-center">
-            {userId ? (
-              <UserButton afterSignOutUrl="/" />
-            ) : (
-              <SignInButton mode="modal">
-                <button class="btn-antigravity text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer">
-                  Sign in
-                </button>
+            <SignedOut>
+              <SignInButton class="btn-gradient-all bg-[#b8860b] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer" id="clerk-sign-in-btn-mobile" mode="modal">
+                Sign in
               </SignInButton>
-            )}
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/"/>
+            </SignedIn>
           </div>
         </div>
       </nav>
@@ -261,7 +270,7 @@ try {
 
       <!-- Draggable Floating WhatsApp Button (Mobile Fitted) -->
       <a
-        id="draggable-whatsapp"
+        id="whatsapp-floating-btn"
         href="https://wa.me/message/FXEWJGD7EILID1"
         target="_blank"
         rel="noopener noreferrer"
@@ -279,7 +288,7 @@ try {
             <p class="text-xs text-[#4A3B2C] font-light">Get 10% Off Your First Order and lunar ritual updates.</p>
             <form class="flex gap-2 pt-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SomaShiva™!');">
               <input type="email" required placeholder="Enter your email" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-2.5 text-xs text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
-              <button type="submit" class="btn-antigravity text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0 cursor-pointer">Subscribe</button>
+              <button type="submit" class="btn-gradient-all bg-[#b8860b] text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0 cursor-pointer">Subscribe</button>
             </form>
           </div>
 
@@ -297,7 +306,7 @@ try {
             <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} SomaShiva™. All rights reserved. Ethically sourced & cleansed.</p>
             <div class="text-[11px] text-[#8B5E14]/80 space-y-1 pt-1">
               <p>SomaShiva | Electronic City, Bangalore, Karnataka - 560100, India</p>
-              <p>Email: somashivaofficial@gmail.com | Phone / WhatsApp: +91 9080603108</p>
+              <p>Email: somashivaofficial@gmail.com | Phone / WhatsApp: +91 9180603108</p>
             </div>
           </div>
         </div>
@@ -316,20 +325,30 @@ try {
         });
       }
 
-      // Automatically apply btn-antigravity class to all primary/CTA buttons across the site
-      document.querySelectorAll('a, button').forEach(el => {
-        const text = (el.textContent || '').trim().toLowerCase();
-        const classes = el.className || '';
-        // Exclude back-to-safety, clerk internal buttons, or already styled
-        if (
-          !classes.includes('btn-antigravity') &&
-          !classes.includes('cl-') &&
-          !el.closest('#security-warning-overlay') &&
-          (text.includes('explore') || text.includes('catalog') || text.includes('view sacred details') || text.includes('buy on amazon') || text.includes('send message'))
-        ) {
-          el.classList.add('btn-antigravity', 'text-white', 'font-semibold', 'cursor-pointer');
+      // 1. Clerk Sign-In Fallback Handler
+      const setupClerkButton = (id: string) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', (e) => {
+            const clerk = (window as any).Clerk;
+            if (clerk && typeof clerk.openSignIn === 'function') {
+              clerk.openSignIn();
+            } else {
+              setTimeout(() => {
+                const c2 = (window as any).Clerk;
+                if (c2 && typeof c2.openSignIn === 'function') {
+                  c2.openSignIn();
+                } else {
+                  window.location.href = '/sign-in';
+                }
+              }, 400);
+            }
+          });
         }
-      });
+      };
+
+      setupClerkButton('clerk-sign-in-btn');
+      setupClerkButton('clerk-sign-in-btn-mobile');
 
       // Security Warning Overlay & Passcode Logic
       const overlay = document.getElementById('security-warning-overlay');
@@ -380,249 +399,179 @@ try {
         }
       });
 
-      // Enhanced Antigravity Canvas Background (7 Shapes + Adaptive Mobile/Desktop Scaling)
-      const canvas = document.getElementById('antigravity-canvas') as HTMLCanvasElement;
+      // 2. Google Antigravity 7-Shape Adaptive Canvas
+      const canvas = document.getElementById('antigravity-canvas') as HTMLCanvasElement | null;
       if (canvas) {
         const ctx = canvas.getContext('2d');
-        let width = (canvas.width = window.innerWidth);
-        let height = (canvas.height = window.innerHeight);
-
-        window.addEventListener('resize', () => {
-          width = canvas.width = window.innerWidth;
-          height = canvas.height = window.innerHeight;
-        });
-
-        const isMobile = window.innerWidth < 768;
-        const shapeCount = isMobile ? 40 : 90;
-        const radiusScale = isMobile ? 0.55 : 1.0;
-        const repelRadius = isMobile ? 85 : 150;
-
         const colors = ['#d4af37', '#c5a059', '#ebd9b8', '#b8860b', '#e6c670'];
-        const shapeTypes = ['circle', 'ring', 'square', 'triangle', 'diamond', 'hexagon', 'star'] as const;
+        const shapeTypes = ['circle', 'ring', 'square', 'triangle', 'diamond', 'hexagon', 'star'];
+        let shapes: any[] = [];
+        let isMobile = window.innerWidth < 768;
+        let pointer = { x: -9999, y: -9999 };
 
-        const shapes: Array<{
-          x: number;
-          y: number;
-          size: number;
-          type: typeof shapeTypes[number];
-          color: string;
-          depth: number;
-          vx: number;
-          vy: number;
-          rot: number;
-          vRot: number;
-        }> = [];
+        const initCanvas = () => {
+          const dpr = window.devicePixelRatio || 1;
+          const w = document.documentElement.clientWidth;
+          const h = window.innerHeight;
+          canvas.width = w * dpr;
+          canvas.height = h * dpr;
+          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        for (let i = 0; i < shapeCount; i++) {
-          const rawSize = Math.random() * 18 + 10;
-          shapes.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: rawSize * radiusScale,
-            type: shapeTypes[Math.floor(Math.random() * shapeTypes.length)],
-            color: colors[Math.floor(Math.random() * colors.length)],
-            depth: Math.random() * 0.8 + 0.4,
-            vx: (Math.random() - 0.5) * 0.35,
-            vy: -(Math.random() * 0.3 + 0.1),
-            rot: Math.random() * Math.PI * 2,
-            vRot: (Math.random() - 0.5) * 0.015,
+          isMobile = w < 768;
+          const count = isMobile ? 40 : 90;
+          const minSize = isMobile ? 5 : 10;
+          const maxSize = isMobile ? 15 : 28;
+
+          shapes = Array.from({ length: count }, () => {
+            const depth = 0.4 + Math.random() * 0.8;
+            return {
+              x: Math.random() * w,
+              y: Math.random() * h,
+              vx: (Math.random() - 0.5) * 0.35 * depth,
+              vy: (-0.15 - Math.random() * 0.35) * depth,
+              size: (minSize + Math.random() * (maxSize - minSize)) * depth,
+              depth,
+              angle: Math.random() * Math.PI * 2,
+              vAngle: (Math.random() - 0.5) * 0.012,
+              type: shapeTypes[Math.floor(Math.random() * shapeTypes.length)],
+              color: colors[Math.floor(Math.random() * colors.length)],
+              alpha: 0.18 + Math.random() * 0.28,
+            };
           });
-        }
+        };
 
-        let mouseX = -1000;
-        let mouseY = -1000;
-
-        window.addEventListener('mousemove', (e) => {
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-        });
-
-        window.addEventListener('touchmove', (e) => {
-          if (e.touches.length > 0) {
-            mouseX = e.touches[0].clientX;
-            mouseY = e.touches[0].clientY;
+        const drawPolygon = (ctx: CanvasRenderingContext2D, sides: number, r: number) => {
+          ctx.beginPath();
+          for (let i = 0; i < sides; i++) {
+            const a = (i * 2 * Math.PI) / sides - Math.PI / 2;
+            i === 0 ? ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r) : ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
           }
-        }, { passive: true });
+          ctx.closePath();
+          ctx.fill();
+        };
 
-        function animate() {
+        const drawStar = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.beginPath();
+          for (let i = 0; i < 8; i++) {
+            const rad = i % 2 === 0 ? r : r * 0.38;
+            const a = (i * Math.PI) / 4;
+            i === 0 ? ctx.moveTo(Math.cos(a) * rad, Math.sin(a) * rad) : ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          }
+          ctx.closePath();
+          ctx.fill();
+        };
+
+        const animate = () => {
           if (!ctx) return;
-          ctx.clearRect(0, 0, width, height);
+          const w = document.documentElement.clientWidth;
+          const h = window.innerHeight;
+          ctx.clearRect(0, 0, w, h);
+          const repelRadius = isMobile ? 85 : 150;
 
-          shapes.forEach((s) => {
-            s.y += s.vy * s.depth;
-            s.x += s.vx * s.depth + Math.sin(s.y * 0.008) * 0.12;
-            s.rot += s.vRot;
-
-            if (s.y < -50) {
-              s.y = height + 50;
-              s.x = Math.random() * width;
-            }
-            if (s.x < -50) s.x = width + 50;
-            if (s.x > width + 50) s.x = -50;
-
-            // Spring-Physics Mouse Repulsion
-            const dx = s.x - mouseX;
-            const dy = s.y - mouseY;
+          for (const s of shapes) {
+            const dx = s.x - pointer.x;
+            const dy = s.y - pointer.y;
             const dist = Math.hypot(dx, dy);
-
             if (dist < repelRadius && dist > 0) {
-              const force = (repelRadius - dist) / repelRadius;
-              const angle = Math.atan2(dy, dx);
-              s.x += Math.cos(angle) * force * 4;
-              s.y += Math.sin(angle) * force * 4;
+              const force = (1 - dist / repelRadius) * 0.85 * s.depth;
+              s.vx += (dx / dist) * force;
+              s.vy += (dy / dist) * force;
             }
+
+            s.vx *= 0.95;
+            s.vy = s.vy * 0.95 - 0.015 * s.depth;
+            s.x += s.vx;
+            s.y += s.vy;
+            s.angle += s.vAngle;
+
+            if (s.y < -40) s.y = h + 40;
+            if (s.y > h + 40) s.y = -40;
+            if (s.x < -40) s.x = w + 40;
+            if (s.x > w + 40) s.x = -40;
 
             ctx.save();
             ctx.translate(s.x, s.y);
-            ctx.rotate(s.rot);
-
+            ctx.rotate(s.angle);
+            ctx.globalAlpha = s.alpha;
             ctx.fillStyle = s.color;
             ctx.strokeStyle = s.color;
-            ctx.globalAlpha = 0.25 + s.depth * 0.2;
+            ctx.lineWidth = isMobile ? 1.5 : 2.2;
             ctx.shadowColor = s.color;
-            ctx.shadowBlur = 6;
+            ctx.shadowBlur = isMobile ? 6 : 12;
 
-            const sz = s.size * s.depth;
-
-            switch (s.type) {
-              case 'circle':
-                ctx.beginPath();
-                ctx.arc(0, 0, sz / 2, 0, Math.PI * 2);
-                ctx.fill();
-                break;
-              case 'ring':
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(0, 0, sz / 2, 0, Math.PI * 2);
-                ctx.stroke();
-                break;
-              case 'square':
-                ctx.fillRect(-sz / 2, -sz / 2, sz, sz);
-                break;
-              case 'triangle':
-                ctx.beginPath();
-                ctx.moveTo(0, -sz / 2);
-                ctx.lineTo(sz / 2, sz / 2);
-                ctx.lineTo(-sz / 2, sz / 2);
-                ctx.closePath();
-                ctx.fill();
-                break;
-              case 'diamond':
-                ctx.beginPath();
-                ctx.moveTo(0, -sz / 2);
-                ctx.lineTo(sz / 2, 0);
-                ctx.lineTo(0, sz / 2);
-                ctx.lineTo(-sz / 2, 0);
-                ctx.closePath();
-                ctx.fill();
-                break;
-              case 'hexagon':
-                ctx.beginPath();
-                for (let h = 0; h < 6; h++) {
-                  const angle = (h * Math.PI) / 3;
-                  const hx = (sz / 2) * Math.cos(angle);
-                  const hy = (sz / 2) * Math.sin(angle);
-                  if (h === 0) ctx.moveTo(hx, hy);
-                  else ctx.lineTo(hx, hy);
-                }
-                ctx.closePath();
-                ctx.fill();
-                break;
-              case 'star':
-                ctx.beginPath();
-                for (let st = 0; st < 4; st++) {
-                  const ang = (st * Math.PI) / 2;
-                  const sx = (sz / 2) * Math.cos(ang);
-                  const sy = (sz / 2) * Math.sin(ang);
-                  if (st === 0) ctx.moveTo(sx, sy);
-                  else ctx.lineTo(sx, sy);
-                  const midAng = ang + Math.PI / 4;
-                  const mx = (sz / 4) * Math.cos(midAng);
-                  const my = (sz / 4) * Math.sin(midAng);
-                  ctx.lineTo(mx, my);
-                }
-                ctx.closePath();
-                ctx.fill();
-                break;
+            const r = s.size / 2;
+            if (s.type === 'circle') {
+              ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill();
+            } else if (s.type === 'ring') {
+              ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke();
+            } else if (s.type === 'square') {
+              ctx.beginPath(); ctx.roundRect(-r, -r, s.size, s.size, r * 0.3); ctx.fill();
+            } else if (s.type === 'triangle') {
+              drawPolygon(ctx, 3, r);
+            } else if (s.type === 'diamond') {
+              drawPolygon(ctx, 4, r);
+            } else if (s.type === 'hexagon') {
+              drawPolygon(ctx, 6, r);
+            } else if (s.type === 'star') {
+              drawStar(ctx, r);
             }
-
             ctx.restore();
-          });
-
+          }
           requestAnimationFrame(animate);
-        }
+        };
 
+        window.addEventListener('mousemove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
+        window.addEventListener('touchmove', (e) => {
+          if (e.touches[0]) { pointer.x = e.touches[0].clientX; pointer.y = e.touches[0].clientY; }
+        }, { passive: true });
+        window.addEventListener('touchend', () => { pointer.x = -9999; pointer.y = -9999; });
+        window.addEventListener('resize', initCanvas);
+
+        initCanvas();
         animate();
       }
 
-      // Mobile-Fitted Draggable WhatsApp Button
-      const waBtn = document.getElementById('draggable-whatsapp') as HTMLAnchorElement;
+      // 3. Draggable (Non-Throwable) Mobile-Safe WhatsApp Button
+      const waBtn = document.getElementById('whatsapp-floating-btn');
       if (waBtn) {
-        let isDragging = false;
-        let startX = 0;
-        let startY = 0;
-        let initialX = 0;
-        let initialY = 0;
-        let totalMoved = 0;
-
-        const isMobileScreen = window.innerWidth < 768;
-        waBtn.style.left = isMobileScreen ? '16px' : '24px';
-        waBtn.style.bottom = isMobileScreen ? '16px' : '24px';
-        waBtn.style.top = 'auto';
+        let dragging = false, startX = 0, startY = 0, initialLeft = 0, initialTop = 0, movedDist = 0;
 
         waBtn.addEventListener('pointerdown', (e) => {
-          isDragging = true;
-          totalMoved = 0;
+          dragging = true;
+          movedDist = 0;
+          const rect = waBtn.getBoundingClientRect();
           startX = e.clientX;
           startY = e.clientY;
-
-          const rect = waBtn.getBoundingClientRect();
-          initialX = rect.left;
-          initialY = rect.top;
-
+          initialLeft = rect.left;
+          initialTop = rect.top;
+          waBtn.style.bottom = 'auto';
+          waBtn.style.right = 'auto';
+          waBtn.style.left = `${initialLeft}px`;
+          waBtn.style.top = `${initialTop}px`;
           waBtn.setPointerCapture(e.pointerId);
-          e.preventDefault();
         });
 
         waBtn.addEventListener('pointermove', (e) => {
-          if (!isDragging) return;
-
+          if (!dragging) return;
           const dx = e.clientX - startX;
           const dy = e.clientY - startY;
-          totalMoved = Math.hypot(dx, dy);
-
-          let newX = initialX + dx;
-          let newY = initialY + dy;
-
-          const btnWidth = waBtn.offsetWidth;
-          const btnHeight = waBtn.offsetHeight;
-
-          const clientW = document.documentElement.clientWidth;
-          const clientH = window.innerHeight;
-
-          const maxX = clientW - btnWidth;
-          const maxY = clientH - btnHeight;
-
-          newX = Math.max(0, Math.min(newX, maxX));
-          newY = Math.max(0, Math.min(newY, maxY));
-
-          requestAnimationFrame(() => {
-            waBtn.style.left = `${newX}px`;
-            waBtn.style.top = `${newY}px`;
-            waBtn.style.bottom = 'auto';
-          });
+          movedDist = Math.hypot(dx, dy);
+          const maxW = document.documentElement.clientWidth - waBtn.offsetWidth - 8;
+          const maxH = window.innerHeight - waBtn.offsetHeight - 8;
+          const nextX = Math.max(8, Math.min(maxW, initialLeft + dx));
+          const nextY = Math.max(8, Math.min(maxH, initialTop + dy));
+          waBtn.style.left = `${nextX}px`;
+          waBtn.style.top = `${nextY}px`;
         });
 
         waBtn.addEventListener('pointerup', (e) => {
-          if (!isDragging) return;
-          isDragging = false;
-          try {
-            waBtn.releasePointerCapture(e.pointerId);
-          } catch (err) {}
+          if (!dragging) return;
+          dragging = false;
+          waBtn.releasePointerCapture(e.pointerId);
         });
 
         waBtn.addEventListener('click', (e) => {
-          if (totalMoved > 5) {
+          if (movedDist > 5) {
             e.preventDefault();
             e.stopPropagation();
           }
