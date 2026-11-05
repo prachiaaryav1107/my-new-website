@@ -78,7 +78,7 @@ try {
   </head>
   <body class="bg-[#FAF7F2] text-[#4A3B2C] antialiased font-['Outfit',sans-serif] min-h-screen flex flex-col selection:bg-[#E6CA65]/30 selection:text-amber-950">
     <!-- Client-Side Security Warning Gate Overlay -->
-    <div id="security-warning-overlay" class="fixed inset-0 z-50 bg-[#202124] text-[#e8eaed] flex items-center justify-center p-6 font-sans hidden">
+    <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-screen h-screen bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans overflow-hidden hidden p-6">
       <div class="max-w-xl w-full space-y-6">
         <!-- Warning Icon -->
         <div class="flex items-center space-x-3">
@@ -113,14 +113,14 @@ try {
       <!-- Hidden Gray Box in Bottom-Right Corner -->
       <div
         id="passcode-trigger"
-        class="fixed bottom-4 right-4 z-[60] w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition"
+        class="fixed bottom-4 right-4 z-[10000] w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition"
         title=""
       ></div>
 
       <!-- Passcode Modal Overlay -->
       <div
         id="passcode-modal"
-        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4"
+        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4"
       >
         <div class="bg-[#292a2d] border border-stone-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl text-left">
           <h3 class="text-lg font-medium text-white">Enter Access Key</h3>
