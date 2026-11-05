@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { products } from '../../data/products';
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<Layout title={`${product.name} | Brand Store`}>
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      <img src={product.image} alt={product.name} class="w-full rounded-2xl shadow-sm border border-gray-200" />
+      <div>
+        <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">{product.category}</span>
+        <h1 class="text-3xl font-extrabold text-gray-900 mt-1">{product.name}</h1>
+        <p class="text-3xl font-bold text-gray-900 mt-4">₹{product.price}</p>
+        <p class="mt-4 text-gray-600 leading-relaxed">{product.description}</p>
+
+        <ul class="mt-6 space-y-2">
+          {product.features.map((feature) => (
+            <li class="flex items-center text-sm text-gray-700">
+              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-8 space-y-4">
+          <a
+            href={product.amazonUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-xl border border-yellow-500 transition"
+          >
+            Buy on Amazon
+          </a>
+
+          {product.razorpayButtonId && (
+            <div class="bg-gray-100 p-4 rounded-xl border border-gray-200">
+              <p class="text-xs text-gray-500 mb-2 text-center font-medium">Free Shipping Over ₹500 (Direct Purchase)</p>
+              <form>
+                <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id={product.razorpayButtonId} async></script>
+              </form>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
