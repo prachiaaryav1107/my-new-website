@@ -19,7 +19,7 @@ const { product } = Astro.props;
 <Layout title={`${product.name} | Serenity Crystals`}>
   <div class="max-w-6xl mx-auto px-6 py-16">
     <div class="mb-8">
-      <a href="/" class="inline-flex items-center text-sm font-medium text-stone-600 hover:text-amber-700 transition">
+      <a href="/" class="inline-flex items-center text-sm font-medium text-[#7A5212] hover:text-[#D4AF37] transition">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
         Back to Sacred Collection
       </a>
@@ -27,13 +27,13 @@ const { product } = Astro.props;
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
       <!-- Product Image -->
-      <div class="relative rounded-3xl overflow-hidden border border-amber-200 bg-white shadow-sm aspect-square">
+      <div class="relative rounded-3xl overflow-hidden border border-[#E6CA65]/60 bg-white shadow-sm aspect-square">
         <img src={product.image} alt={product.name} class="w-full h-full object-cover" />
         <div class="absolute top-4 left-4 flex flex-wrap gap-2">
-          <span class="bg-white/90 backdrop-blur-md border border-amber-300 text-amber-900 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
+          <span class="bg-white/90 backdrop-blur-md border border-[#E6CA65] text-[#996515] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
             {product.chakra}
           </span>
-          <span class="bg-amber-50/90 backdrop-blur-md border border-amber-300 text-amber-900 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
+          <span class="bg-amber-50/90 backdrop-blur-md border border-[#E6CA65] text-[#B8860B] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
             {product.energyProperty}
           </span>
         </div>
@@ -42,22 +42,22 @@ const { product } = Astro.props;
       <!-- Product Details & Dual Checkout -->
       <div class="space-y-6">
         <div>
-          <span class="text-xs font-semibold text-amber-700 uppercase tracking-widest">{product.category}</span>
-          <h1 class="text-3xl sm:text-4xl font-extrabold font-['Cormorant_Garamond',serif] text-stone-900 mt-1 mb-3">{product.name}</h1>
-          <div class="text-3xl font-extrabold text-stone-900">₹{product.price}</div>
+          <span class="text-xs font-semibold text-[#B8860B] uppercase tracking-widest">{product.category}</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold font-['Cormorant_Garamond',serif] text-[#7A5212] mt-1 mb-3">{product.name}</h1>
+          <div class="text-3xl font-extrabold text-[#7A5212]">₹{product.price}</div>
         </div>
 
-        <p class="text-stone-600 leading-relaxed text-base font-light">
+        <p class="text-[#4A3B2C] leading-relaxed text-base font-light">
           {product.description}
         </p>
 
         <!-- Features -->
-        <div class="border-t border-b border-amber-200/60 py-6 space-y-3">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500">Sacred Specifications & Features</h3>
+        <div class="border-t border-b border-[#E6CA65]/40 py-6 space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Sacred Specifications & Features</h3>
           <ul class="space-y-2.5">
             {product.features.map((feature) => (
-              <li class="flex items-center text-sm text-stone-700">
-                <svg class="w-4 h-4 text-amber-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              <li class="flex items-center text-sm text-[#4A3B2C]">
+                <svg class="w-4 h-4 text-[#D4AF37] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 {feature}
               </li>
             ))}
@@ -66,23 +66,23 @@ const { product } = Astro.props;
 
         <!-- Dual Checkout Options -->
         <div class="space-y-4 pt-4">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500">Secure Your Sacred Item</h3>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Secure Your Sacred Item</h3>
           
           <!-- Primary Amazon Button -->
           <a
             href={product.amazonUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-full flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-950 font-semibold py-4 px-6 rounded-2xl border border-amber-400 shadow-sm transition transform hover:-translate-y-0.5"
+            class="w-full flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-[#7A5212] font-semibold py-4 px-6 rounded-2xl border border-[#E6CA65] shadow-sm transition transform hover:-translate-y-0.5"
           >
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <svg class="w-5 h-5 mr-2 text-[#996515]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             Buy on Amazon (Prime Delivery)
           </a>
 
           <!-- Secondary Razorpay Button -->
           {product.razorpayButtonId && (
-            <div class="bg-white border border-amber-200 p-6 rounded-2xl shadow-sm text-center space-y-3">
-              <p class="text-xs text-stone-500 font-medium">Direct Direct-to-Consumer Checkout (Free Shipping Over ₹500)</p>
+            <div class="bg-white border border-[#E6CA65]/60 p-6 rounded-2xl shadow-sm text-center space-y-3">
+              <p class="text-xs text-[#8B5E14] font-medium">Direct Direct-to-Consumer Checkout (Free Shipping Over ₹500)</p>
               <form class="flex justify-center">
                 <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id={product.razorpayButtonId} async></script>
               </form>
