@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 ---
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ export const prerender = true;
 
       <!-- Description Body -->
       <p class="text-sm text-[#9aa0a6] leading-relaxed">
-        Attackers might be trying to steal your information from <span id="domain-text">my-new-website-lime.vercel.app</span> (for example, passwords, messages, or credit cards). 
+        Attackers might be trying to steal your information from this domain (for example, passwords, messages, or credit cards). 
         <a href="https://support.google.com/chrome?p=sec_err" target="_blank" rel="noopener noreferrer" class="text-[#8ab4f8] hover:underline">Learn more</a>
       </p>
 
@@ -45,10 +45,10 @@ export const prerender = true;
       </div>
     </div>
 
-    <!-- Hidden Gray Square in Bottom-Right Corner -->
+    <!-- Hidden Gray Box in Bottom-Right Corner -->
     <div
       id="passcode-trigger"
-      class="fixed bottom-3 right-3 z-50 w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition"
+      class="fixed bottom-3 right-3 z-50 w-5 h-5 bg-stone-800 border border-stone-700 hover:bg-stone-600 rounded cursor-pointer opacity-70 transition-all"
       title=""
     ></div>
 
@@ -59,7 +59,7 @@ export const prerender = true;
     >
       <div class="bg-[#292a2d] border border-stone-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
         <h3 class="text-lg font-medium text-white">Enter Access Key</h3>
-        <p class="text-xs text-[#9aa0a6]">Authorized access key required to bypass warning gate.</p>
+        <p class="text-xs text-[#9aa0a6]">Authorized server access key required to unlock domain.</p>
         <form id="passcode-form" class="space-y-3">
           <input
             type="password"
@@ -89,12 +89,6 @@ export const prerender = true;
     </div>
 
     <script>
-      // Dynamically reflect current host if available
-      const domainSpan = document.getElementById('domain-text');
-      if (domainSpan && window.location.host) {
-        domainSpan.textContent = window.location.host;
-      }
-
       const trigger = document.getElementById('passcode-trigger');
       const modal = document.getElementById('passcode-modal');
       const cancelBtn = document.getElementById('cancel-btn');
@@ -113,19 +107,32 @@ export const prerender = true;
         errorMsg?.classList.add('hidden');
       });
 
-      form?.addEventListener('submit', (e) => {
+      form?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const val = input?.value.trim();
+        const password = input?.value.trim();
 
-        if (val === 'somashiva2026') {
-          document.cookie = 'somashiva_access=granted; path=/; max-age=2592000; SameSite=Lax';
-          window.location.replace('/');
-        } else {
-          errorMsg?.classList.remove('hidden');
-          if (input) {
-            input.value = '';
-            input.focus();
+        try {
+          const res = await fetch('/api/unlock', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ password }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            window.location.href = '/';
+          } else {
+            errorMsg?.classList.remove('hidden');
+            if (input) {
+              input.value = '';
+              input.focus();
+            }
           }
+        } catch (err) {
+          errorMsg?.classList.remove('hidden');
         }
       });
     </script>
