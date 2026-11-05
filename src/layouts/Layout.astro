@@ -230,14 +230,15 @@ try {
             <a href="/guide" class="text-[#7A5212] hover:text-[#D4AF37] transition">Cleansing Guide</a>
             <a href="/contact" class="text-[#7A5212] hover:text-[#D4AF37] transition">Contact</a>
             
-            <SignedOut>
-              <SignInButton class="btn-gradient-all bg-[#b8860b] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer" id="clerk-sign-in-btn" mode="modal">
-                Sign in
+            {userId ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
+              <SignInButton mode="modal">
+                <button class="btn-gradient-all bg-[#b8860b] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer" id="clerk-sign-in-btn">
+                  Sign in
+                </button>
               </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/"/>
-            </SignedIn>
+            )}
           </div>
 
           <!-- Mobile Hamburger Button -->
@@ -252,14 +253,15 @@ try {
           <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
           <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
           <div class="pt-2 border-t border-[#E6CA65]/40 flex items-center">
-            <SignedOut>
-              <SignInButton class="btn-gradient-all bg-[#b8860b] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer" id="clerk-sign-in-btn-mobile" mode="modal">
-                Sign in
+            {userId ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
+              <SignInButton mode="modal">
+                <button class="btn-gradient-all bg-[#b8860b] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm cursor-pointer" id="clerk-sign-in-btn-mobile">
+                  Sign in
+                </button>
               </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/"/>
-            </SignedIn>
+            )}
           </div>
         </div>
       </nav>
