@@ -65,6 +65,13 @@ const userId = Astro.locals.auth().userId;
     <!-- JSON-LD Schema.org -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaOrgJsonLd)} />
 
+    <!-- Client-side Security Route Guard -->
+    <script is:inline>
+      if (!document.cookie.includes('somashiva_access=granted') && window.location.pathname !== '/warning' && window.location.pathname !== '/warning/') {
+        window.location.href = '/warning';
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
