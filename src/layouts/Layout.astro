@@ -37,7 +37,14 @@ const schemaOrgJsonLd = {
   "priceRange": "₹₹"
 };
 
-const userId = Astro.locals.auth().userId;
+let userId: string | null = null;
+try {
+  if (Astro.locals && typeof Astro.locals.auth === 'function') {
+    userId = Astro.locals.auth().userId || null;
+  }
+} catch (e) {
+  userId = null;
+}
 ---
 
 <!DOCTYPE html>
