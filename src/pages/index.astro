@@ -1,34 +1,86 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { products } from '../data/products';
+
+const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))];
 ---
 
-<Layout title="Brand Showcase & Catalog">
-  <section class="py-16 text-center bg-white border-b border-gray-200">
-    <div class="max-w-3xl mx-auto px-4">
-      <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-        Premium Stationery & Magnets
+<Layout title="Serenity Crystals | High Vibrational Sacred Tools">
+  <!-- Hero Banner -->
+  <section class="relative py-24 overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-800/80">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+      <span class="inline-block py-1 px-4 rounded-full bg-purple-950/80 border border-purple-800/50 text-purple-300 text-xs font-semibold tracking-widest uppercase mb-6 shadow-inner">
+        Ethically Sourced Crystals & Sound Healing
+      </span>
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6">
+        Elevate Your Space & <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-300 bg-clip-text text-transparent">Inner Energy</span>
       </h1>
-      <p class="mt-4 text-lg text-gray-600">
-        Direct from factory precision crafting. Available on Amazon and direct checkout.
+      <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10">
+        Discover hand-selected natural crystals, sacred geometry towers, and meditative instruments designed to align your chakras and elevate your daily practice.
       </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#catalog" class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-8 py-4 rounded-2xl shadow-lg shadow-purple-900/40 transition transform hover:-translate-y-0.5">
+          Explore Sacred Catalog
+        </a>
+        <a href="/guide" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold px-8 py-4 rounded-2xl transition">
+          View Cleansing Guide
+        </a>
+      </div>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 py-12">
-    <h2 class="text-2xl font-bold mb-8">Featured Collection</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- Catalog Section -->
+  <section id="catalog" class="max-w-7xl mx-auto px-4 py-20">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+      <div>
+        <h2 class="text-3xl font-extrabold text-white tracking-tight">Sacred Collection</h2>
+        <p class="text-slate-400 text-sm mt-1">Select a crystal to view energetic properties and checkout options</p>
+      </div>
+
+      <!-- Category Filter Buttons -->
+      <div class="flex flex-wrap gap-2 mt-6 md:mt-0" id="filter-container">
+        {categories.map((cat, index) => (
+          <button
+            class={`category-btn px-4 py-2 rounded-xl text-xs font-semibold transition ${index === 0 ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30' : 'bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800'}`}
+            data-category={cat}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="product-grid">
       {products.map((item) => (
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
-          <img src={item.image} alt={item.name} class="w-full h-48 object-cover" />
-          <div class="p-6">
-            <span class="text-xs font-semibold text-indigo-600 uppercase tracking-wider">{item.category}</span>
-            <h3 class="text-lg font-bold text-gray-900 mt-1">{item.name}</h3>
-            <p class="text-gray-600 text-sm mt-2 line-clamp-2">{item.description}</p>
-            <div class="mt-4 flex items-center justify-between">
-              <span class="text-xl font-bold">₹{item.price}</span>
-              <a href={`/product/${item.id}`} class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
-                View Details
+        <div
+          class="product-card bg-slate-900/60 border border-slate-800/80 rounded-3xl overflow-hidden hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-950/50 transition-all duration-300 flex flex-col group"
+          data-category={item.category}
+        >
+          <div class="relative overflow-hidden aspect-square bg-slate-950">
+            <img src={item.image} alt={item.name} class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute top-3 left-3">
+              <span class="bg-slate-900/80 backdrop-blur-md border border-slate-700/60 text-purple-300 px-3 py-1 rounded-full text-xs font-semibold">
+                {item.chakra}
+              </span>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-1">{item.category}</span>
+            <h3 class="text-lg font-bold text-white mb-2 line-clamp-1">{item.name}</h3>
+            <p class="text-slate-400 text-xs mb-4 line-clamp-2 leading-relaxed">{item.description}</p>
+            
+            <div class="mt-auto pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-slate-500 block">Investment</span>
+                <span class="text-xl font-extrabold text-white">₹{item.price}</span>
+              </div>
+              <a
+                href={`/product/${item.id}`}
+                class="bg-purple-600/20 hover:bg-purple-600 border border-purple-500/30 hover:border-purple-600 text-purple-300 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-1"
+              >
+                <span>View Sacred Details</span>
               </a>
             </div>
           </div>
@@ -36,4 +88,31 @@ import { products } from '../data/products';
       ))}
     </div>
   </section>
+
+  <script>
+    const buttons = document.querySelectorAll('.category-btn');
+    const cards = document.querySelectorAll('.product-card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => {
+          b.classList.remove('bg-purple-600', 'text-white', 'shadow-lg', 'shadow-purple-900/30');
+          b.classList.add('bg-slate-900', 'border', 'border-slate-800', 'text-slate-300', 'hover:bg-slate-800');
+        });
+        btn.classList.add('bg-purple-600', 'text-white', 'shadow-lg', 'shadow-purple-900/30');
+        btn.classList.remove('bg-slate-900', 'border', 'border-slate-800', 'text-slate-300', 'hover:bg-slate-800');
+
+        const selectedCat = btn.getAttribute('data-category');
+
+        cards.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          if (selectedCat === 'All' || cardCat === selectedCat) {
+            (card as HTMLElement).style.display = 'flex';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
 </Layout>

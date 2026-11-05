@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { products } from '../../data/products';
+import { products, type Product } from '../../data/products';
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -9,42 +9,81 @@ export function getStaticPaths() {
   }));
 }
 
+interface Props {
+  product: Product;
+}
+
 const { product } = Astro.props;
 ---
 
-<Layout title={`${product.name} | Brand Store`}>
-  <div class="max-w-5xl mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-      <img src={product.image} alt={product.name} class="w-full rounded-2xl shadow-sm border border-gray-200" />
-      <div>
-        <span class="text-sm font-semibold text-indigo-600 uppercase tracking-wider">{product.category}</span>
-        <h1 class="text-3xl font-extrabold text-gray-900 mt-1">{product.name}</h1>
-        <p class="text-3xl font-bold text-gray-900 mt-4">₹{product.price}</p>
-        <p class="mt-4 text-gray-600 leading-relaxed">{product.description}</p>
+<Layout title={`${product.name} | Serenity Crystals`}>
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <div class="mb-8">
+      <a href="/" class="inline-flex items-center text-sm font-medium text-slate-400 hover:text-purple-400 transition">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Back to Sacred Collection
+      </a>
+    </div>
 
-        <ul class="mt-6 space-y-2">
-          {product.features.map((feature) => (
-            <li class="flex items-center text-sm text-gray-700">
-              <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              {feature}
-            </li>
-          ))}
-        </ul>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <!-- Product Image -->
+      <div class="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900/50 shadow-2xl aspect-square">
+        <img src={product.image} alt={product.name} class="w-full h-full object-cover" />
+        <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+          <span class="bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-purple-300 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+            {product.chakra}
+          </span>
+          <span class="bg-purple-950/90 backdrop-blur-md border border-purple-800/80 text-purple-200 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+            {product.energyProperty}
+          </span>
+        </div>
+      </div>
 
-        <div class="mt-8 space-y-4">
+      <!-- Product Details & Dual Checkout -->
+      <div class="space-y-6">
+        <div>
+          <span class="text-xs font-semibold text-indigo-400 uppercase tracking-widest">{product.category}</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-1 mb-3">{product.name}</h1>
+          <div class="text-3xl font-extrabold text-white">₹{product.price}</div>
+        </div>
+
+        <p class="text-slate-300 leading-relaxed text-base">
+          {product.description}
+        </p>
+
+        <!-- Features -->
+        <div class="border-t border-b border-slate-800 py-6 space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Sacred Specifications & Features</h3>
+          <ul class="space-y-2.5">
+            {product.features.map((feature) => (
+              <li class="flex items-center text-sm text-slate-300">
+                <svg class="w-4 h-4 text-purple-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Dual Checkout Options -->
+        <div class="space-y-4 pt-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Secure Your Sacred Item</h3>
+          
+          <!-- Primary Amazon Button -->
           <a
             href={product.amazonUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-full flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-xl border border-yellow-500 transition"
+            class="w-full flex items-center justify-center bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-bold py-4 px-6 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5"
           >
-            Buy on Amazon
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            Buy on Amazon (Prime Delivery)
           </a>
 
+          <!-- Secondary Razorpay Button -->
           {product.razorpayButtonId && (
-            <div class="bg-gray-100 p-4 rounded-xl border border-gray-200">
-              <p class="text-xs text-gray-500 mb-2 text-center font-medium">Free Shipping Over ₹500 (Direct Purchase)</p>
-              <form>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl text-center space-y-3">
+              <p class="text-xs text-slate-400 font-medium">Direct Direct-to-Consumer Checkout (Free Shipping Over ₹500)</p>
+              <form class="flex justify-center">
                 <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id={product.razorpayButtonId} async></script>
               </form>
             </div>
