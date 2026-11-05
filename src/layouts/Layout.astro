@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
-import { UserButton, SignInButton } from '@clerk/astro/components';
+import { SignInButton, UserButton } from '@clerk/astro/components';
 
 interface Props {
   title: string;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const {
-  title = "Somashiva™ | High Vibrational Sacred Tools & Crystals",
+  title = "SomaShiva™ | High Vibrational Sacred Tools & Crystals",
   description = "Discover hand-selected natural crystals, sacred geometry towers, and meditative singing bowls designed to align your chakras and elevate your daily practice.",
   image = "https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=1200",
   canonicalURL = Astro.url.href,
@@ -20,7 +20,7 @@ const {
 const schemaOrgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Store",
-  "name": "Somashiva™",
+  "name": "SomaShiva™",
   "image": image,
   "description": description,
   "url": canonicalURL,
@@ -166,7 +166,7 @@ try {
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#996515] to-[#D4AF37] flex items-center justify-center shadow-md shadow-amber-900/10 group-hover:scale-105 transition">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           </div>
-          <span class="text-xl font-bold tracking-wide font-['Cormorant_Garamond',serif] text-[#7A5212]">Somashiva™</span>
+          <span class="text-xl font-bold tracking-wide font-['Cormorant_Garamond',serif] text-[#7A5212]">SomaShiva™</span>
         </a>
 
         <!-- Desktop Links & Auth -->
@@ -176,9 +176,13 @@ try {
           <a href="/contact" class="text-[#7A5212] hover:text-[#D4AF37] transition">Contact</a>
           
           {userId ? (
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           ) : (
-            <SignInButton class="bg-[#996515] hover:bg-[#7A5212] text-white px-4 py-2 rounded-xl text-xs font-semibold transition shadow-sm" />
+            <SignInButton mode="modal">
+              <button class="bg-[#b8860b] hover:bg-[#996f08] text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
+                Sign in
+              </button>
+            </SignInButton>
           )}
         </div>
 
@@ -193,11 +197,15 @@ try {
         <a href="/" class="block text-sm font-medium text-[#7A5212]">Catalog</a>
         <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
         <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
-        <div class="pt-2 border-t border-[#E6CA65]/40">
+        <div class="pt-2 border-t border-[#E6CA65]/40 flex items-center">
           {userId ? (
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           ) : (
-            <SignInButton class="bg-[#996515] text-white px-4 py-2 rounded-xl text-xs font-semibold" />
+            <SignInButton mode="modal">
+              <button class="bg-[#b8860b] hover:bg-[#996f08] text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
+                Sign in
+              </button>
+            </SignInButton>
           )}
         </div>
       </div>
@@ -224,14 +232,14 @@ try {
         <div class="max-w-md mx-auto space-y-3 bg-white border border-[#E6CA65]/60 p-8 rounded-3xl shadow-sm">
           <h3 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Join Our Sacred Circle</h3>
           <p class="text-xs text-[#4A3B2C] font-light">Get 10% Off Your First Order and lunar ritual updates.</p>
-          <form class="flex gap-2 pt-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing to Somashiva™!');">
+          <form class="flex gap-2 pt-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SomaShiva™!');">
             <input type="email" required placeholder="Enter your email" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-2.5 text-xs text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
             <button type="submit" class="bg-[#996515] hover:bg-[#7A5212] text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0">Subscribe</button>
           </form>
         </div>
 
         <div class="space-y-4">
-          <p class="font-['Cormorant_Garamond',serif] text-lg font-semibold text-[#7A5212]">Somashiva™ — High Vibrational Artifacts & Sacred Tools</p>
+          <p class="font-['Cormorant_Garamond',serif] text-lg font-semibold text-[#7A5212]">SomaShiva™ — High Vibrational Artifacts & Sacred Tools</p>
           <div class="flex flex-wrap justify-center gap-6 text-xs font-medium text-[#7A5212]">
             <a href="/privacy" class="hover:text-[#D4AF37] transition">Privacy Policy</a>
             <span>•</span>
@@ -241,9 +249,9 @@ try {
             <span>•</span>
             <a href="/contact" class="hover:text-[#D4AF37] transition">Contact Us</a>
           </div>
-          <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} Somashiva™. All rights reserved. Ethically sourced & cleansed.</p>
+          <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} SomaShiva™. All rights reserved. Ethically sourced & cleansed.</p>
           <div class="text-[11px] text-[#8B5E14]/80 space-y-1 pt-1">
-            <p>Somashiva | Electronic City, Bangalore, Karnataka - 560100, India</p>
+            <p>SomaShiva | Electronic City, Bangalore, Karnataka - 560100, India</p>
             <p>Email: somashivaofficial@gmail.com | Phone / WhatsApp: +91 9080603108</p>
           </div>
         </div>
