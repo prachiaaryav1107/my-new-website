@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://somashiva.com/sitemap-index.xml

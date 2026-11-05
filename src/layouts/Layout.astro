@@ -1,11 +1,38 @@
 ---
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title = "SACRED AURA™ | High Vibrational Sacred Tools & Crystals",
+  description = "Discover hand-selected natural crystals, sacred geometry towers, and meditative singing bowls designed to align your chakras and elevate your daily practice.",
+  image = "https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=1200",
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+const schemaOrgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "SACRED AURA™",
+  "image": image,
+  "description": description,
+  "url": canonicalURL,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Bandra West",
+    "addressLocality": "Mumbai",
+    "addressRegion": "Maharashtra",
+    "postalCode": "400050",
+    "addressCountry": "IN"
+  },
+  "priceRange": "₹₹"
+};
 ---
 
 <!DOCTYPE html>
@@ -14,33 +41,120 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- JSON-LD Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaOrgJsonLd)} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#FAF7F2] text-[#4A3B2C] antialiased font-['Outfit',sans-serif] min-h-screen flex flex-col selection:bg-[#E6CA65]/30 selection:text-amber-950">
+    <!-- Top Announcement Bar -->
+    <div class="bg-[#7A5212] text-[#FAF7F2] text-xs font-medium py-2.5 px-4 text-center tracking-wide">
+      ✨ Free Express Shipping Across India on Direct Orders | 100% Authentic Natural Stones
+    </div>
+
+    <!-- Navigation Header -->
     <nav class="bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E6CA65]/40 sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <a href="/" class="flex items-center space-x-3 group">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#996515] to-[#D4AF37] flex items-center justify-center shadow-md shadow-amber-900/10 group-hover:scale-105 transition">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           </div>
-          <span class="text-xl font-bold tracking-wide font-['Cormorant_Garamond',serif] text-[#7A5212]">SomaShiva™</span>
+          <span class="text-xl font-bold tracking-wide font-['Cormorant_Garamond',serif] text-[#7A5212]">SACRED AURA™</span>
         </a>
-        <div class="flex items-center space-x-8 text-sm font-medium">
+
+        <!-- Desktop Links -->
+        <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
           <a href="/" class="text-[#7A5212] hover:text-[#D4AF37] transition">Catalog</a>
           <a href="/guide" class="text-[#7A5212] hover:text-[#D4AF37] transition">Cleansing Guide</a>
+          <a href="/contact" class="text-[#7A5212] hover:text-[#D4AF37] transition">Contact</a>
         </div>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden p-2 text-[#7A5212] focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+
+      <!-- Mobile Drawer Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-[#FAF7F2] border-b border-[#E6CA65]/40 px-6 py-4 space-y-4 shadow-lg">
+        <a href="/" class="block text-sm font-medium text-[#7A5212]">Catalog</a>
+        <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
+        <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
       </div>
     </nav>
+
     <main class="flex-grow">
       <slot />
     </main>
-    <footer class="bg-[#F5F0E8] border-t border-[#E6CA65]/40 py-12 text-center mt-20">
-      <div class="max-w-7xl mx-auto px-6 space-y-3">
-        <p class="font-['Cormorant_Garamond',serif] text-lg font-semibold text-[#7A5212]">SomaShiva™ — High Vibrational Artifacts & Sacred Tools</p>
-        <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} SomaShiva™. All rights reserved. Ethically sourced & cleansed.</p>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/919876543210?text=Hi!%20I%20have%20a%20question%20about%20a%20crystal%20in%20your%20store."
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat on WhatsApp"
+      class="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110"
+    >
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-[#F5F0E8] border-t border-[#E6CA65]/40 py-16 text-center mt-20">
+      <div class="max-w-7xl mx-auto px-6 space-y-10">
+        <div class="max-w-md mx-auto space-y-3 bg-white border border-[#E6CA65]/60 p-8 rounded-3xl shadow-sm">
+          <h3 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Join Our Sacred Circle</h3>
+          <p class="text-xs text-[#4A3B2C] font-light">Get 10% Off Your First Order and lunar ritual updates.</p>
+          <form class="flex gap-2 pt-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SACRED AURA™!');">
+            <input type="email" required placeholder="Enter your email" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-2.5 text-xs text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
+            <button type="submit" class="bg-[#996515] hover:bg-[#7A5212] text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="space-y-4">
+          <p class="font-['Cormorant_Garamond',serif] text-lg font-semibold text-[#7A5212]">SACRED AURA™ — High Vibrational Artifacts & Sacred Tools</p>
+          <div class="flex flex-wrap justify-center gap-6 text-xs font-medium text-[#7A5212]">
+            <a href="/privacy" class="hover:text-[#D4AF37] transition">Privacy Policy</a>
+            <span>•</span>
+            <a href="/terms" class="hover:text-[#D4AF37] transition">Terms of Service</a>
+            <span>•</span>
+            <a href="/refund-policy" class="hover:text-[#D4AF37] transition">Refund & Shipping Policy</a>
+            <span>•</span>
+            <a href="/contact" class="hover:text-[#D4AF37] transition">Contact Us</a>
+          </div>
+          <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} SACRED AURA™. All rights reserved. Ethically sourced & cleansed.</p>
+        </div>
       </div>
     </footer>
+
+    <Analytics />
+
+    <script>
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+    </script>
   </body>
 </html>

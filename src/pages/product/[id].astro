@@ -16,7 +16,7 @@ interface Props {
 const { product } = Astro.props;
 ---
 
-<Layout title={`${product.name} | SomaShiva™`}>
+<Layout title={`${product.name} | SACRED AURA™`} description={product.description}>
   <div class="max-w-6xl mx-auto px-6 py-16">
     <div class="mb-8">
       <a href="/" class="inline-flex items-center text-sm font-medium text-[#7A5212] hover:text-[#D4AF37] transition">
@@ -34,7 +34,7 @@ const { product } = Astro.props;
             {product.chakra}
           </span>
           <span class="bg-amber-50/90 backdrop-blur-md border border-[#E6CA65] text-[#B8860B] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-            {product.energyProperty}
+            {product.element}
           </span>
         </div>
       </div>
@@ -51,6 +51,22 @@ const { product } = Astro.props;
           {product.description}
         </p>
 
+        <!-- Property Table -->
+        <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-6 shadow-sm grid grid-cols-3 gap-4 text-center">
+          <div>
+            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Chakra</span>
+            <span class="text-xs text-[#4A3B2C] font-medium">{product.chakra}</span>
+          </div>
+          <div class="border-x border-[#E6CA65]/40 px-2">
+            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Element</span>
+            <span class="text-xs text-[#4A3B2C] font-medium">{product.element}</span>
+          </div>
+          <div>
+            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Origin</span>
+            <span class="text-xs text-[#4A3B2C] font-medium">{product.origin}</span>
+          </div>
+        </div>
+
         <!-- Features -->
         <div class="border-t border-b border-[#E6CA65]/40 py-6 space-y-3">
           <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Sacred Specifications & Features</h3>
@@ -64,8 +80,24 @@ const { product } = Astro.props;
           </ul>
         </div>
 
+        <!-- Trust Badges 3-Column Row -->
+        <div class="grid grid-cols-3 gap-4 pt-2 pb-2">
+          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
+            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Authentic</div>
+            <p class="text-[11px] text-[#4A3B2C] font-light">100% Natural Stones</p>
+          </div>
+          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
+            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Secure</div>
+            <p class="text-[11px] text-[#4A3B2C] font-light">Razorpay Verified</p>
+          </div>
+          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
+            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Protected</div>
+            <p class="text-[11px] text-[#4A3B2C] font-light">Damage-Free Guarantee</p>
+          </div>
+        </div>
+
         <!-- Dual Checkout Options -->
-        <div class="space-y-4 pt-4">
+        <div class="space-y-4 pt-2">
           <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Secure Your Sacred Item</h3>
           
           <!-- Primary Amazon Button -->
@@ -73,7 +105,7 @@ const { product } = Astro.props;
             href={product.amazonUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-full flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-[#7A5212] font-semibold py-4 px-6 rounded-2xl border border-[#E6CA65] shadow-sm transition transform hover:-translate-y-0.5"
+            class="w-full flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-950 font-semibold py-4 px-6 rounded-2xl border border-amber-400 shadow-sm transition transform hover:-translate-y-0.5"
           >
             <svg class="w-5 h-5 mr-2 text-[#996515]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             Buy on Amazon (Prime Delivery)
