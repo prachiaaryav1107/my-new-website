@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
+import { UserButton, SignInButton } from '@clerk/astro/components';
 
 interface Props {
   title: string;
@@ -35,6 +36,8 @@ const schemaOrgJsonLd = {
   },
   "priceRange": "₹₹"
 };
+
+const userId = Astro.locals.auth().userId;
 ---
 
 <!DOCTYPE html>
@@ -82,11 +85,17 @@ const schemaOrgJsonLd = {
           <span class="text-xl font-bold tracking-wide font-['Cormorant_Garamond',serif] text-[#7A5212]">Somashiva™</span>
         </a>
 
-        <!-- Desktop Links -->
+        <!-- Desktop Links & Auth -->
         <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
           <a href="/" class="text-[#7A5212] hover:text-[#D4AF37] transition">Catalog</a>
           <a href="/guide" class="text-[#7A5212] hover:text-[#D4AF37] transition">Cleansing Guide</a>
           <a href="/contact" class="text-[#7A5212] hover:text-[#D4AF37] transition">Contact</a>
+          
+          {userId ? (
+            <UserButton />
+          ) : (
+            <SignInButton class="bg-[#996515] hover:bg-[#7A5212] text-white px-4 py-2 rounded-xl text-xs font-semibold transition shadow-sm" />
+          )}
         </div>
 
         <!-- Mobile Hamburger Button -->
@@ -100,6 +109,13 @@ const schemaOrgJsonLd = {
         <a href="/" class="block text-sm font-medium text-[#7A5212]">Catalog</a>
         <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
         <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
+        <div class="pt-2 border-t border-[#E6CA65]/40">
+          {userId ? (
+            <UserButton />
+          ) : (
+            <SignInButton class="bg-[#996515] text-white px-4 py-2 rounded-xl text-xs font-semibold" />
+          )}
+        </div>
       </div>
     </nav>
 

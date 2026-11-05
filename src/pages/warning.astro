@@ -1,0 +1,127 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Error - Somashiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#202124] text-[#e8eaed] font-['Roboto',sans-serif] min-h-screen flex items-center justify-center p-6 selection:bg-[#8ab4f8] selection:text-[#202124]">
+    <div class="max-w-xl w-full space-y-6">
+      <!-- Warning Icon -->
+      <div class="flex items-center space-x-3">
+        <svg class="w-10 h-10 text-[#f28b82] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <h1 class="text-2xl font-normal text-white">Your connection is not private</h1>
+      </div>
+
+      <!-- Description Body -->
+      <p class="text-sm text-[#9aa0a6] leading-relaxed">
+        Attackers might be trying to steal your information from this domain (for example, passwords, messages, or credit cards). 
+        <a href="https://support.google.com/chrome?p=sec_err" target="_blank" rel="noopener noreferrer" class="text-[#8ab4f8] hover:underline">Learn more</a>
+      </p>
+
+      <!-- Tech Details -->
+      <p class="text-xs text-[#5f6368] font-mono">
+        NET::ERR_CERT_COMMON_NAME_INVALID
+      </p>
+
+      <!-- Buttons -->
+      <div class="pt-4 flex items-center space-x-4">
+        <a
+          href="https://google.com"
+          class="bg-[#8ab4f8] text-[#202124] px-5 py-2.5 rounded font-medium text-sm hover:bg-[#9bbef9] transition shadow"
+        >
+          Back to safety
+        </a>
+      </div>
+    </div>
+
+    <!-- Hidden Passcode Trigger in Bottom-Right Corner -->
+    <div
+      id="passcode-trigger"
+      class="fixed bottom-3 right-3 z-50 w-4 h-4 bg-stone-800/30 hover:bg-stone-700/80 rounded cursor-pointer transition-all"
+      title=""
+    ></div>
+
+    <!-- Passcode Modal Overlay -->
+    <div
+      id="passcode-modal"
+      class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+    >
+      <div class="bg-[#292a2d] border border-stone-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
+        <h3 class="text-lg font-medium text-white">Enter Access Key</h3>
+        <p class="text-xs text-[#9aa0a6]">Authorized access key required to bypass warning gate.</p>
+        <form id="passcode-form" class="space-y-3">
+          <input
+            type="password"
+            id="passcode-input"
+            required
+            placeholder="Access key..."
+            class="w-full bg-[#202124] border border-stone-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#8ab4f8]"
+          />
+          <div id="error-msg" class="text-xs text-[#f28b82] hidden">Incorrect access key. Please try again.</div>
+          <div class="flex justify-end space-x-3 pt-2">
+            <button
+              type="button"
+              id="cancel-btn"
+              class="px-4 py-2 rounded-xl text-xs font-medium text-[#9aa0a6] hover:bg-stone-800 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="bg-[#8ab4f8] text-[#202124] px-5 py-2 rounded-xl text-xs font-semibold hover:bg-[#9bbef9] transition"
+            >
+              Authenticate
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const trigger = document.getElementById('passcode-trigger');
+      const modal = document.getElementById('passcode-modal');
+      const cancelBtn = document.getElementById('cancel-btn');
+      const form = document.getElementById('passcode-form') as HTMLFormElement;
+      const input = document.getElementById('passcode-input') as HTMLInputElement;
+      const errorMsg = document.getElementById('error-msg');
+
+      trigger?.addEventListener('click', () => {
+        modal?.classList.remove('hidden');
+        input?.focus();
+      });
+
+      cancelBtn?.addEventListener('click', () => {
+        modal?.classList.add('hidden');
+        if (input) input.value = '';
+        errorMsg?.classList.add('hidden');
+      });
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = input?.value.trim();
+
+        if (val === 'somashiva2026') {
+          // Set cookie for 30 days (max-age 2592000)
+          document.cookie = 'somashiva_access=granted; path=/; max-age=2592000; SameSite=Lax';
+          window.location.href = '/';
+        } else {
+          errorMsg?.classList.remove('hidden');
+          if (input) {
+            input.value = '';
+            input.focus();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
