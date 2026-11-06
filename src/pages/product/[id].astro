@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { products, type Product } from '../../data/products';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   return products.map((product) => ({
     params: { id: product.id },
     props: { product },
@@ -10,10 +10,18 @@ export function getStaticPaths() {
 }
 
 interface Props {
-  product: Product;
+  product?: Product;
 }
 
-const { product } = Astro.props;
+const { id } = Astro.params;
+const { product: propProduct } = Astro.props;
+
+const product = propProduct || products.find(p => p.id === id) || products[0];
+
+if (!product) {
+  return Astro.redirect('/');
+}
+
 const originalPrice = Math.round(product.price * 1.35);
 ---
 
@@ -38,10 +46,10 @@ const originalPrice = Math.round(product.price * 1.35);
             <img src={product.image} alt={product.name} class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
             <div class="absolute top-4 left-4 flex flex-wrap gap-2">
               <span class="bg-white/90 backdrop-blur-md border border-[#E6CA65] text-[#996515] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-                {product.chakra}
+                {product.chakra || "Chakra Aligned"}
               </span>
               <span class="bg-amber-50/90 backdrop-blur-md border border-[#E6CA65] text-[#B8860B] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-                {product.element}
+                {product.element || product.category}
               </span>
             </div>
           </div>
@@ -84,11 +92,11 @@ const originalPrice = Math.round(product.price * 1.35);
         <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-6 shadow-sm grid grid-cols-3 gap-4 text-center">
           <div>
             <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Chakra Aligned</span>
-            <span class="text-xs text-[#4A3B2C] font-medium">{product.chakra}</span>
+            <span class="text-xs text-[#4A3B2C] font-medium">{product.chakra || "All Chakras"}</span>
           </div>
           <div class="border-x border-[#E6CA65]/40 px-2">
             <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Elemental Force</span>
-            <span class="text-xs text-[#4A3B2C] font-medium">{product.element}</span>
+            <span class="text-xs text-[#4A3B2C] font-medium">{product.element || "Ether"}</span>
           </div>
           <div>
             <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Ethical Source</span>
@@ -100,7 +108,7 @@ const originalPrice = Math.round(product.price * 1.35);
         <div class="border-t border-b border-[#E6CA65]/40 py-6 space-y-3">
           <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Sacred Specifications & Features</h3>
           <ul class="space-y-2.5">
-            {product.features.map((feature) => (
+            {product.features && product.features.map((feature) => (
               <li class="flex items-center text-sm text-[#4A3B2C]">
                 <svg class="w-4 h-4 text-[#D4AF37] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 {feature}
@@ -138,7 +146,7 @@ const originalPrice = Math.round(product.price * 1.35);
               <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
             <div id="tab-significance" class="px-6 py-4 text-xs text-[#4A3B2C] leading-relaxed border-t border-[#E6CA65]/40">
-              This artifact resonates directly with the <span class="font-semibold text-[#996515]">{product.chakra}</span> chakra, acting as a receiver and transmitter of high vibrational prana. Placed in living areas or sacred corners, it clears dense energetic debris and elevates daily meditation.
+              This artifact resonates directly with the <span class="font-semibold text-[#996515]">{product.chakra || "Sacred Field"}</span> chakra, acting as a receiver and transmitter of high vibrational prana. Placed in living areas or sacred corners, it clears dense energetic debris and elevates daily meditation.
             </div>
           </div>
 
