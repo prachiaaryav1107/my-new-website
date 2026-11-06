@@ -416,13 +416,14 @@ try {
         }
       });
 
-      // 2. Google Antigravity 7-Shape Adaptive Canvas
+      // 2. Google Antigravity Sacred Motifs Canvas & Full-Screen Prana Cursor Trail
       const canvas = document.getElementById('antigravity-canvas') as HTMLCanvasElement | null;
       if (canvas) {
         const ctx = canvas.getContext('2d');
-        const colors = ['#d4af37', '#c5a059', '#ebd9b8', '#b8860b', '#e6c670'];
-        const shapeTypes = ['circle', 'ring', 'square', 'triangle', 'diamond', 'hexagon', 'star'];
+        const colors = ['#d4af37', '#c5a059', '#ebd9b8', '#b8860b', '#e6c670', '#f3e5ab'];
+        const motifTypes = ['trishul', 'damru', 'om', 'crescent', 'bilva'];
         let shapes: any[] = [];
+        let trailMotes: any[] = [];
         let isMobile = window.innerWidth < 768;
         let pointer = { x: -9999, y: -9999 };
 
@@ -435,47 +436,117 @@ try {
           if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
           isMobile = w < 768;
-          const count = isMobile ? 40 : 90;
-          const minSize = isMobile ? 5 : 10;
-          const maxSize = isMobile ? 15 : 28;
+          const count = isMobile ? 38 : 85;
+          const minSize = isMobile ? 12 : 18;
+          const maxSize = isMobile ? 26 : 42;
 
           shapes = Array.from({ length: count }, () => {
             const depth = 0.4 + Math.random() * 0.8;
             return {
               x: Math.random() * w,
               y: Math.random() * h,
-              vx: (Math.random() - 0.5) * 0.35 * depth,
-              vy: (-0.15 - Math.random() * 0.35) * depth,
+              vx: (Math.random() - 0.5) * 0.3 * depth,
+              vy: (-0.1 - Math.random() * 0.3) * depth,
               size: (minSize + Math.random() * (maxSize - minSize)) * depth,
               depth,
               angle: Math.random() * Math.PI * 2,
-              vAngle: (Math.random() - 0.5) * 0.012,
-              type: shapeTypes[Math.floor(Math.random() * shapeTypes.length)],
+              vAngle: (Math.random() - 0.5) * 0.008,
+              type: motifTypes[Math.floor(Math.random() * motifTypes.length)],
               color: colors[Math.floor(Math.random() * colors.length)],
-              alpha: 0.18 + Math.random() * 0.28,
+              alpha: 0.2 + Math.random() * 0.3,
             };
           });
         };
 
-        const drawPolygon = (ctx: CanvasRenderingContext2D, sides: number, r: number) => {
+        const drawTrishul = (ctx: CanvasRenderingContext2D, r: number) => {
           ctx.beginPath();
-          for (let i = 0; i < sides; i++) {
-            const a = (i * 2 * Math.PI) / sides - Math.PI / 2;
-            i === 0 ? ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r) : ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
-          }
+          ctx.moveTo(0, -r);
+          ctx.lineTo(0, r);
+          ctx.moveTo(0, -r * 1.2);
+          ctx.lineTo(-r * 0.25, -r * 0.8);
+          ctx.lineTo(r * 0.25, -r * 0.8);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.moveTo(0, -r * 0.3);
+          ctx.bezierCurveTo(-r * 0.7, -r * 0.3, -r * 0.8, -r * 1.0, -r * 0.7, -r * 1.2);
+          ctx.moveTo(0, -r * 0.3);
+          ctx.bezierCurveTo(-r * 0.45, -r * 0.3, -r * 0.55, -r * 0.7, -r * 0.45, -r * 0.9);
+
+          ctx.moveTo(0, -r * 0.3);
+          ctx.bezierCurveTo(r * 0.7, -r * 0.3, r * 0.8, -r * 1.0, r * 0.7, -r * 1.2);
+          ctx.moveTo(0, -r * 0.3);
+          ctx.bezierCurveTo(r * 0.45, -r * 0.3, r * 0.55, -r * 0.7, r * 0.45, -r * 0.9);
+
+          ctx.moveTo(-r * 0.5, -r * 0.3);
+          ctx.lineTo(r * 0.5, -r * 0.3);
+          ctx.stroke();
+        };
+
+        const drawDamru = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.beginPath();
+          ctx.moveTo(-r * 0.75, -r);
+          ctx.lineTo(r * 0.75, -r);
+          ctx.lineTo(0, 0);
+          ctx.closePath();
+          ctx.moveTo(-r * 0.75, r);
+          ctx.lineTo(r * 0.75, r);
+          ctx.lineTo(0, 0);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.moveTo(-r * 0.75, -r);
+          ctx.quadraticCurveTo(-r * 1.1, 0, -r * 0.75, r);
+          ctx.moveTo(r * 0.75, -r);
+          ctx.quadraticCurveTo(r * 1.1, 0, r * 0.75, r);
+          ctx.stroke();
+        };
+
+        const drawOm = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.font = `${Math.round(r * 1.6)}px 'Cormorant Garamond', 'Tiro Devanagari Hindi', serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('ॐ', 0, 0);
+        };
+
+        const drawCrescent = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.beginPath();
+          ctx.arc(0, 0, r, -Math.PI * 0.7, Math.PI * 0.7, false);
+          ctx.arc(r * 0.35, 0, r * 0.75, Math.PI * 0.7, -Math.PI * 0.7, true);
           ctx.closePath();
           ctx.fill();
         };
 
-        const drawStar = (ctx: CanvasRenderingContext2D, r: number) => {
+        const drawBilva = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.save();
+          ctx.translate(0, -r * 0.4);
           ctx.beginPath();
-          for (let i = 0; i < 8; i++) {
-            const rad = i % 2 === 0 ? r : r * 0.38;
-            const a = (i * Math.PI) / 4;
-            i === 0 ? ctx.moveTo(Math.cos(a) * rad, Math.sin(a) * rad) : ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
-          }
-          ctx.closePath();
-          ctx.fill();
+          ctx.ellipse(0, 0, r * 0.38, r * 0.55, 0, 0, Math.PI * 2);
+          ctx.fill(); ctx.stroke();
+          ctx.restore();
+
+          ctx.save();
+          ctx.translate(-r * 0.38, r * 0.15);
+          ctx.rotate(-Math.PI / 3);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, r * 0.32, r * 0.5, 0, 0, Math.PI * 2);
+          ctx.fill(); ctx.stroke();
+          ctx.restore();
+
+          ctx.save();
+          ctx.translate(r * 0.38, r * 0.15);
+          ctx.rotate(Math.PI / 3);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, r * 0.32, r * 0.5, 0, 0, Math.PI * 2);
+          ctx.fill(); ctx.stroke();
+          ctx.restore();
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(0, r * 0.85);
+          ctx.stroke();
         };
 
         const animate = () => {
@@ -496,15 +567,15 @@ try {
             }
 
             s.vx *= 0.95;
-            s.vy = s.vy * 0.95 - 0.015 * s.depth;
+            s.vy = s.vy * 0.95 - 0.012 * s.depth;
             s.x += s.vx;
             s.y += s.vy;
             s.angle += s.vAngle;
 
-            if (s.y < -40) s.y = h + 40;
-            if (s.y > h + 40) s.y = -40;
-            if (s.x < -40) s.x = w + 40;
-            if (s.x > w + 40) s.x = -40;
+            if (s.y < -50) s.y = h + 50;
+            if (s.y > h + 50) s.y = -50;
+            if (s.x < -50) s.x = w + 50;
+            if (s.x > w + 50) s.x = -50;
 
             ctx.save();
             ctx.translate(s.x, s.y);
@@ -512,35 +583,32 @@ try {
             ctx.globalAlpha = s.alpha;
             ctx.fillStyle = s.color;
             ctx.strokeStyle = s.color;
-            ctx.lineWidth = isMobile ? 1.5 : 2.2;
+            ctx.lineWidth = isMobile ? 1.2 : 1.8;
             ctx.shadowColor = s.color;
-            ctx.shadowBlur = isMobile ? 6 : 12;
+            ctx.shadowBlur = isMobile ? 5 : 10;
 
             const r = s.size / 2;
-            if (s.type === 'circle') {
-              ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill();
-            } else if (s.type === 'ring') {
-              ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke();
-            } else if (s.type === 'square') {
-              ctx.beginPath(); ctx.roundRect(-r, -r, s.size, s.size, r * 0.3); ctx.fill();
-            } else if (s.type === 'triangle') {
-              drawPolygon(ctx, 3, r);
-            } else if (s.type === 'diamond') {
-              drawPolygon(ctx, 4, r);
-            } else if (s.type === 'hexagon') {
-              drawPolygon(ctx, 6, r);
-            } else if (s.type === 'star') {
-              drawStar(ctx, r);
+            if (s.type === 'trishul') {
+              drawTrishul(ctx, r);
+            } else if (s.type === 'damru') {
+              drawDamru(ctx, r);
+            } else if (s.type === 'om') {
+              drawOm(ctx, r);
+            } else if (s.type === 'crescent') {
+              drawCrescent(ctx, r);
+            } else if (s.type === 'bilva') {
+              drawBilva(ctx, r);
             }
             ctx.restore();
           }
-          // Draw trail motes
+
+          // Full-Screen Prana Cursor Trail Motes
           for (let i = trailMotes.length - 1; i >= 0; i--) {
             const m = trailMotes[i];
             m.x += m.vx;
             m.y += m.vy;
             m.life -= m.decay;
-            m.alpha = Math.max(0, m.life * 0.5);
+            m.alpha = Math.max(0, m.life * 0.6);
 
             if (m.life <= 0) {
               trailMotes.splice(i, 1);
@@ -549,9 +617,9 @@ try {
 
             ctx.save();
             ctx.globalAlpha = m.alpha;
-            ctx.fillStyle = '#d4af37';
-            ctx.shadowColor = '#d4af37';
-            ctx.shadowBlur = 8;
+            ctx.fillStyle = m.color;
+            ctx.shadowColor = m.color;
+            ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
             ctx.fill();
@@ -560,30 +628,32 @@ try {
           requestAnimationFrame(animate);
         };
 
-        let trailMotes: any[] = [];
         window.addEventListener('mousemove', (e) => {
           pointer.x = e.clientX;
           pointer.y = e.clientY;
 
           if (window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768) {
+            const moteColors = ['#d4af37', '#f3e5ab', '#ffffff'];
             const count = 2 + Math.floor(Math.random() * 2);
             for (let i = 0; i < count; i++) {
-              if (trailMotes.length >= 30) {
+              if (trailMotes.length >= 35) {
                 trailMotes.shift();
               }
               trailMotes.push({
-                x: e.clientX + (Math.random() - 0.5) * 8,
-                y: e.clientY + (Math.random() - 0.5) * 8,
-                vx: (Math.random() - 0.5) * 0.5 - 0.2,
-                vy: (Math.random() - 0.5) * 0.5 - 0.2,
-                size: 2 + Math.random() * 3,
-                alpha: 0.5,
+                x: e.clientX + (Math.random() - 0.5) * 12,
+                y: e.clientY + (Math.random() - 0.5) * 12,
+                vx: (Math.random() - 0.5) * 0.6 - 0.3,
+                vy: (Math.random() - 0.5) * 0.6 - 0.3,
+                size: 1.5 + Math.random() * 2.5,
+                color: moteColors[Math.floor(Math.random() * moteColors.length)],
+                alpha: 0.6,
                 life: 1.0,
-                decay: 1.0 / 24,
+                decay: 1.0 / (22 + Math.random() * 6), // ~350-450ms
               });
             }
           }
         }, { passive: true });
+
         window.addEventListener('touchmove', (e) => {
           if (e.touches[0]) { pointer.x = e.touches[0].clientX; pointer.y = e.touches[0].clientY; }
         }, { passive: true });
