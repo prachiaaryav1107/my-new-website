@@ -14,38 +14,66 @@ interface Props {
 }
 
 const { product } = Astro.props;
+const originalPrice = Math.round(product.price * 1.35);
 ---
 
-<Layout title={`${product.name} | SACRED AURA™`} description={product.description}>
-  <div class="max-w-6xl mx-auto px-6 py-16">
+<Layout title={`${product.name} | SomaShiva™ Sacred Artifacts`} description={product.description}>
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <!-- Breadcrumb / Back Link -->
     <div class="mb-8">
       <a href="/" class="inline-flex items-center text-sm font-medium text-[#7A5212] hover:text-[#D4AF37] transition">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Back to Sacred Collection
+        Back to Sacred Catalog
       </a>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-      <!-- Product Image -->
-      <div class="tilt-card relative rounded-3xl overflow-hidden border border-[#E6CA65]/60 bg-white shadow-sm aspect-square">
-        <div class="card-spotlight"></div>
-        <img src={product.image} alt={product.name} class="w-full h-full object-cover" />
-        <div class="absolute top-4 left-4 flex flex-wrap gap-2">
-          <span class="bg-white/90 backdrop-blur-md border border-[#E6CA65] text-[#996515] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-            {product.chakra}
-          </span>
-          <span class="bg-amber-50/90 backdrop-blur-md border border-[#E6CA65] text-[#B8860B] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-            {product.element}
-          </span>
+    <!-- 2-Column Product Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <!-- Left: Sticky Image Preview with Golden Aura Glow -->
+      <div class="lg:col-span-6 sticky top-28">
+        <div class="relative group">
+          <div class="absolute -inset-2 bg-gradient-to-r from-[#D4AF37]/30 to-[#b8860b]/30 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
+          <div class="tilt-card relative rounded-3xl overflow-hidden border border-[#E6CA65]/60 bg-white shadow-xl aspect-square">
+            <div class="card-spotlight"></div>
+            <img src={product.image} alt={product.name} class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+              <span class="bg-white/90 backdrop-blur-md border border-[#E6CA65] text-[#996515] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
+                {product.chakra}
+              </span>
+              <span class="bg-amber-50/90 backdrop-blur-md border border-[#E6CA65] text-[#B8860B] px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
+                {product.element}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges Row -->
+        <div class="grid grid-cols-3 gap-4 mt-6">
+          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
+            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Authentic</div>
+            <p class="text-[11px] text-[#4A3B2C] font-light">100% Natural Stones</p>
+          </div>
+          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
+            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Energized</div>
+            <p class="text-[11px] text-[#4A3B2C] font-light">Prana Pratishtha</p>
+          </div>
+          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
+            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Protected</div>
+            <p class="text-[11px] text-[#4A3B2C] font-light">Damage-Free Ship</p>
+          </div>
         </div>
       </div>
 
-      <!-- Product Details & Dual Checkout -->
-      <div class="space-y-6">
+      <!-- Right: Specs, Pricing & Interactive Action Buttons -->
+      <div class="lg:col-span-6 space-y-6">
         <div>
-          <span class="text-xs font-semibold text-[#B8860B] uppercase tracking-widest">{product.category}</span>
-          <h1 class="text-3xl sm:text-4xl font-extrabold font-['Cormorant_Garamond',serif] text-[#7A5212] mt-1 mb-3">{product.name}</h1>
-          <div class="text-3xl font-extrabold text-[#7A5212]">₹{product.price}</div>
+          <span class="text-xs font-semibold text-[#B8860B] uppercase tracking-widest">{product.category} • Origin: {product.origin}</span>
+          <h1 class="text-3xl sm:text-5xl font-extrabold font-['Cormorant_Garamond',serif] text-[#7A5212] mt-2 mb-4">{product.name}</h1>
+          <div class="flex items-center space-x-4">
+            <span class="text-3xl font-extrabold text-[#7A5212]">₹{product.price}</span>
+            <span class="text-lg text-stone-400 line-through">₹{originalPrice}</span>
+            <span class="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-xs font-bold">Save 35%</span>
+          </div>
         </div>
 
         <p class="text-[#4A3B2C] leading-relaxed text-base font-light">
@@ -55,20 +83,20 @@ const { product } = Astro.props;
         <!-- Property Table -->
         <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-6 shadow-sm grid grid-cols-3 gap-4 text-center">
           <div>
-            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Chakra</span>
+            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Chakra Aligned</span>
             <span class="text-xs text-[#4A3B2C] font-medium">{product.chakra}</span>
           </div>
           <div class="border-x border-[#E6CA65]/40 px-2">
-            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Element</span>
+            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Elemental Force</span>
             <span class="text-xs text-[#4A3B2C] font-medium">{product.element}</span>
           </div>
           <div>
-            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Origin</span>
+            <span class="block text-[11px] uppercase tracking-wider text-[#8B5E14] font-semibold mb-1">Ethical Source</span>
             <span class="text-xs text-[#4A3B2C] font-medium">{product.origin}</span>
           </div>
         </div>
 
-        <!-- Features -->
+        <!-- Features list -->
         <div class="border-t border-b border-[#E6CA65]/40 py-6 space-y-3">
           <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Sacred Specifications & Features</h3>
           <ul class="space-y-2.5">
@@ -81,48 +109,92 @@ const { product } = Astro.props;
           </ul>
         </div>
 
-        <!-- Trust Badges 3-Column Row -->
-        <div class="grid grid-cols-3 gap-4 pt-2 pb-2">
-          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
-            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Authentic</div>
-            <p class="text-[11px] text-[#4A3B2C] font-light">100% Natural Stones</p>
-          </div>
-          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
-            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Secure</div>
-            <p class="text-[11px] text-[#4A3B2C] font-light">Razorpay Verified</p>
-          </div>
-          <div class="bg-white border border-[#E6CA65]/60 rounded-2xl p-4 text-center shadow-sm">
-            <div class="text-[#996515] font-bold text-xs uppercase tracking-wider mb-1">Protected</div>
-            <p class="text-[11px] text-[#4A3B2C] font-light">Damage-Free Guarantee</p>
-          </div>
+        <!-- Action Buttons: Add to Sacred Cart & Instant Buy Now -->
+        <div class="space-y-3 pt-2">
+          <button
+            type="button"
+            id="add-to-cart-btn"
+            class="btn-gradient-all w-full bg-[#996515] hover:bg-[#7A5212] text-white font-semibold py-4 px-6 rounded-2xl shadow-sm transition flex items-center justify-center space-x-2 cursor-pointer text-base"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span>Add to Sacred Cart</span>
+          </button>
+
+          <button
+            type="button"
+            id="instant-buy-btn"
+            class="w-full bg-amber-50 hover:bg-amber-100 border border-amber-400 text-amber-950 font-semibold py-4 px-6 rounded-2xl shadow-sm transition flex items-center justify-center space-x-2 cursor-pointer text-base"
+          >
+            <svg class="w-5 h-5 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Instant Buy Now (WhatsApp Order)</span>
+          </button>
         </div>
 
-        <!-- Dual Checkout Options -->
-        <div class="space-y-4 pt-2">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Secure Your Sacred Item</h3>
-          
-          <!-- Primary Amazon Button -->
-          <a
-            href={product.amazonUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-full flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-950 font-semibold py-4 px-6 rounded-2xl border border-amber-400 shadow-sm transition transform hover:-translate-y-0.5"
-          >
-            <svg class="w-5 h-5 mr-2 text-[#996515]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            Buy on Amazon (Prime Delivery)
-          </a>
-
-          <!-- Secondary Razorpay Button -->
-          {product.razorpayButtonId && (
-            <div class="bg-white border border-[#E6CA65]/60 p-6 rounded-2xl shadow-sm text-center space-y-3">
-              <p class="text-xs text-[#8B5E14] font-medium">Direct Direct-to-Consumer Checkout (Free Shipping Over ₹500)</p>
-              <form class="flex justify-center">
-                <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id={product.razorpayButtonId} async></script>
-              </form>
+        <!-- Accordion / Tabs: Sacred Significance, Energization & Care, Authenticity -->
+        <div class="space-y-4 pt-4">
+          <div class="border border-[#E6CA65]/60 rounded-2xl overflow-hidden bg-white shadow-sm">
+            <button type="button" class="w-full px-6 py-4 text-left font-['Cormorant_Garamond',serif] font-bold text-[#7A5212] flex justify-between items-center bg-amber-50/50 cursor-pointer tab-toggle" data-target="tab-significance">
+              <span>Sacred Significance</span>
+              <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="tab-significance" class="px-6 py-4 text-xs text-[#4A3B2C] leading-relaxed border-t border-[#E6CA65]/40">
+              This artifact resonates directly with the <span class="font-semibold text-[#996515]">{product.chakra}</span> chakra, acting as a receiver and transmitter of high vibrational prana. Placed in living areas or sacred corners, it clears dense energetic debris and elevates daily meditation.
             </div>
-          )}
+          </div>
+
+          <div class="border border-[#E6CA65]/60 rounded-2xl overflow-hidden bg-white shadow-sm">
+            <button type="button" class="w-full px-6 py-4 text-left font-['Cormorant_Garamond',serif] font-bold text-[#7A5212] flex justify-between items-center bg-amber-50/50 cursor-pointer tab-toggle" data-target="tab-energization">
+              <span>Energization & Care (Prana Pratishtha)</span>
+              <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="tab-energization" class="px-6 py-4 text-xs text-[#4A3B2C] leading-relaxed border-t border-[#E6CA65]/40 hidden">
+              Every piece undergoes traditional cleansing under full moonlight and Vedic sound resonance. Cleanse monthly with white sage smoke or moonlight bathing. Avoid harsh chemical cleaners or salt water submersion for delicate stones.
+            </div>
+          </div>
+
+          <div class="border border-[#E6CA65]/60 rounded-2xl overflow-hidden bg-white shadow-sm">
+            <button type="button" class="w-full px-6 py-4 text-left font-['Cormorant_Garamond',serif] font-bold text-[#7A5212] flex justify-between items-center bg-amber-50/50 cursor-pointer tab-toggle" data-target="tab-authenticity">
+              <span>Authenticity & Certification</span>
+              <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="tab-authenticity" class="px-6 py-4 text-xs text-[#4A3B2C] leading-relaxed border-t border-[#E6CA65]/40 hidden">
+              Certified 100% genuine mineral specimen ethically mined in {product.origin}. Backed by SomaShiva™ authenticity guarantee with secure damage-free transit insurance.
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <script define:vars={{ product }}>
+    document.getElementById('add-to-cart-btn')?.addEventListener('click', () => {
+      if (typeof window.addToCart === 'function') {
+        window.addToCart({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image
+        });
+      }
+    });
+
+    document.getElementById('instant-buy-btn')?.addEventListener('click', () => {
+      const msg = `🙏 *Instant Order Inquiry - SomaShiva™* 🙏\n\n` +
+        `I would like to instantly purchase:\n` +
+        `• *${product.name}* (₹${product.price})\n\n` +
+        `Please confirm availability and dispatch details!`;
+      const encoded = encodeURIComponent(msg);
+      window.open(`https://wa.me/919180603108?text=${encoded}`, '_blank');
+    });
+
+    document.querySelectorAll('.tab-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const content = document.getElementById(targetId || '');
+        if (content) {
+          content.classList.toggle('hidden');
+        }
+      });
+    });
+  </script>
 </Layout>

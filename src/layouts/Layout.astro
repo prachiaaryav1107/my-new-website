@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
 import { SignInButton, UserButton } from '@clerk/astro/components';
+import CartDrawer from '../components/CartDrawer.astro';
 
 interface Props {
   title: string;
@@ -245,6 +246,11 @@ try {
             <a href="/guide" class="text-[#7A5212] hover:text-[#D4AF37] transition">Cleansing Guide</a>
             <a href="/contact" class="text-[#7A5212] hover:text-[#D4AF37] transition">Contact</a>
             
+            <button type="button" class="open-cart-trigger relative p-2 text-[#7A5212] hover:text-[#D4AF37] transition cursor-pointer flex items-center" aria-label="Open Cart">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+              <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md" style="display: none;">0</span>
+            </button>
+
             {userId ? (
               <UserButton afterSignOutUrl="/" />
             ) : (
@@ -256,10 +262,16 @@ try {
             )}
           </div>
 
-          <!-- Mobile Hamburger Button -->
-          <button id="menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden p-2 text-[#7A5212] focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-          </button>
+          <!-- Mobile Actions -->
+          <div class="flex items-center space-x-2 md:hidden">
+            <button type="button" class="open-cart-trigger relative p-2 text-[#7A5212] hover:text-[#D4AF37] transition cursor-pointer flex items-center" aria-label="Open Cart">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+              <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md" style="display: none;">0</span>
+            </button>
+            <button id="menu-btn" aria-label="Toggle Navigation Menu" class="p-2 text-[#7A5212] focus:outline-none">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+          </div>
         </div>
 
         <!-- Mobile Drawer Menu -->
@@ -756,5 +768,6 @@ try {
         }
       });
     </script>
+    <CartDrawer />
   </body>
 </html>
