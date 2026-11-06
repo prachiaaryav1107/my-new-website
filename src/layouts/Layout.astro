@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
-import { SignInButton, UserButton } from '@clerk/astro/components';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/astro/components';
 import CartDrawer from '../components/CartDrawer.astro';
 
 interface Props {
@@ -143,10 +143,11 @@ try {
     </style>
   </head>
   <body class="bg-[#FAF7F2] text-[#4A3B2C] antialiased font-['Outfit',sans-serif] min-h-screen flex flex-col selection:bg-[#E6CA65]/30 selection:text-amber-950">
+    <!-- Prana Cursor Trail Canvas -->
+    <canvas id="prana-trail-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[5]"></canvas>
+
     <!-- Google Antigravity App Canvas Background -->
     <canvas id="antigravity-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
-    <!-- Prana Cursor Trail Canvas -->
-    <canvas id="prana-trail-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[2]"></canvas>
 
     <!-- Main Content Wrapper with relative z-10 and max-w-full overflow-x-hidden -->
     <div class="relative z-10 flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
@@ -281,7 +282,11 @@ try {
           <a href="/" class="block text-sm font-medium text-[#7A5212]">Catalog</a>
           <a href="/guide" class="block text-sm font-medium text-[#7A5212]">Cleansing Guide</a>
           <a href="/contact" class="block text-sm font-medium text-[#7A5212]">Contact</a>
-          <div class="pt-2 border-t border-[#E6CA65]/40 flex items-center">
+          <div class="pt-2 border-t border-[#E6CA65]/40 flex items-center justify-between">
+            <button type="button" class="open-cart-trigger text-xs font-semibold text-[#7A5212] flex items-center space-x-1.5 py-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+              <span>View Cart</span>
+            </button>
             {userId ? (
               <UserButton afterSignOutUrl="/" />
             ) : (
@@ -763,7 +768,7 @@ try {
         }
       });
 
-      // Full-Screen Prana Cursor Trail Canvas
+      // Full-Screen Prana Cursor Trail Canvas (z-[5])
       const trailCanvas = document.getElementById('prana-trail-canvas') as HTMLCanvasElement | null;
       if (trailCanvas) {
         const tCtx = trailCanvas.getContext('2d');
@@ -771,7 +776,7 @@ try {
 
         const initTrailCanvas = () => {
           const dpr = window.devicePixelRatio || 1;
-          const w = document.documentElement.clientWidth;
+          const w = window.innerWidth;
           const h = window.innerHeight;
           trailCanvas.width = w * dpr;
           trailCanvas.height = h * dpr;
@@ -780,24 +785,24 @@ try {
 
         const animateTrail = () => {
           if (!tCtx) return;
-          const w = document.documentElement.clientWidth;
+          const w = window.innerWidth;
           const h = window.innerHeight;
           tCtx.clearRect(0, 0, w, h);
 
           for (let i = trailMotes.length - 1; i >= 0; i--) {
             const m = trailMotes[i];
             m.x += m.vx;
-            m.y += m.vy;
-            m.life -= m.decay;
-            m.alpha = Math.max(0, m.life * 0.6);
+            m.y += m.vy - 0.2; // drift slightly upward
+            m.life -= 1;
+            m.alpha -= 0.03; // decay alpha by 0.03 per frame
 
-            if (m.life <= 0) {
+            if (m.alpha <= 0 || m.life <= 0) {
               trailMotes.splice(i, 1);
               continue;
             }
 
             tCtx.save();
-            tCtx.globalAlpha = m.alpha;
+            tCtx.globalAlpha = Math.max(0, m.alpha);
             tCtx.fillStyle = m.color;
             tCtx.shadowColor = m.color;
             tCtx.shadowBlur = 10;
@@ -812,21 +817,20 @@ try {
         window.addEventListener('mousemove', (e) => {
           if (window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768) {
             const moteColors = ['#d4af37', '#f3e5ab', '#ffffff'];
-            const count = 2 + Math.floor(Math.random() * 2);
-            for (let i = 0; i < count; i++) {
-              if (trailMotes.length >= 35) {
+            // Append 2 golden motes per event
+            for (let i = 0; i < 2; i++) {
+              if (trailMotes.length >= 40) {
                 trailMotes.shift();
               }
               trailMotes.push({
-                x: e.clientX + (Math.random() - 0.5) * 12,
-                y: e.clientY + (Math.random() - 0.5) * 12,
-                vx: (Math.random() - 0.5) * 0.6 - 0.3,
-                vy: (Math.random() - 0.5) * 0.6 - 0.3,
-                size: 1.5 + Math.random() * 2.5,
+                x: e.clientX + (Math.random() - 0.5) * 10,
+                y: e.clientY + (Math.random() - 0.5) * 10,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                size: 1.5 + Math.random() * 2,
                 color: moteColors[Math.floor(Math.random() * moteColors.length)],
-                alpha: 0.6,
-                life: 1.0,
-                decay: 1.0 / (22 + Math.random() * 6), // ~350-450ms
+                alpha: 0.8,
+                life: 30,
               });
             }
           }

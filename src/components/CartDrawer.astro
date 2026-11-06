@@ -29,7 +29,7 @@
   </div>
 
   <!-- Footer / Checkout -->
-  <div class="p-6 bg-white border-t border-[#E6CA65]/40 space-y-4">
+  <div id="cart-footer-section" class="p-6 bg-white border-t border-[#E6CA65]/40 space-y-4">
     <div class="flex justify-between items-center text-sm">
       <span class="text-[#4A3B2C] font-medium">Subtotal</span>
       <span id="cart-subtotal" class="font-extrabold text-xl text-[#7A5212]">₹0</span>
@@ -46,21 +46,55 @@
 
 <!-- Checkout Modal -->
 <div id="checkout-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-  <div class="bg-white border border-[#E6CA65]/60 rounded-3xl p-8 max-w-lg w-full space-y-6 shadow-2xl relative">
+  <div class="bg-white border border-[#E6CA65]/60 rounded-3xl p-8 max-w-lg w-full space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
     <div class="flex justify-between items-center border-b border-[#E6CA65]/40 pb-4">
-      <h3 class="text-2xl font-bold font-['Cormorant_Garamond',serif] text-[#7A5212]">Sacred Shipping Details</h3>
+      <h3 class="text-2xl font-bold font-['Cormorant_Garamond',serif] text-[#7A5212]">Sacred Order Checkout</h3>
       <button id="close-checkout-modal" class="text-[#7A5212] hover:text-amber-900 p-1 rounded-lg">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
     </div>
 
+    <!-- Order Summary Review -->
+    <div id="checkout-order-review" class="bg-[#FAF7F2] border border-[#E6CA65]/40 rounded-2xl p-4 space-y-2">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-[#8B5E14]">Order Summary</h4>
+      <div id="checkout-line-items" class="space-y-1 text-xs text-[#4A3B2C]">
+        <!-- Line items populated via JS -->
+      </div>
+      <div class="border-t border-[#E6CA65]/40 pt-2 flex justify-between font-bold text-sm text-[#7A5212]">
+        <span>Total Amount</span>
+        <span id="checkout-modal-total">₹0</span>
+      </div>
+    </div>
+
+    <!-- Success Screen State -->
+    <div id="order-success-screen" class="hidden text-center py-6 space-y-4">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h4 class="text-xl font-bold font-['Cormorant_Garamond',serif] text-[#7A5212]">Sacred Order Placed Successfully!</h4>
+      <p class="text-xs text-[#4A3B2C] leading-relaxed">
+        An email order notification has been dispatched to <span class="font-semibold text-[#996515]">somashivaofficial@gmail.com</span>. You can also confirm instantly via WhatsApp below.
+      </p>
+      <div class="pt-2">
+        <a id="success-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-[#25D366] hover:bg-[#20ba5a] text-white font-semibold py-3 px-6 rounded-xl text-xs shadow transition space-x-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>Confirm Order via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Checkout Form -->
     <form id="checkout-form" class="space-y-4">
       <div>
         <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">Full Name</label>
         <input type="text" id="cust-name" required placeholder="e.g. Priya Sharma" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
       </div>
       <div>
-        <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">Shipping Address</label>
+        <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">WhatsApp / Phone Number</label>
+        <input type="tel" id="cust-phone" required placeholder="e.g. +91 98765 43210" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">Delivery Address</label>
         <textarea id="cust-address" required rows="2" placeholder="Street address, apartment, landmark..." class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]"></textarea>
       </div>
       <div class="grid grid-cols-2 gap-4">
@@ -73,26 +107,14 @@
           <input type="text" id="cust-pincode" required placeholder="e.g. 560100" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
         </div>
       </div>
-      <div>
-        <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">WhatsApp Phone Number</label>
-        <input type="tel" id="cust-phone" required placeholder="e.g. +91 98765 43210" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
-      </div>
 
-      <div class="pt-4 space-y-3">
+      <div class="pt-4">
         <button
           type="submit"
-          id="whatsapp-dispatch-btn"
-          class="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-semibold py-4 rounded-2xl shadow-sm transition flex items-center justify-center space-x-2 cursor-pointer text-sm"
+          id="place-sacred-order-btn"
+          class="btn-gradient-all w-full bg-[#996515] hover:bg-[#7A5212] text-white font-semibold py-4 rounded-2xl shadow-sm transition text-center cursor-pointer block text-sm"
         >
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-          <span>Complete Order via WhatsApp Dispatch</span>
-        </button>
-        <button
-          type="button"
-          id="razorpay-sandbox-btn"
-          class="w-full bg-amber-50 hover:bg-amber-100 border border-amber-400 text-amber-950 font-semibold py-3.5 rounded-2xl transition text-center text-xs cursor-pointer block"
-        >
-          Pay Securely via Razorpay (Direct Sandbox)
+          Place Sacred Order & Send Email
         </button>
       </div>
     </form>
@@ -179,6 +201,7 @@
     const container = document.getElementById('cart-items-list');
     const badge = document.getElementById('cart-count-badge');
     const subtotalEl = document.getElementById('cart-subtotal');
+    const footerSection = document.getElementById('cart-footer-section');
 
     const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
     const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
@@ -194,16 +217,20 @@
 
     if (container) {
       if (cart.length === 0) {
+        if (footerSection) footerSection.style.display = 'none';
         container.innerHTML = `
-          <div class="text-center py-12 space-y-4">
-            <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto text-[#996515] border border-[#E6CA65]/60">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          <div class="text-center py-16 space-y-6">
+            <div class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto text-[#996515] border border-[#E6CA65]/60 shadow-sm">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
             </div>
-            <p class="text-sm font-medium text-[#7A5212]">Your sacred cart is empty.</p>
-            <p class="text-xs text-[#8B5E14]">Explore our catalog to align with your sacred tool.</p>
+            <p class="text-sm font-medium text-[#7A5212] px-6 leading-relaxed">Your sacred cart is empty. Begin your spiritual journey with our consecrated collection.</p>
+            <a href="/#catalog" onclick="window.toggleCart()" class="inline-block bg-[#996515] text-white text-xs font-semibold px-6 py-3.5 rounded-2xl shadow hover:bg-[#7A5212] transition">
+              Explore Sacred Offerings
+            </a>
           </div>
         `;
       } else {
+        if (footerSection) footerSection.style.display = 'block';
         container.innerHTML = cart.map(item => `
           <div class="flex items-center space-x-4 bg-white border border-[#E6CA65]/60 p-4 rounded-2xl shadow-sm">
             <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-[#E6CA65]/40" />
@@ -247,6 +274,11 @@
   document.querySelectorAll('.open-cart-trigger').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      const cart = getCart();
+      if (cart.length === 0) {
+        window.location.href = '/#catalog';
+        return;
+      }
       window.openCart();
     });
   });
@@ -254,6 +286,9 @@
   const checkoutModal = document.getElementById('checkout-modal');
   const openCheckoutBtn = document.getElementById('open-checkout-modal-btn');
   const closeCheckoutBtn = document.getElementById('close-checkout-modal');
+  const checkoutForm = document.getElementById('checkout-form') as HTMLFormElement;
+  const orderSuccessScreen = document.getElementById('order-success-screen');
+  const checkoutOrderReview = document.getElementById('checkout-order-review');
 
   openCheckoutBtn?.addEventListener('click', () => {
     const cart = getCart();
@@ -262,6 +297,27 @@
       return;
     }
     window.toggleCart();
+    
+    // Populate review summary
+    const lineItemsContainer = document.getElementById('checkout-line-items');
+    const modalTotal = document.getElementById('checkout-modal-total');
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+    if (lineItemsContainer) {
+      lineItemsContainer.innerHTML = cart.map(i => `
+        <div class="flex justify-between">
+          <span>${i.name} (×${i.quantity})</span>
+          <span class="font-semibold">₹${i.price * i.quantity}</span>
+        </div>
+      `).join('');
+    }
+    if (modalTotal) {
+      modalTotal.textContent = `₹${subtotal}`;
+    }
+
+    checkoutForm?.classList.remove('hidden');
+    orderSuccessScreen?.classList.add('hidden');
+    checkoutOrderReview?.classList.remove('hidden');
     checkoutModal?.classList.remove('hidden');
   });
 
@@ -269,43 +325,56 @@
     checkoutModal?.classList.add('hidden');
   });
 
-  document.getElementById('checkout-form')?.addEventListener('submit', (e) => {
+  checkoutForm?.addEventListener('submit', (e) => {
     e.preventDefault();
     const cart = getCart();
     const name = (document.getElementById('cust-name') as HTMLInputElement).value;
+    const phone = (document.getElementById('cust-phone') as HTMLInputElement).value;
     const address = (document.getElementById('cust-address') as HTMLTextAreaElement).value;
     const city = (document.getElementById('cust-city') as HTMLInputElement).value;
     const pincode = (document.getElementById('cust-pincode') as HTMLInputElement).value;
-    const phone = (document.getElementById('cust-phone') as HTMLInputElement).value;
+    const timestamp = new Date().toLocaleString();
 
     const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
     const itemsListText = cart.map(i => `• ${i.name} (Qty: ${i.quantity}) - ₹${i.price * i.quantity}`).join('\n');
 
-    const msg = `🙏 *New Order - SomaShiva™* 🙏\n\n` +
-      `*Customer Details:*\n` +
+    const emailSubject = encodeURIComponent(`New Sacred Order - ${name}`);
+    const emailBody = encodeURIComponent(
+      `🙏 New Sacred Order Received - SomaShiva™ 🙏\n\n` +
+      `Timestamp: ${timestamp}\n\n` +
+      `Customer Details:\n` +
       `Name: ${name}\n` +
       `Phone: ${phone}\n` +
       `Address: ${address}, ${city} - ${pincode}\n\n` +
-      `*Order Items:*\n${itemsListText}\n\n` +
-      `*Subtotal:* ₹${subtotal}\n` +
-      `*Shipping:* FREE Express Sacred Shipping\n\n` +
-      `Please confirm dispatch and energization details!`;
+      `Order Items:\n${itemsListText}\n\n` +
+      `Total Amount: ₹${subtotal}\n` +
+      `Shipping: FREE Express Sacred Shipping`
+    );
 
-    const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/919180603108?text=${encoded}`, '_blank');
+    // Trigger email dispatch via mailto
+    window.location.href = `mailto:somashivaofficial@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+
+    // WhatsApp confirmation link
+    const waMsg = encodeURIComponent(
+      `🙏 *New Order Placed - SomaShiva™* 🙏\n\n` +
+      `Name: ${name}\n` +
+      `Phone: ${phone}\n` +
+      `Address: ${address}, ${city} - ${pincode}\n\n` +
+      `Items:\n${itemsListText}\n\n` +
+      `Total: ₹${subtotal}`
+    );
+    const waLink = `https://wa.me/919180603108?text=${waMsg}`;
+    const successWaBtn = document.getElementById('success-whatsapp-link') as HTMLAnchorElement;
+    if (successWaBtn) successWaBtn.href = waLink;
+
+    // Show success screen
+    checkoutForm.classList.add('hidden');
+    checkoutOrderReview?.classList.add('hidden');
+    orderSuccessScreen?.classList.remove('hidden');
+
+    // Clear cart
     localStorage.removeItem('somashiva_cart');
     updateCartUI();
-    checkoutModal?.classList.add('hidden');
-  });
-
-  document.getElementById('razorpay-sandbox-btn')?.addEventListener('click', () => {
-    alert('Connecting to Razorpay Secure Gateway Sandbox...');
-    setTimeout(() => {
-      alert('Sandbox payment test initiated successfully! Thank you for your order with SomaShiva™.');
-      localStorage.removeItem('somashiva_cart');
-      updateCartUI();
-      checkoutModal?.classList.add('hidden');
-    }, 800);
   });
 
   updateCartUI();
