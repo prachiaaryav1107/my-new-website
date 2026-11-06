@@ -471,49 +471,85 @@ try {
         };
 
         const drawTrishul = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.save();
+          ctx.lineJoin = 'round';
+          ctx.lineCap = 'round';
           ctx.beginPath();
-          ctx.moveTo(0, -r);
-          ctx.lineTo(0, r);
-          ctx.moveTo(0, -r * 1.2);
-          ctx.lineTo(-r * 0.25, -r * 0.8);
-          ctx.lineTo(r * 0.25, -r * 0.8);
+          // Elongated central shaft
+          ctx.moveTo(0, -r * 0.2);
+          ctx.lineTo(0, r * 1.4);
+
+          // Central Spearhead (sharp triangle pointing high)
+          ctx.moveTo(0, -r * 1.6);
+          ctx.lineTo(-r * 0.22, -r * 0.8);
+          ctx.lineTo(r * 0.22, -r * 0.8);
           ctx.closePath();
           ctx.fill();
 
-          ctx.moveTo(0, -r * 0.3);
-          ctx.bezierCurveTo(-r * 0.7, -r * 0.3, -r * 0.8, -r * 1.0, -r * 0.7, -r * 1.2);
-          ctx.moveTo(0, -r * 0.3);
-          ctx.bezierCurveTo(-r * 0.45, -r * 0.3, -r * 0.55, -r * 0.7, -r * 0.45, -r * 0.9);
+          // Left Prong (curving gracefully outward and upward level with mid-spear)
+          ctx.moveTo(0, -r * 0.5);
+          ctx.bezierCurveTo(-r * 0.8, -r * 0.5, -r * 0.9, -r * 1.1, -r * 0.65, -r * 1.3);
 
-          ctx.moveTo(0, -r * 0.3);
-          ctx.bezierCurveTo(r * 0.7, -r * 0.3, r * 0.8, -r * 1.0, r * 0.7, -r * 1.2);
-          ctx.moveTo(0, -r * 0.3);
-          ctx.bezierCurveTo(r * 0.45, -r * 0.3, r * 0.55, -r * 0.7, r * 0.45, -r * 0.9);
+          // Right Prong
+          ctx.moveTo(0, -r * 0.5);
+          ctx.bezierCurveTo(r * 0.8, -r * 0.5, r * 0.9, -r * 1.1, r * 0.65, -r * 1.3);
 
-          ctx.moveTo(-r * 0.5, -r * 0.3);
-          ctx.lineTo(r * 0.5, -r * 0.3);
+          // Cross-guard base bar binding the three prongs together before meeting the shaft
+          ctx.moveTo(-r * 0.55, -r * 0.5);
+          ctx.lineTo(r * 0.55, -r * 0.5);
+
           ctx.stroke();
+          ctx.restore();
         };
 
         const drawDamru = (ctx: CanvasRenderingContext2D, r: number) => {
+          ctx.save();
+          ctx.lineJoin = 'round';
+          ctx.lineCap = 'round';
           ctx.beginPath();
-          ctx.moveTo(-r * 0.75, -r);
-          ctx.lineTo(r * 0.75, -r);
+          // Top conical cup
+          ctx.moveTo(-r * 0.7, -r);
+          ctx.lineTo(r * 0.7, -r);
           ctx.lineTo(0, 0);
           ctx.closePath();
-          ctx.moveTo(-r * 0.75, r);
-          ctx.lineTo(r * 0.75, r);
+
+          // Bottom conical cup
+          ctx.moveTo(-r * 0.7, r);
+          ctx.lineTo(r * 0.7, r);
           ctx.lineTo(0, 0);
           ctx.closePath();
           ctx.fill();
           ctx.stroke();
 
+          // Drum heads (subtle elliptical top and bottom caps)
           ctx.beginPath();
-          ctx.moveTo(-r * 0.75, -r);
-          ctx.quadraticCurveTo(-r * 1.1, 0, -r * 0.75, r);
-          ctx.moveTo(r * 0.75, -r);
-          ctx.quadraticCurveTo(r * 1.1, 0, r * 0.75, r);
+          ctx.ellipse(0, -r, r * 0.7, r * 0.18, 0, 0, Math.PI * 2);
+          ctx.ellipse(0, r, r * 0.7, r * 0.18, 0, 0, Math.PI * 2);
           ctx.stroke();
+
+          // Center binding (small horizontal bead/knot across the waist)
+          ctx.beginPath();
+          ctx.arc(0, 0, r * 0.15, 0, Math.PI * 2);
+          ctx.fillStyle = '#f3e5ab';
+          ctx.fill();
+          ctx.stroke();
+
+          // Hanging striker strings & spherical beads
+          ctx.beginPath();
+          ctx.moveTo(0, r * 0.1);
+          ctx.quadraticCurveTo(-r * 0.6, r * 0.8, -r * 0.4, r * 1.2);
+          ctx.moveTo(0, r * 0.1);
+          ctx.quadraticCurveTo(r * 0.6, r * 0.8, r * 0.4, r * 1.2);
+          ctx.stroke();
+
+          // Striker beads at string ends
+          ctx.beginPath();
+          ctx.arc(-r * 0.4, r * 1.2, r * 0.12, 0, Math.PI * 2);
+          ctx.arc(r * 0.4, r * 1.2, r * 0.12, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.restore();
         };
 
         const drawOm = (ctx: CanvasRenderingContext2D, r: number) => {
@@ -768,76 +804,65 @@ try {
         }
       });
 
-      // Full-Screen Prana Cursor Trail Canvas (z-[5])
-      const trailCanvas = document.getElementById('prana-trail-canvas') as HTMLCanvasElement | null;
-      if (trailCanvas) {
-        const tCtx = trailCanvas.getContext('2d');
+      // Full-Screen Prana Cursor Trail Canvas (z-[2])
+      const trailCanvas = document.getElementById('prana-trail-canvas') as HTMLCanvasElement;
+      const tctx = trailCanvas?.getContext('2d');
+      if (trailCanvas && tctx) {
         let trailMotes: any[] = [];
 
-        const initTrailCanvas = () => {
-          const dpr = window.devicePixelRatio || 1;
-          const w = window.innerWidth;
-          const h = window.innerHeight;
-          trailCanvas.width = w * dpr;
-          trailCanvas.height = h * dpr;
-          if (tCtx) tCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const resizeTrail = () => {
+          trailCanvas.width = window.innerWidth;
+          trailCanvas.height = window.innerHeight;
         };
+        resizeTrail();
+        window.addEventListener('resize', resizeTrail);
 
         const animateTrail = () => {
-          if (!tCtx) return;
-          const w = window.innerWidth;
-          const h = window.innerHeight;
-          tCtx.clearRect(0, 0, w, h);
+          tctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
 
           for (let i = trailMotes.length - 1; i >= 0; i--) {
             const m = trailMotes[i];
             m.x += m.vx;
-            m.y += m.vy - 0.2; // drift slightly upward
-            m.life -= 1;
-            m.alpha -= 0.03; // decay alpha by 0.03 per frame
+            m.y += m.vy;
+            m.alpha -= 0.025; // decay alpha by 0.025 per frame
 
-            if (m.alpha <= 0 || m.life <= 0) {
+            if (m.alpha <= 0) {
               trailMotes.splice(i, 1);
               continue;
             }
 
-            tCtx.save();
-            tCtx.globalAlpha = Math.max(0, m.alpha);
-            tCtx.fillStyle = m.color;
-            tCtx.shadowColor = m.color;
-            tCtx.shadowBlur = 10;
-            tCtx.beginPath();
-            tCtx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-            tCtx.fill();
-            tCtx.restore();
+            tctx.save();
+            tctx.globalAlpha = Math.max(0, m.alpha);
+            tctx.fillStyle = m.color;
+            tctx.shadowColor = '#d4af37';
+            tctx.shadowBlur = 6;
+            tctx.beginPath();
+            tctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+            tctx.fill();
+            tctx.restore();
           }
           requestAnimationFrame(animateTrail);
         };
 
         window.addEventListener('mousemove', (e) => {
-          if (window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768) {
-            const moteColors = ['#d4af37', '#f3e5ab', '#ffffff'];
-            // Append 2 golden motes per event
+          if (window.matchMedia('(pointer: fine)').matches) {
             for (let i = 0; i < 2; i++) {
               if (trailMotes.length >= 40) {
                 trailMotes.shift();
               }
               trailMotes.push({
-                x: e.clientX + (Math.random() - 0.5) * 10,
-                y: e.clientY + (Math.random() - 0.5) * 10,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                size: 1.5 + Math.random() * 2,
-                color: moteColors[Math.floor(Math.random() * moteColors.length)],
-                alpha: 0.8,
-                life: 30,
+                x: e.clientX,
+                y: e.clientY,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5 - 0.5,
+                size: Math.random() * 2.5 + 1.2,
+                alpha: 0.85,
+                color: '#f3e5ab'
               });
             }
           }
         }, { passive: true });
 
-        window.addEventListener('resize', initTrailCanvas);
-        initTrailCanvas();
         animateTrail();
       }
     </script>
