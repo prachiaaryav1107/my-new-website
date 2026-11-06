@@ -145,6 +145,8 @@ try {
   <body class="bg-[#FAF7F2] text-[#4A3B2C] antialiased font-['Outfit',sans-serif] min-h-screen flex flex-col selection:bg-[#E6CA65]/30 selection:text-amber-950">
     <!-- Google Antigravity App Canvas Background -->
     <canvas id="antigravity-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+    <!-- Prana Cursor Trail Canvas -->
+    <canvas id="prana-trail-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[2]"></canvas>
 
     <!-- Main Content Wrapper with relative z-10 and max-w-full overflow-x-hidden -->
     <div class="relative z-10 flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
@@ -354,30 +356,23 @@ try {
         });
       }
 
-      // 1. Clerk Sign-In Fallback Handler
-      const setupClerkButton = (id: string) => {
-        const btn = document.getElementById(id);
-        if (btn) {
-          btn.addEventListener('click', (e) => {
-            const clerk = (window as any).Clerk;
-            if (clerk && typeof clerk.openSignIn === 'function') {
-              clerk.openSignIn();
-            } else {
-              setTimeout(() => {
-                const c2 = (window as any).Clerk;
-                if (c2 && typeof c2.openSignIn === 'function') {
-                  c2.openSignIn();
-                } else {
-                  window.location.href = '/sign-in';
-                }
-              }, 400);
-            }
-          });
-        }
-      };
-
-      setupClerkButton('clerk-sign-in-btn');
-      setupClerkButton('clerk-sign-in-btn-mobile');
+      // 1. Clerk Sign-In Direct Handler
+      const signInBtn = document.getElementById('clerk-sign-in-btn');
+      if (signInBtn) {
+        signInBtn.addEventListener('click', () => {
+          if (window.Clerk && typeof window.Clerk.openSignIn === 'function') {
+            window.Clerk.openSignIn();
+          }
+        });
+      }
+      const signInBtnMobile = document.getElementById('clerk-sign-in-btn-mobile');
+      if (signInBtnMobile) {
+        signInBtnMobile.addEventListener('click', () => {
+          if (window.Clerk && typeof window.Clerk.openSignIn === 'function') {
+            window.Clerk.openSignIn();
+          }
+        });
+      }
 
       // Security Warning Overlay & Passcode Logic
       const overlay = document.getElementById('security-warning-overlay');
@@ -767,6 +762,80 @@ try {
           }, 650);
         }
       });
+
+      // Full-Screen Prana Cursor Trail Canvas
+      const trailCanvas = document.getElementById('prana-trail-canvas') as HTMLCanvasElement | null;
+      if (trailCanvas) {
+        const tCtx = trailCanvas.getContext('2d');
+        let trailMotes: any[] = [];
+
+        const initTrailCanvas = () => {
+          const dpr = window.devicePixelRatio || 1;
+          const w = document.documentElement.clientWidth;
+          const h = window.innerHeight;
+          trailCanvas.width = w * dpr;
+          trailCanvas.height = h * dpr;
+          if (tCtx) tCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+
+        const animateTrail = () => {
+          if (!tCtx) return;
+          const w = document.documentElement.clientWidth;
+          const h = window.innerHeight;
+          tCtx.clearRect(0, 0, w, h);
+
+          for (let i = trailMotes.length - 1; i >= 0; i--) {
+            const m = trailMotes[i];
+            m.x += m.vx;
+            m.y += m.vy;
+            m.life -= m.decay;
+            m.alpha = Math.max(0, m.life * 0.6);
+
+            if (m.life <= 0) {
+              trailMotes.splice(i, 1);
+              continue;
+            }
+
+            tCtx.save();
+            tCtx.globalAlpha = m.alpha;
+            tCtx.fillStyle = m.color;
+            tCtx.shadowColor = m.color;
+            tCtx.shadowBlur = 10;
+            tCtx.beginPath();
+            tCtx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+            tCtx.fill();
+            tCtx.restore();
+          }
+          requestAnimationFrame(animateTrail);
+        };
+
+        window.addEventListener('mousemove', (e) => {
+          if (window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768) {
+            const moteColors = ['#d4af37', '#f3e5ab', '#ffffff'];
+            const count = 2 + Math.floor(Math.random() * 2);
+            for (let i = 0; i < count; i++) {
+              if (trailMotes.length >= 35) {
+                trailMotes.shift();
+              }
+              trailMotes.push({
+                x: e.clientX + (Math.random() - 0.5) * 12,
+                y: e.clientY + (Math.random() - 0.5) * 12,
+                vx: (Math.random() - 0.5) * 0.6 - 0.3,
+                vy: (Math.random() - 0.5) * 0.6 - 0.3,
+                size: 1.5 + Math.random() * 2.5,
+                color: moteColors[Math.floor(Math.random() * moteColors.length)],
+                alpha: 0.6,
+                life: 1.0,
+                decay: 1.0 / (22 + Math.random() * 6), // ~350-450ms
+              });
+            }
+          }
+        }, { passive: true });
+
+        window.addEventListener('resize', initTrailCanvas);
+        initTrailCanvas();
+        animateTrail();
+      }
     </script>
     <CartDrawer />
   </body>
