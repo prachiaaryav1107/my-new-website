@@ -66,18 +66,20 @@
       </div>
     </div>
 
-    <!-- Success Screen State -->
-    <div id="order-success-screen" class="hidden text-center py-6 space-y-4">
-      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <!-- Success Screen State (Elegant Post-Purchase Success Card) -->
+    <div id="order-success-screen" class="hidden text-center py-6 space-y-5">
+      <div class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto text-[#D4AF37] border border-[#E6CA65] shadow-lg">
+        <svg class="w-10 h-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
       </div>
-      <h4 class="text-xl font-bold font-['Cormorant_Garamond',serif] text-[#7A5212]">Sacred Order Placed Successfully!</h4>
-      <p id="success-email-notice" class="text-xs text-[#4A3B2C] leading-relaxed">
-        Order ID: <span id="success-order-id" class="font-bold text-[#7A5212]"></span>. A receipt has been dispatched to your email. You can also track your sacred order instantly via WhatsApp below.
-      </p>
+      <h4 class="text-2xl font-bold font-['Cormorant_Garamond',serif] text-[#7A5212]">Order Registered with Reverence!</h4>
+      <div class="bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-2xl p-4 space-y-2">
+        <p class="text-xs text-[#4A3B2C]">Unique Order Reference:</p>
+        <p id="success-order-id" class="text-xl font-extrabold font-mono text-[#996515] tracking-wider"></p>
+        <p class="text-xs text-[#8B5E14] font-light pt-1">An itemized bill and receipt have been dispatched to your email.</p>
+      </div>
       <div class="pt-2">
-        <a id="success-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-[#25D366] hover:bg-[#20ba5a] text-white font-semibold py-3 px-6 rounded-xl text-xs shadow transition space-x-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <a id="success-whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-[#25D366] hover:bg-[#20ba5a] text-white font-semibold py-3.5 px-6 rounded-2xl text-xs shadow-md transition space-x-2 w-full">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
           <span>Track Order via WhatsApp</span>
         </a>
       </div>
@@ -94,8 +96,8 @@
         <input type="email" id="cust-email" required placeholder="e.g. priya@example.com" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
       </div>
       <div>
-        <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">WhatsApp / Phone Number</label>
-        <input type="tel" id="cust-phone" required placeholder="e.g. +91 98765 43210" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
+        <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">WhatsApp / Phone Number (10 Digits)</label>
+        <input type="tel" id="cust-phone" required pattern="[0-9]{10}" maxlength="10" title="Please enter a valid 10-digit Indian phone number" placeholder="e.g. 9876543210" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
       </div>
       <div>
         <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">Delivery Address</label>
@@ -107,8 +109,8 @@
           <input type="text" id="cust-city" required placeholder="e.g. Bengaluru" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
         </div>
         <div>
-          <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">Pincode</label>
-          <input type="text" id="cust-pincode" required placeholder="e.g. 560100" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
+          <label class="block text-xs font-semibold text-[#8B5E14] uppercase tracking-wider mb-1">Pincode (6 Digits)</label>
+          <input type="text" id="cust-pincode" required pattern="[0-9]{6}" maxlength="6" title="Please enter a valid 6-digit Indian pincode" placeholder="e.g. 560100" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-3 text-sm text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
         </div>
       </div>
 
@@ -116,9 +118,9 @@
         <button
           type="submit"
           id="place-sacred-order-btn"
-          class="btn-gradient-all w-full bg-[#996515] hover:bg-[#7A5212] text-white font-semibold py-4 rounded-2xl shadow-sm transition text-center cursor-pointer block text-sm"
+          class="btn-gradient-all w-full bg-[#996515] hover:bg-[#7A5212] text-white font-semibold py-4 rounded-2xl shadow-sm transition text-center cursor-pointer block text-sm flex items-center justify-center space-x-2"
         >
-          Place Sacred Order & Send Email Bill
+          <span>Place Sacred Order & Send Email Bill</span>
         </button>
       </div>
     </form>
@@ -334,7 +336,8 @@
     const cart = getCart();
     const name = (document.getElementById('cust-name') as HTMLInputElement).value;
     const email = (document.getElementById('cust-email') as HTMLInputElement).value;
-    const phone = (document.getElementById('cust-phone') as HTMLInputElement).value;
+    const phoneInput = (document.getElementById('cust-phone') as HTMLInputElement).value;
+    const phone = phoneInput.replace(/\D/g, '');
     const address = (document.getElementById('cust-address') as HTMLTextAreaElement).value;
     const city = (document.getElementById('cust-city') as HTMLInputElement).value;
     const pincode = (document.getElementById('cust-pincode') as HTMLInputElement).value;
@@ -343,7 +346,13 @@
     const submitBtn = document.getElementById('place-sacred-order-btn') as HTMLButtonElement;
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sanctifying Order & Generating Receipt...';
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Sanctifying & Registering Order...</span>
+      `;
     }
 
     try {
@@ -366,28 +375,15 @@
       const orderId = data.orderId || `SS-${Math.floor(100000 + Math.random() * 900000)}`;
 
       // WhatsApp tracking link
-      const itemsListText = cart.map(i => `• ${i.name} (Qty: ${i.quantity}) - ₹${i.price * i.quantity}`).join('\n');
       const waMsg = encodeURIComponent(
-        `🙏 *Order Tracking - SomaShiva™* 🙏\n` +
-        `Order ID: #${orderId}\n\n` +
-        `Name: ${name}\n` +
-        `Email: ${email}\n` +
-        `Phone: ${phone}\n` +
-        `Address: ${address}, ${city} - ${pincode}\n\n` +
-        `Items:\n${itemsListText}\n\n` +
-        `Total: ₹${subtotal}`
+        `Namaste, I just placed order ${orderId} on Somashiva.`
       );
-      const waLink = `https://wa.me/919180603108?text=${waMsg}`;
+      const waLink = `https://wa.me/919080603108?text=${waMsg}`;
       const successWaBtn = document.getElementById('success-whatsapp-link') as HTMLAnchorElement;
       if (successWaBtn) successWaBtn.href = waLink;
 
       const successOrderIdSpan = document.getElementById('success-order-id');
       if (successOrderIdSpan) successOrderIdSpan.textContent = `#${orderId}`;
-
-      const emailNotice = document.getElementById('success-email-notice');
-      if (emailNotice) {
-        emailNotice.innerHTML = `Order ID: <strong class="text-[#7A5212]">#${orderId}</strong>. An official receipt and bill have been successfully dispatched to <strong class="text-[#996515]">${email}</strong> and logged for store dispatch.`;
-      }
 
       // Show success screen
       checkoutForm.classList.add('hidden');
@@ -402,7 +398,7 @@
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Place Sacred Order & Send Email Bill';
+        submitBtn.innerHTML = '<span>Place Sacred Order & Send Email Bill</span>';
       }
     }
   });
