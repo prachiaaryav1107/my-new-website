@@ -16,6 +16,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     const orderId = `SS-${Date.now().toString().slice(-6)}`;
     const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+    const sender = 'Somashiva Sacred Store <orders@somashiva.com>';
+    const cleanPhone = customerPhone.replace(/\D/g, '');
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
     // Format HTML table for items
     const itemsHtml = cartItems.map((item: any) => `
@@ -27,43 +30,74 @@ export const POST: APIRoute = async ({ request }) => {
       </tr>
     `).join('');
 
-    // Store Notification Email HTML
+    // Store Notification Email HTML (Exhaustive Customer Dossier & Dispatch Manifest)
     const storeEmailHtml = `
       <div style="font-family: serif; background-color: #FAF7F2; padding: 30px; color: #4A3B2C;">
-        <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #E6CA65; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-          <h2 style="color: #7A5212; margin-top: 0; text-align: center;">🙏 [NEW ORDER] ${orderId} 🙏</h2>
-          <p style="font-size: 14px; text-align: center; color: #996515;">Order received from <strong>${customerName}</strong></p>
-          
-          <hr style="border: none; border-top: 1px solid #E6CA65; margin: 20px 0;" />
-          
-          <h3 style="color: #7A5212; font-size: 16px;">Customer Details:</h3>
-          <ul style="font-family: sans-serif; font-size: 14px; line-height: 1.6; padding-left: 20px;">
-            <li><strong>Name:</strong> ${customerName}</li>
-            <li><strong>Email:</strong> ${customerEmail}</li>
-            <li><strong>Phone / WhatsApp:</strong> ${customerPhone}</li>
-            <li><strong>Delivery Address:</strong> ${address}, ${city} - ${pincode}</li>
-          </ul>
+        <div style="max-width: 650px; margin: 0 auto; background: #ffffff; border: 1px solid #E6CA65; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+          <div style="text-align: center; border-bottom: 2px solid #E6CA65; padding-bottom: 15px; margin-bottom: 20px;">
+            <h2 style="color: #7A5212; margin: 0 0 5px 0;">📦 WAREHOUSE DISPATCH MANIFEST 📦</h2>
+            <p style="font-family: sans-serif; font-size: 13px; color: #996515; margin: 0;">Order Reference: <strong>${orderId}</strong> | Timestamp: ${timestamp}</p>
+          </div>
 
-          <h3 style="color: #7A5212; font-size: 16px; margin-top: 25px;">Itemized Order Bill:</h3>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <thead>
-              <tr style="background-color: #FAF7F2; border-bottom: 2px solid #E6CA65;">
-                <th style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 12px; color: #7A5212;">Item</th>
-                <th style="padding: 10px; text-align: center; font-family: sans-serif; font-size: 12px; color: #7A5212;">Qty</th>
-                <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Price</th>
-                <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${itemsHtml}
-            </tbody>
-            <tfoot>
+          <!-- Section 1: Customer Contact Dossier -->
+          <div style="background-color: #FAF7F2; border-left: 4px solid #D4AF37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+            <h3 style="color: #7A5212; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">1. Customer Contact Dossier</h3>
+            <table style="width: 100%; font-family: sans-serif; font-size: 14px; line-height: 1.6;">
               <tr>
-                <td colspan="3" style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 14px;">Total Amount:</td>
-                <td style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 16px; color: #7A5212;">₹${cartTotal}</td>
+                <td style="font-weight: bold; width: 130px; color: #8B5E14;">Full Name:</td>
+                <td>${customerName}</td>
               </tr>
-            </tfoot>
-          </table>
+              <tr>
+                <td style="font-weight: bold; color: #8B5E14;">Email Address:</td>
+                <td><a href="mailto:${customerEmail}" style="color: #996515; text-decoration: underline;">${customerEmail}</a></td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold; color: #8B5E14;">Phone / WhatsApp:</td>
+                <td><a href="https://wa.me/91${cleanPhone}?text=Hello%20${encodeURIComponent(customerName)},%20confirming%20your%20Somashiva%20order%20${orderId}" style="color: #25D366; font-weight: bold; text-decoration: none;">${customerPhone} 💬</a></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Section 2: Complete Shipping Address -->
+          <div style="background-color: #FAF7F2; border-left: 4px solid #D4AF37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+            <h3 style="color: #7A5212; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">2. Complete Shipping Address</h3>
+            <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6; margin: 0; color: #4A3B2C;">
+              <strong>${customerName}</strong><br/>
+              ${address}<br/>
+              ${city} - ${pincode}<br/>
+              India
+            </p>
+          </div>
+
+          <!-- Section 3: Itemized Packing Table -->
+          <div style="margin-bottom: 25px;">
+            <h3 style="color: #7A5212; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">3. Itemized Packing Manifest</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background-color: #FAF7F2; border-bottom: 2px solid #E6CA65;">
+                  <th style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 12px; color: #7A5212;">Item Title</th>
+                  <th style="padding: 10px; text-align: center; font-family: sans-serif; font-size: 12px; color: #7A5212;">Qty</th>
+                  <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Unit Price</th>
+                  <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemsHtml}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3" style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 14px;">Grand Total:</td>
+                  <td style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 18px; color: #7A5212;">₹${cartTotal}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Section 4: Operational Action Buttons -->
+          <div style="text-align: center; border-top: 1px solid #E6CA65; padding-top: 20px;">
+            <a href="mailto:${customerEmail}?subject=Regarding%20Your%20SomaShiva%20Order%20${orderId}" style="display: inline-block; background-color: #996515; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-family: sans-serif; font-size: 13px; font-weight: bold; text-decoration: none; margin-right: 10px; margin-bottom: 10px;">Reply to Customer (Email)</a>
+            <a href="https://wa.me/91${cleanPhone}?text=Hello%20${encodeURIComponent(customerName)},%20confirming%20your%20Somashiva%20order%20${orderId}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-family: sans-serif; font-size: 13px; font-weight: bold; text-decoration: none; margin-bottom: 10px;">Open WhatsApp Chat</a>
+          </div>
         </div>
       </div>
     `;
@@ -124,9 +158,10 @@ export const POST: APIRoute = async ({ request }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'SomaShiva Orders <onboarding@resend.dev>',
+          from: sender,
           to: ['somashivaofficial@gmail.com'],
-          subject: `[NEW ORDER] ${orderId} - ${customerName} (₹${cartTotal})`,
+          replyTo: customerEmail,
+          subject: `[ORDER MANIFEST] ${orderId} - ₹${cartTotal} from ${customerName}`,
           html: storeEmailHtml,
         }),
       });
@@ -139,7 +174,7 @@ export const POST: APIRoute = async ({ request }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'SomaShiva Sacred Offerings <onboarding@resend.dev>',
+          from: sender,
           to: [customerEmail],
           subject: `Order Confirmed: ${orderId} - Somashiva Sacred Offerings`,
           html: customerEmailHtml,
