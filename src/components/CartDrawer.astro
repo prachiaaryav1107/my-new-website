@@ -114,13 +114,24 @@
         </div>
       </div>
 
-      <div class="pt-4">
+      <div class="pt-2 space-y-3">
+        <!-- 100% Prepaid Sanctum Policy Badge -->
+        <div class="bg-amber-50 border border-[#E6CA65] rounded-2xl p-4 text-xs text-[#7A5212] space-y-1.5 shadow-sm">
+          <div class="font-bold flex items-center space-x-1.5">
+            <svg class="w-4 h-4 text-[#996515] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <span>100% Prepaid Sanctum Policy</span>
+          </div>
+          <p class="text-[11px] text-[#4A3B2C] leading-relaxed font-light">
+            To preserve the sanctity and secure insured transit of sacred artifacts, we operate exclusively on prepaid orders. Once your order reference is registered, our team verifies UPI / payment confirmation via WhatsApp before package consecration and dispatch.
+          </p>
+        </div>
+
         <button
           type="submit"
           id="place-sacred-order-btn"
           class="btn-gradient-all w-full bg-[#996515] hover:bg-[#7A5212] text-white font-semibold py-4 rounded-2xl shadow-sm transition text-center cursor-pointer block text-sm flex items-center justify-center space-x-2"
         >
-          <span>Place Sacred Order & Send Email Bill</span>
+          <span>Register Order & Proceed to UPI Verification →</span>
         </button>
       </div>
     </form>
@@ -398,7 +409,7 @@
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Place Sacred Order & Send Email Bill</span>';
+        submitBtn.innerHTML = '<span>Register Order & Proceed to UPI Verification →</span>';
       }
     }
   });

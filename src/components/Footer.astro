@@ -1,0 +1,104 @@
+---
+---
+<footer class="bg-[#F5F0E8] border-t border-[#E6CA65]/40 py-16 text-center mt-20 w-full max-w-full relative">
+  <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
+    <div class="max-w-md mx-auto space-y-3 bg-white border border-[#E6CA65]/60 p-8 rounded-3xl shadow-sm">
+      <h3 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Join Our Sacred Circle</h3>
+      <p class="text-xs text-[#4A3B2C] font-light">Get 10% Off Your First Order and lunar ritual updates.</p>
+      <form class="flex gap-2 pt-2" onsubmit="event.preventDefault(); alert('Thank you for subscribing to SomaShiva™!');">
+        <input type="email" required placeholder="Enter your email" class="w-full bg-[#FAF7F2] border border-[#E6CA65]/60 rounded-xl px-4 py-2.5 text-xs text-[#4A3B2C] focus:outline-none focus:border-[#996515]" />
+        <button type="submit" class="btn-gradient-all bg-[#b8860b] text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition flex-shrink-0 cursor-pointer">Subscribe</button>
+      </form>
+    </div>
+
+    <!-- Policy Trigger Links -->
+    <div class="flex flex-wrap justify-center gap-4 text-xs font-semibold text-[#8B5E14]">
+      <button type="button" onclick="window.openPolicyModal('shipping')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Shipping & Tracking</button>
+      <span>•</span>
+      <button type="button" onclick="window.openPolicyModal('replacement')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Replacement & Sanctum Guarantee</button>
+      <span>•</span>
+      <button type="button" onclick="window.openPolicyModal('privacy')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Privacy & Care</button>
+    </div>
+
+    <div class="space-y-4">
+      <p class="font-['Cormorant_Garamond',serif] text-lg font-semibold text-[#7A5212]">SomaShiva™ — High Vibrational Artifacts & Sacred Tools</p>
+      <div class="flex flex-wrap justify-center gap-6 text-xs font-medium text-[#7A5212]">
+        <a href="/privacy" class="hover:text-[#D4AF37] transition">Privacy Policy</a>
+        <span>•</span>
+        <a href="/terms" class="hover:text-[#D4AF37] transition">Terms of Service</a>
+        <span>•</span>
+        <a href="/refund-policy" class="hover:text-[#D4AF37] transition">Refund & Shipping Policy</a>
+        <span>•</span>
+        <a href="/contact" class="hover:text-[#D4AF37] transition">Contact Us</a>
+      </div>
+      <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} SomaShiva™. All rights reserved. Ethically sourced & cleansed.</p>
+      <div class="text-[11px] text-[#8B5E14]/80 space-y-1 pt-1">
+        <p>SomaShiva | Electronic City, Bangalore, Karnataka - 560100, India</p>
+        <p>Email: somashivaofficial@gmail.com | Phone / WhatsApp: +91 9180603108</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Policy Modals Container (Dark Obsidian & Gold Theme) -->
+<div id="policy-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
+  <div class="bg-[#0c0a09] border border-[#d4af37]/60 rounded-3xl p-8 max-w-lg w-full space-y-6 shadow-2xl relative text-left text-[#f3e5ab]">
+    <div class="flex justify-between items-center border-b border-[#d4af37]/30 pb-4">
+      <h3 id="policy-modal-title" class="text-2xl font-bold font-['Cormorant_Garamond',serif] text-[#d4af37]">Policy</h3>
+      <button type="button" onclick="window.closePolicyModal()" class="text-[#d4af37] hover:text-white p-1 rounded-lg cursor-pointer">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+    <div id="policy-modal-body" class="text-sm font-light leading-relaxed text-[#ebd9b8] space-y-3">
+      <!-- Populated via JS -->
+    </div>
+    <div class="pt-4 border-t border-[#d4af37]/30 text-center">
+      <button type="button" onclick="window.closePolicyModal()" class="bg-[#d4af37] hover:bg-[#b8860b] text-[#0c0a09] font-semibold py-2.5 px-6 rounded-xl text-xs transition cursor-pointer">
+        Understood & Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const policies = {
+    shipping: {
+      title: "Shipping & Tracking",
+      text: "Every consecrated artifact is packed with multi-layered shock protection. Once dispatched, your official Airway Bill (AWB) number and direct courier tracking link will be transmitted directly to your WhatsApp number along with regular milestone updates."
+    },
+    replacement: {
+      title: "Replacement & Sanctum Guarantee",
+      text: "Because our artifacts and consecrated pieces are crafted with deep spiritual reverence, we do not accept returns for change of mind. We provide 100% replacement or resolution exclusively for transit damage or manufacturing defects. To establish proof and protect both parties, customers are required to record a single continuous, uncut unboxing video showing the shipping label and initial package seal opening. Claims must be submitted via WhatsApp to +91 9080603108 within 48 hours of delivery."
+    },
+    privacy: {
+      title: "Privacy & Care",
+      text: "Your contact and address coordinates are held strictly sacred. We use your data solely for shipping fulfillment, generating order manifests, and providing real-time dispatch updates via WhatsApp and email. We never sell, share, or market your information to third-party advertisers."
+    }
+  };
+
+  declare global {
+    interface Window {
+      openPolicyModal: (key: 'shipping' | 'replacement' | 'privacy') => void;
+      closePolicyModal: () => void;
+    }
+  }
+
+  window.openPolicyModal = (key) => {
+    const modal = document.getElementById('policy-modal');
+    const titleEl = document.getElementById('policy-modal-title');
+    const bodyEl = document.getElementById('policy-modal-body');
+    const policy = policies[key];
+    if (modal && titleEl && bodyEl && policy) {
+      titleEl.textContent = policy.title;
+      bodyEl.textContent = policy.text;
+      modal.classList.remove('hidden');
+    }
+  };
+
+  window.closePolicyModal = () => {
+    const modal = document.getElementById('policy-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  };
+</script>

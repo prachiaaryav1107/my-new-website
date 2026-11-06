@@ -37,6 +37,7 @@ export const POST: APIRoute = async ({ request }) => {
           <div style="text-align: center; border-bottom: 2px solid #E6CA65; padding-bottom: 15px; margin-bottom: 20px;">
             <h2 style="color: #7A5212; margin: 0 0 5px 0;">📦 WAREHOUSE DISPATCH MANIFEST 📦</h2>
             <p style="font-family: sans-serif; font-size: 13px; color: #996515; margin: 0;">Order Reference: <strong>${orderId}</strong> | Timestamp: ${timestamp}</p>
+            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">Payment: PENDING (Prepaid UPI / Bank Transfer)</div>
           </div>
 
           <!-- Section 1: Customer Contact Dossier -->
@@ -109,14 +110,20 @@ export const POST: APIRoute = async ({ request }) => {
           <div style="text-align: center; margin-bottom: 20px;">
             <h1 style="color: #7A5212; font-size: 26px; margin-bottom: 5px;">SomaShiva™ Sacred Offerings</h1>
             <p style="font-family: sans-serif; font-size: 14px; color: #996515; font-style: italic;">Har Har Mahadev! Thank you for welcoming sacred grace into your sanctuary.</p>
+            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">Payment Status: PENDING (Prepaid UPI / Bank Transfer)</div>
           </div>
 
           <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">Dear <strong>${customerName}</strong>,</p>
-          <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">Your order has been successfully placed and is currently being sanctified and prepared for express sacred dispatch. Here is your official order confirmation and tax invoice:</p>
+          <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">Your order has been successfully registered and is awaiting UPI verification prior to package consecration and express dispatch. Here is your official order confirmation and tax invoice:</p>
           
           <div style="background-color: #FAF7F2; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 14px;">
             <p style="margin: 5px 0;"><strong>Order Reference ID:</strong> <span style="color: #7A5212; font-weight: bold;">${orderId}</span></p>
             <p style="margin: 5px 0;"><strong>Shipping Address:</strong> ${address}, ${city} - ${pincode}</p>
+          </div>
+
+          <div style="background-color: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 13px; color: #78350f;">
+            <p style="margin: 0 0 5px 0; font-weight: bold;">📦 Next Steps:</p>
+            <p style="margin: 0;">Our sanctum team is preparing your package. Your Airway Bill (AWB) number and live tracking link will be dispatched to your WhatsApp (<strong>+91 ${customerPhone}</strong>) once UPI payment verification is completed.</p>
           </div>
 
           <h3 style="color: #7A5212; font-size: 16px;">Itemized Receipt:</h3>
@@ -140,8 +147,12 @@ export const POST: APIRoute = async ({ request }) => {
             </tfoot>
           </table>
 
+          <div style="margin-top: 25px; padding: 12px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; font-family: sans-serif; font-size: 12px; color: #991b1b;">
+            <p style="margin: 0;"><strong>Kindly note:</strong> To safeguard transit integrity, please record a continuous unboxing video when your package arrives to establish validity in the rare event of transit damage.</p>
+          </div>
+
           <div style="margin-top: 30px; text-align: center; font-family: sans-serif; font-size: 13px; color: #8B5E14; border-top: 1px solid #E6CA65; pt: 20px;">
-            <p>Need assistance or wish to track via WhatsApp? Contact us at <strong>+91 9180603108</strong>.</p>
+            <p>Need assistance or wish to confirm UPI payment? Contact us on WhatsApp at <strong>+91 9080603108</strong>.</p>
             <p style="color: #555; font-size: 11px; margin-top: 15px;">© SomaShiva™ Official. All rights reserved.</p>
           </div>
         </div>
