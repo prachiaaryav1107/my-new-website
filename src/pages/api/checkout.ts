@@ -30,6 +30,16 @@ export const POST: APIRoute = async ({ request }) => {
     const cleanPhone = String(customerPhone).replace(/\D/g, '').slice(-10);
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
+    const itemsSummary = cartItems.map((i: any) => `${i.name} (x${i.quantity})`).join(', ');
+    const courierBlock = `----------------------------------------
+SHIP TO:
+${customerName}
+Phone: +91 ${cleanPhone}
+Address: ${address}
+Destination: ${city} - ${pincode}
+Contents: ${itemsSummary}
+----------------------------------------`;
+
     // Format HTML table for items
     const itemsHtml = cartItems.map((item: any) => `
       <tr>
@@ -48,6 +58,12 @@ export const POST: APIRoute = async ({ request }) => {
             <h2 style="color: #d4af37; margin: 0 0 5px 0; font-family: serif;">📦 WAREHOUSE DISPATCH MANIFEST 📦</h2>
             <p style="font-family: sans-serif; font-size: 13px; color: #ebd9b8; margin: 0;">Order Reference: <strong>${orderId}</strong> | Timestamp: ${timestamp}</p>
             <div style="margin-top: 10px; display: inline-block; background-color: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">[PREPAID ACTION REQUIRED] Awaiting UPI Payment Verification</div>
+          </div>
+
+          <!-- Instant Courier Copy Block -->
+          <div style="background-color: #000000; border: 1px dashed #d4af37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+            <h4 style="color: #d4af37; font-size: 13px; margin: 0 0 8px 0; font-family: monospace; text-transform: uppercase;">Instant Courier Booking Block</h4>
+            <pre style="font-family: monospace; font-size: 12px; color: #f3e5ab; margin: 0; white-space: pre-wrap;">${courierBlock}</pre>
           </div>
 
           <!-- Section 1: Customer Contact Dossier -->

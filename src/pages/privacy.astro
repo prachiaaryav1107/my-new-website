@@ -2,75 +2,84 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Privacy Policy | Somashiva Sacred Store" description="Somashiva Sanctum privacy and data reverence principles.">
-  <div class="max-w-4xl mx-auto px-6 py-16 text-[#f3e5ab]">
-    <div class="bg-[#0c0a09] border border-[#d4af37]/60 rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8">
-      <div class="border-b border-[#d4af37]/40 pb-6">
-        <span class="text-xs font-semibold text-[#d4af37] uppercase tracking-widest">Somashiva Sanctum</span>
-        <h1 class="text-3xl sm:text-5xl font-bold font-['Cormorant_Garamond',serif] text-[#d4af37] mt-2 mb-2">Privacy & Data Reverence</h1>
-        <p class="text-xs text-[#ebd9b8]/80 font-light">Last Updated: November 2026</p>
+<Layout title="Privacy & Fulfillment Policies | SomaShiva™ Sacred Store" description="Transparent, sacred handling of your personal details, prepaid orders, and insured transit.">
+  <div class="max-w-4xl mx-auto px-6 py-16 text-[#4A3B2C]">
+    <!-- Breadcrumb / Back Link -->
+    <div class="mb-8">
+      <a href="/" class="inline-flex items-center text-sm font-medium text-[#7A5212] hover:text-[#D4AF37] transition">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        ← Back to Sacred Catalog
+      </a>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="text-center space-y-4 mb-12">
+      <span class="inline-block bg-white border border-[#E6CA65] text-[#996515] px-5 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-sm uppercase">
+        SANCTUM TRUST & POLICIES
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold font-['Cormorant_Garamond',serif] text-[#7A5212]">
+        Privacy & Fulfillment Policies
+      </h1>
+      <p class="text-sm sm:text-base text-[#8B5E14] font-light max-w-2xl mx-auto leading-relaxed">
+        Transparent, sacred handling of your personal details, prepaid orders, and insured transit.
+      </p>
+    </div>
+
+    <!-- Four Ivory Cards Grid -->
+    <div class="space-y-6">
+      <!-- Card 1: Customer Data & Privacy Policy -->
+      <div class="bg-white/80 backdrop-blur-sm border border-[#e5d5b5] rounded-2xl p-6 sm:p-8 shadow-sm space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-[#996515] font-bold">1</div>
+          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Customer Data & Privacy Policy</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-[#4A3B2C] font-light leading-relaxed">
+          We collect your Name, Delivery Address, Pincode, Email, and WhatsApp Number strictly to fulfill your order, generate courier manifests, and contact you regarding your shipment. We never sell, rent, or share customer data with third-party advertisers.
+        </p>
       </div>
 
-      <div class="space-y-6 text-sm sm:text-base font-light leading-relaxed text-[#ebd9b8]">
-        <div class="bg-black/40 border border-[#d4af37]/40 p-6 rounded-2xl">
-          <h2 class="font-['Cormorant_Garamond',serif] text-xl font-bold text-[#d4af37] mb-2">Core Principle</h2>
-          <p>
-            "At Somashiva, we treat your personal coordinates with sacred trust. We strictly do not sell, rent, monetize, or disclose customer data to third-party ad brokers or marketing syndicates."
-          </p>
+      <!-- Card 2: 100% Prepaid Order Policy -->
+      <div class="bg-white/80 backdrop-blur-sm border border-[#e5d5b5] rounded-2xl p-6 sm:p-8 shadow-sm space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-[#996515] font-bold">2</div>
+          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">100% Prepaid Order Policy</h2>
         </div>
-
-        <div class="space-y-4">
-          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#d4af37]">What Data We Collect & Why</h2>
-          
-          <div class="space-y-3">
-            <h3 class="font-semibold text-[#d4af37]">1. Shipping Address & Contact Details</h3>
-            <p class="text-xs sm:text-sm text-[#ebd9b8]/90">
-              Your name, delivery address, pincode, and phone number are collected solely for shipping manifests, Resend transactional receipts, AWB courier tracking via WhatsApp, and verifying unboxing videos for damage claims—never sold, rented, or shared with advertisers.
-            </p>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="font-semibold text-[#d4af37]">2. Email Communications</h3>
-            <p class="text-xs sm:text-sm text-[#ebd9b8]/90">
-              Used solely to dispatch itemized order receipts, purchase confirmations, and critical fulfillment notifications.
-            </p>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="font-semibold text-[#d4af37]">3. WhatsApp Communications</h3>
-            <p class="text-xs sm:text-sm text-[#ebd9b8]/90">
-              Used exclusively to transmit your Airway Bill (AWB) number, live transit tracking updates, and direct one-on-one customer support.
-            </p>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="font-semibold text-[#d4af37]">4. Verification Media</h3>
-            <p class="text-xs sm:text-sm text-[#ebd9b8]/90">
-              Unboxing videos and photographic records submitted for transit damage or manufacturing defects are reviewed privately and strictly to authorize replacements.
-            </p>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#d4af37]">Third-Party Service Providers</h2>
-          <p class="text-xs sm:text-sm text-[#ebd9b8]/90">
-            We share data only with essential infrastructure partners strictly required to operate the service: our transactional email engine (Resend) and verified national courier logistics partners for package delivery.
-          </p>
-        </div>
-
-        <div class="space-y-3">
-          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#d4af37]">Data Retention & Deletion</h2>
-          <p class="text-xs sm:text-sm text-[#ebd9b8]/90">
-            You may request complete removal or correction of your contact details from our records at any time by contacting somashivaofficial@gmail.com or messaging our WhatsApp concierge at +91 9180603108.
-          </p>
-        </div>
+        <p class="text-xs sm:text-sm text-[#4A3B2C] font-light leading-relaxed">
+          All orders on SomaShiva™ are strictly 100% Prepaid (via UPI or Bank Transfer). Cash on Delivery (COD) is not offered. Once your order is placed, payment is verified via WhatsApp prior to package consecration and dispatch.
+        </p>
       </div>
 
-      <div class="pt-6 border-t border-[#d4af37]/40 text-center">
-        <a href="/" class="inline-block bg-[#d4af37] hover:bg-[#b8860b] text-[#0c0a09] font-semibold py-3 px-8 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg">
-          Return to Sacred Store
-        </a>
+      <!-- Card 3: Airway Bill (AWB) & WhatsApp Tracking -->
+      <div class="bg-white/80 backdrop-blur-sm border border-[#e5d5b5] rounded-2xl p-6 sm:p-8 shadow-sm space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-[#996515] font-bold">3</div>
+          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Airway Bill (AWB) & WhatsApp Tracking</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-[#4A3B2C] font-light leading-relaxed">
+          As soon as your crystals or sound healing instruments are packed and dispatched, your official Airway Bill (AWB) number and live courier tracking link are shared directly on your WhatsApp along with transit updates.
+        </p>
       </div>
+
+      <!-- Card 4: Defects & Uncut Unboxing Video Replacement Policy -->
+      <div class="bg-white/80 backdrop-blur-sm border border-[#e5d5b5] rounded-2xl p-6 sm:p-8 shadow-sm space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-[#996515] font-bold">4</div>
+          <h2 class="font-['Cormorant_Garamond',serif] text-2xl font-bold text-[#7A5212]">Defects & Uncut Unboxing Video Replacement Policy</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-[#4A3B2C] font-light leading-relaxed">
+          Returns for change of mind are not accepted. We provide 100% replacement exclusively for manufacturing defects or shipping/transit damage. To establish where the issue occurred, we strongly recommend recording a single continuous, uncut unboxing video showing the shipping label and intact package seal before opening. Submit any defect claims with the video via our WhatsApp customer care portal (<a href="https://wa.me/919180603108" target="_blank" rel="noopener noreferrer" class="text-[#996515] font-semibold underline">+91 9180603108</a>) within 48 hours of delivery.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom CTAs -->
+    <div class="pt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="/" class="btn-gradient-all w-full sm:w-auto bg-[#996515] hover:bg-[#7A5212] text-white font-semibold py-4 px-8 rounded-2xl text-xs uppercase tracking-wider transition text-center shadow-md">
+        Explore Sacred Catalog
+      </a>
+      <a href="https://wa.me/919180603108?text=Namaste%20SomaShiva,%20I%20have%20an%20inquiry%20regarding%20sanctum%20policies." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-white hover:bg-amber-50 border border-[#E6CA65] text-[#7A5212] font-semibold py-4 px-8 rounded-2xl text-xs uppercase tracking-wider transition text-center shadow-sm">
+        Contact WhatsApp Support
+      </a>
     </div>
   </div>
 </Layout>
