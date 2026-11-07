@@ -13,11 +13,11 @@
 
     <!-- Policy Trigger Links -->
     <div class="flex flex-wrap justify-center gap-4 text-xs font-semibold text-[#8B5E14]">
-      <button type="button" onclick="window.openPolicyModal('shipping')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Shipping & Tracking</button>
+      <button type="button" onclick="window.openPolicyModal('shipping')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Shipping & AWB Tracking</button>
       <span>•</span>
-      <button type="button" onclick="window.openPolicyModal('replacement')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Replacement & Sanctum Guarantee</button>
+      <button type="button" onclick="window.openPolicyModal('replacement')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Replacement & Unboxing Policy</button>
       <span>•</span>
-      <button type="button" onclick="window.openPolicyModal('privacy')" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Privacy & Care</button>
+      <a href="/privacy" class="hover:text-[#D4AF37] transition cursor-pointer underline decoration-[#E6CA65]/65">Privacy Policy</a>
     </div>
 
     <div class="space-y-4">
@@ -33,8 +33,8 @@
       </div>
       <p class="text-xs text-[#8B5E14]">© {new Date().getFullYear()} SomaShiva™. All rights reserved. Ethically sourced & cleansed.</p>
       <div class="text-[11px] text-[#8B5E14]/80 space-y-1 pt-1">
-        <p>SomaShiva | Electronic City, Bangalore, Karnataka - 560100, India</p>
-        <p>Email: somashivaofficial@gmail.com | Phone / WhatsApp: +91 9180603108</p>
+        <p>Dispatched from: Bengaluru, Karnataka, India (Electronic City, Bangalore - 560100)</p>
+        <p>Support Email: somashivaofficial@gmail.com | WhatsApp Concierge: +91 9080603108</p>
       </div>
     </div>
   </div>
@@ -63,22 +63,18 @@
 <script>
   const policies = {
     shipping: {
-      title: "Shipping & Tracking",
-      text: "Every consecrated artifact is packed with multi-layered shock protection. Once dispatched, your official Airway Bill (AWB) number and direct courier tracking link will be transmitted directly to your WhatsApp number along with regular milestone updates."
+      title: "Shipping & AWB Tracking",
+      text: "Every consecrated artifact is packed with multi-layered shock protection. We operate strictly on 100% prepaid orders (Cash on Delivery is not supported) to ensure guaranteed insured transit and avoid transit abuse. Once dispatched, your official Airway Bill (AWB) number and live courier tracking link will be transmitted directly to your WhatsApp number along with regular milestone updates."
     },
     replacement: {
-      title: "Replacement & Sanctum Guarantee",
-      text: "Because our artifacts and consecrated pieces are crafted with deep spiritual reverence, we do not accept returns for change of mind. We provide 100% replacement or resolution exclusively for transit damage or manufacturing defects. To establish proof and protect both parties, customers are required to record a single continuous, uncut unboxing video showing the shipping label and initial package seal opening. Claims must be submitted via WhatsApp to +91 9080603108 within 48 hours of delivery."
-    },
-    privacy: {
-      title: "Privacy & Care",
-      text: "Your contact and address coordinates are held strictly sacred. We use your data solely for shipping fulfillment, generating order manifests, and providing real-time dispatch updates via WhatsApp and email. We never sell, share, or market your information to third-party advertisers."
+      title: "Replacement & Unboxing Policy",
+      text: "Because our artifacts and consecrated pieces are crafted with deep spiritual reverence, we do not accept returns for change of mind. We provide 100% replacement or resolution exclusively for transit damage or manufacturing defects. To establish proof and protect both parties, customers are required to record a single continuous, uncut unboxing video showing the shipping label and original package seal opening. Claims must be submitted via WhatsApp to +91 9080603108 within 48 hours of delivery."
     }
   };
 
   declare global {
     interface Window {
-      openPolicyModal: (key: 'shipping' | 'replacement' | 'privacy') => void;
+      openPolicyModal: (key: 'shipping' | 'replacement') => void;
       closePolicyModal: () => void;
     }
   }
@@ -101,4 +97,18 @@
       modal.classList.add('hidden');
     }
   };
+
+  // Close modal on backdrop click or Escape key
+  const modalEl = document.getElementById('policy-modal');
+  modalEl?.addEventListener('click', (e) => {
+    if (e.target === modalEl) {
+      window.closePolicyModal();
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closePolicyModal();
+    }
+  });
 </script>

@@ -14,55 +14,56 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const orderId = `SS-${Date.now().toString().slice(-6)}`;
+    const orderId = 'SS-' + Date.now().toString().slice(-6);
     const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
     const sender = 'Somashiva Sacred Store <orders@somashiva.com>';
-    const cleanPhone = customerPhone.replace(/\D/g, '');
+    const storeEmail = 'somashivaofficial@gmail.com';
+    const cleanPhone = String(customerPhone).replace(/\D/g, '').slice(-10);
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
     // Format HTML table for items
     const itemsHtml = cartItems.map((item: any) => `
       <tr>
-        <td style="padding: 10px; border-bottom: 1px solid #eee; font-family: sans-serif; font-size: 14px; color: #4A3B2C;">${item.name}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #eee; font-family: sans-serif; font-size: 14px; color: #4A3B2C; text-align: center;">${item.quantity}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #eee; font-family: sans-serif; font-size: 14px; color: #4A3B2C; text-align: right;">₹${item.price}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #eee; font-family: sans-serif; font-size: 14px; color: #7A5212; font-weight: bold; text-align: right;">₹${item.price * item.quantity}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #33291e; font-family: sans-serif; font-size: 14px; color: #ebd9b8;">${item.name}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #33291e; font-family: sans-serif; font-size: 14px; color: #ebd9b8; text-align: center;">${item.quantity}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #33291e; font-family: sans-serif; font-size: 14px; color: #ebd9b8; text-align: right;">₹${item.price}</td>
+        <td style="padding: 10px; border-bottom: 1px solid #33291e; font-family: sans-serif; font-size: 14px; color: #d4af37; font-weight: bold; text-align: right;">₹${item.price * item.quantity}</td>
       </tr>
     `).join('');
 
-    // Store Notification Email HTML (Exhaustive Customer Dossier & Dispatch Manifest)
+    // Admin Fulfillment Manifest
     const storeEmailHtml = `
-      <div style="font-family: serif; background-color: #FAF7F2; padding: 30px; color: #4A3B2C;">
-        <div style="max-width: 650px; margin: 0 auto; background: #ffffff; border: 1px solid #E6CA65; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-          <div style="text-align: center; border-bottom: 2px solid #E6CA65; padding-bottom: 15px; margin-bottom: 20px;">
-            <h2 style="color: #7A5212; margin: 0 0 5px 0;">📦 WAREHOUSE DISPATCH MANIFEST 📦</h2>
-            <p style="font-family: sans-serif; font-size: 13px; color: #996515; margin: 0;">Order Reference: <strong>${orderId}</strong> | Timestamp: ${timestamp}</p>
-            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">Payment: PENDING (Prepaid UPI / Bank Transfer)</div>
+      <div style="font-family: serif; background-color: #0c0a09; padding: 30px; color: #ebd9b8;">
+        <div style="max-width: 650px; margin: 0 auto; background: #1c1917; border: 1px solid #d4af37; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+          <div style="text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 15px; margin-bottom: 20px;">
+            <h2 style="color: #d4af37; margin: 0 0 5px 0; font-family: serif;">📦 WAREHOUSE DISPATCH MANIFEST 📦</h2>
+            <p style="font-family: sans-serif; font-size: 13px; color: #ebd9b8; margin: 0;">Order Reference: <strong>${orderId}</strong> | Timestamp: ${timestamp}</p>
+            <div style="margin-top: 10px; display: inline-block; background-color: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">[PREPAID ACTION REQUIRED] Awaiting UPI Payment Verification</div>
           </div>
 
           <!-- Section 1: Customer Contact Dossier -->
-          <div style="background-color: #FAF7F2; border-left: 4px solid #D4AF37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-            <h3 style="color: #7A5212; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">1. Customer Contact Dossier</h3>
-            <table style="width: 100%; font-family: sans-serif; font-size: 14px; line-height: 1.6;">
+          <div style="background-color: #0c0a09; border-left: 4px solid #d4af37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+            <h3 style="color: #d4af37; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">1. Customer Contact Dossier</h3>
+            <table style="width: 100%; font-family: sans-serif; font-size: 14px; line-height: 1.6; color: #ebd9b8;">
               <tr>
-                <td style="font-weight: bold; width: 130px; color: #8B5E14;">Full Name:</td>
+                <td style="font-weight: bold; width: 140px; color: #d4af37;">Full Name:</td>
                 <td>${customerName}</td>
               </tr>
               <tr>
-                <td style="font-weight: bold; color: #8B5E14;">Email Address:</td>
-                <td><a href="mailto:${customerEmail}" style="color: #996515; text-decoration: underline;">${customerEmail}</a></td>
+                <td style="font-weight: bold; color: #d4af37;">Email Address:</td>
+                <td><a href="mailto:${customerEmail}" style="color: #d4af37; text-decoration: underline;">${customerEmail}</a></td>
               </tr>
               <tr>
-                <td style="font-weight: bold; color: #8B5E14;">Phone / WhatsApp:</td>
-                <td><a href="https://wa.me/91${cleanPhone}?text=Hello%20${encodeURIComponent(customerName)},%20confirming%20your%20Somashiva%20order%20${orderId}" style="color: #25D366; font-weight: bold; text-decoration: none;">${customerPhone} 💬</a></td>
+                <td style="font-weight: bold; color: #d4af37;">Phone / WhatsApp:</td>
+                <td><a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Namaste ${customerName}, confirming your Somashiva order ${orderId} (₹${cartTotal}). Please find our official UPI details below to complete verification prior to consecration and dispatch.`)}" style="color: #25D366; font-weight: bold; text-decoration: none;">+91 ${cleanPhone} 💬</a></td>
               </tr>
             </table>
           </div>
 
-          <!-- Section 2: Complete Shipping Address -->
-          <div style="background-color: #FAF7F2; border-left: 4px solid #D4AF37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-            <h3 style="color: #7A5212; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">2. Complete Shipping Address</h3>
-            <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6; margin: 0; color: #4A3B2C;">
+          <!-- Section 2: Complete Shipping Destination -->
+          <div style="background-color: #0c0a09; border-left: 4px solid #d4af37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+            <h3 style="color: #d4af37; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">2. Complete Shipping Destination</h3>
+            <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6; margin: 0; color: #ebd9b8;">
               <strong>${customerName}</strong><br/>
               ${address}<br/>
               ${city} - ${pincode}<br/>
@@ -72,14 +73,14 @@ export const POST: APIRoute = async ({ request }) => {
 
           <!-- Section 3: Itemized Packing Table -->
           <div style="margin-bottom: 25px;">
-            <h3 style="color: #7A5212; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">3. Itemized Packing Manifest</h3>
+            <h3 style="color: #d4af37; font-size: 15px; margin: 0 0 10px 0; font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">3. Itemized Packing Manifest</h3>
             <table style="width: 100%; border-collapse: collapse;">
               <thead>
-                <tr style="background-color: #FAF7F2; border-bottom: 2px solid #E6CA65;">
-                  <th style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 12px; color: #7A5212;">Item Title</th>
-                  <th style="padding: 10px; text-align: center; font-family: sans-serif; font-size: 12px; color: #7A5212;">Qty</th>
-                  <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Unit Price</th>
-                  <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Subtotal</th>
+                <tr style="background-color: #0c0a09; border-bottom: 2px solid #d4af37;">
+                  <th style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 12px; color: #d4af37;">Item Title</th>
+                  <th style="padding: 10px; text-align: center; font-family: sans-serif; font-size: 12px; color: #d4af37;">Qty</th>
+                  <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #d4af37;">Unit Price</th>
+                  <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #d4af37;">Subtotal</th>
                 </tr>
               </thead>
               <tbody>
@@ -87,53 +88,53 @@ export const POST: APIRoute = async ({ request }) => {
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="3" style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 14px;">Grand Total:</td>
-                  <td style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 18px; color: #7A5212;">₹${cartTotal}</td>
+                  <td colspan="3" style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 14px; color: #ebd9b8;">Grand Total:</td>
+                  <td style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 18px; color: #d4af37;">₹${cartTotal}</td>
                 </tr>
               </tfoot>
             </table>
           </div>
 
           <!-- Section 4: Operational Action Buttons -->
-          <div style="text-align: center; border-top: 1px solid #E6CA65; padding-top: 20px;">
-            <a href="mailto:${customerEmail}?subject=Regarding%20Your%20SomaShiva%20Order%20${orderId}" style="display: inline-block; background-color: #996515; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-family: sans-serif; font-size: 13px; font-weight: bold; text-decoration: none; margin-right: 10px; margin-bottom: 10px;">Reply to Customer (Email)</a>
-            <a href="https://wa.me/91${cleanPhone}?text=Hello%20${encodeURIComponent(customerName)},%20confirming%20your%20Somashiva%20order%20${orderId}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-family: sans-serif; font-size: 13px; font-weight: bold; text-decoration: none; margin-bottom: 10px;">Open WhatsApp Chat</a>
+          <div style="text-align: center; border-top: 1px solid #33291e; padding-top: 20px;">
+            <a href="mailto:${customerEmail}?subject=Regarding%20Your%20SomaShiva%20Order%20${orderId}" style="display: inline-block; background-color: #d4af37; color: #0c0a09; padding: 12px 24px; border-radius: 8px; font-family: sans-serif; font-size: 13px; font-weight: bold; text-decoration: none; margin-right: 10px; margin-bottom: 10px;">Reply to Customer (Email)</a>
+            <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Namaste ${customerName}, confirming your Somashiva order ${orderId} (₹${cartTotal}). Please find our official UPI details below to complete verification prior to consecration and dispatch.`)}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-family: sans-serif; font-size: 13px; font-weight: bold; text-decoration: none; margin-bottom: 10px;">Open WhatsApp Chat</a>
           </div>
         </div>
       </div>
     `;
 
-    // Customer Confirmation Email HTML
+    // Customer Branded Receipt
     const customerEmailHtml = `
-      <div style="font-family: serif; background-color: #FAF7F2; padding: 30px; color: #4A3B2C;">
-        <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #E6CA65; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <h1 style="color: #7A5212; font-size: 26px; margin-bottom: 5px;">SomaShiva™ Sacred Offerings</h1>
-            <p style="font-family: sans-serif; font-size: 14px; color: #996515; font-style: italic;">Har Har Mahadev! Thank you for welcoming sacred grace into your sanctuary.</p>
-            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">Payment Status: PENDING (Prepaid UPI / Bank Transfer)</div>
+      <div style="font-family: serif; background-color: #0c0a09; padding: 30px; color: #ebd9b8;">
+        <div style="max-width: 600px; margin: 0 auto; background: #1c1917; border: 1px solid #d4af37; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+          <div style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid #33291e; padding-bottom: 15px;">
+            <h1 style="color: #d4af37; font-size: 26px; margin-bottom: 5px; font-family: serif;">SomaShiva™ Sacred Offerings</h1>
+            <p style="font-family: sans-serif; font-size: 14px; color: #ebd9b8; font-style: italic;">Har Har Mahadev, ${customerName}.</p>
+            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">Your consecrated order (${orderId}) is registered under our 100% Prepaid Sanctum Policy. Status: PENDING UPI VERIFICATION.</div>
           </div>
 
-          <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">Dear <strong>${customerName}</strong>,</p>
-          <p style="font-family: sans-serif; font-size: 14px; line-height: 1.6;">Your order has been successfully registered and is awaiting UPI verification prior to package consecration and express dispatch. Here is your official order confirmation and tax invoice:</p>
-          
-          <div style="background-color: #FAF7F2; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 14px;">
-            <p style="margin: 5px 0;"><strong>Order Reference ID:</strong> <span style="color: #7A5212; font-weight: bold;">${orderId}</span></p>
-            <p style="margin: 5px 0;"><strong>Shipping Address:</strong> ${address}, ${city} - ${pincode}</p>
+          <div style="background-color: #0c0a09; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 14px; border: 1px solid #33291e;">
+            <p style="margin: 5px 0; color: #ebd9b8;"><strong>Order Reference ID:</strong> <span style="color: #d4af37; font-weight: bold;">${orderId}</span></p>
+            <p style="margin: 5px 0; color: #ebd9b8;"><strong>Shipping Address:</strong> ${address}, ${city} - ${pincode}</p>
           </div>
 
-          <div style="background-color: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 13px; color: #78350f;">
-            <p style="margin: 0 0 5px 0; font-weight: bold;">📦 Next Steps:</p>
-            <p style="margin: 0;">Our sanctum team is preparing your package. Your Airway Bill (AWB) number and live tracking link will be dispatched to your WhatsApp (<strong>+91 ${customerPhone}</strong>) once UPI payment verification is completed.</p>
+          <div style="background-color: #2a241e; border: 1px solid #d4af37; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 13px; color: #ebd9b8;">
+            <p style="margin: 0 0 5px 0; font-weight: bold; color: #d4af37;">🔒 Prepaid Payment & Next Steps:</p>
+            <p style="margin: 0 0 12px 0;">Our concierge team will connect with you on WhatsApp (+91 ${cleanPhone}) with your official UPI QR/payment link, or you may initiate instant verification below. Once confirmed, your Airway Bill (AWB) number and live courier tracking link will be transmitted directly to your WhatsApp.</p>
+            <div style="text-align: center;">
+              <a href="https://wa.me/919080603108?text=${encodeURIComponent(`Namaste Somashiva, I have registered order ${orderId} (₹${cartTotal}). Please share the UPI payment details for verification.`)}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 12px;">Complete UPI Verification on WhatsApp</a>
+            </div>
           </div>
 
-          <h3 style="color: #7A5212; font-size: 16px;">Itemized Receipt:</h3>
+          <h3 style="color: #d4af37; font-size: 16px; font-family: serif;">Itemized Receipt:</h3>
           <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
             <thead>
-              <tr style="background-color: #FAF7F2; border-bottom: 2px solid #E6CA65;">
-                <th style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 12px; color: #7A5212;">Item</th>
-                <th style="padding: 10px; text-align: center; font-family: sans-serif; font-size: 12px; color: #7A5212;">Qty</th>
-                <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Price</th>
-                <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #7A5212;">Total</th>
+              <tr style="background-color: #0c0a09; border-bottom: 2px solid #d4af37;">
+                <th style="padding: 10px; text-align: left; font-family: sans-serif; font-size: 12px; color: #d4af37;">Item</th>
+                <th style="padding: 10px; text-align: center; font-family: sans-serif; font-size: 12px; color: #d4af37;">Qty</th>
+                <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #d4af37;">Price</th>
+                <th style="padding: 10px; text-align: right; font-family: sans-serif; font-size: 12px; color: #d4af37;">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -141,26 +142,26 @@ export const POST: APIRoute = async ({ request }) => {
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="3" style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 14px;">Grand Total:</td>
-                <td style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 16px; color: #7A5212;">₹${cartTotal}</td>
+                <td colspan="3" style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 14px; color: #ebd9b8;">Grand Total:</td>
+                <td style="padding: 15px; text-align: right; font-family: sans-serif; font-weight: bold; font-size: 16px; color: #d4af37;">₹${cartTotal}</td>
               </tr>
             </tfoot>
           </table>
 
-          <div style="margin-top: 25px; padding: 12px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; font-family: sans-serif; font-size: 12px; color: #991b1b;">
-            <p style="margin: 0;"><strong>Kindly note:</strong> To safeguard transit integrity, please record a continuous unboxing video when your package arrives to establish validity in the rare event of transit damage.</p>
+          <div style="margin-top: 25px; padding: 12px; background-color: #2a1e1e; border: 1px solid #7f1d1d; border-radius: 8px; font-family: sans-serif; font-size: 12px; color: #fca5a5;">
+            <p style="margin: 0;"><strong>Sanctum Guarantee:</strong> We provide 100% replacement exclusively for manufacturing defects or transit damage. Kindly record a continuous, uncut unboxing video showing the shipping label and original seal opening, and submit any claim via WhatsApp to +91 9080603108 within 48 hours of delivery.</p>
           </div>
 
-          <div style="margin-top: 30px; text-align: center; font-family: sans-serif; font-size: 13px; color: #8B5E14; border-top: 1px solid #E6CA65; pt: 20px;">
+          <div style="margin-top: 30px; text-align: center; font-family: sans-serif; font-size: 13px; color: #ebd9b8; border-top: 1px solid #33291e; padding-top: 20px;">
             <p>Need assistance or wish to confirm UPI payment? Contact us on WhatsApp at <strong>+91 9080603108</strong>.</p>
-            <p style="color: #555; font-size: 11px; margin-top: 15px;">© SomaShiva™ Official. All rights reserved.</p>
+            <p style="color: #888; font-size: 11px; margin-top: 15px;">© SomaShiva™ Official. All rights reserved.</p>
           </div>
         </div>
       </div>
     `;
 
     // If Resend API key is configured, send emails via Resend
-    if (resresendApiKeyCheck(resendApiKey)) {
+    if (resendApiKeyCheck(resendApiKey)) {
       // Send email to store
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -170,9 +171,9 @@ export const POST: APIRoute = async ({ request }) => {
         },
         body: JSON.stringify({
           from: sender,
-          to: ['somashivaofficial@gmail.com'],
+          to: [storeEmail],
           replyTo: customerEmail,
-          subject: `[ORDER MANIFEST] ${orderId} - ₹${cartTotal} from ${customerName}`,
+          subject: `[ORDER MANIFEST] ${orderId} - ₹${cartTotal} from ${customerName} [PREPAID PENDING]`,
           html: storeEmailHtml,
         }),
       });
@@ -187,7 +188,8 @@ export const POST: APIRoute = async ({ request }) => {
         body: JSON.stringify({
           from: sender,
           to: [customerEmail],
-          subject: `Order Confirmed: ${orderId} - Somashiva Sacred Offerings`,
+          replyTo: storeEmail,
+          subject: `Order Registered: ${orderId} | Somashiva Sacred Store`,
           html: customerEmailHtml,
         }),
       });
