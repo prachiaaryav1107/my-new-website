@@ -25,7 +25,6 @@ export const POST: APIRoute = async ({ request }) => {
 
     const resend = new Resend(apiKey);
     const orderId = 'SS-' + Date.now().toString().slice(-6);
-    const sender = 'Somashiva Sacred Store <orders@somashiva.com>';
     const storeEmail = 'somashivaofficial@gmail.com';
     const cleanPhone = String(customerPhone).replace(/\D/g, '').slice(-10);
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
@@ -40,7 +39,6 @@ Destination: ${city} - ${pincode}
 Contents: ${itemsSummary}
 ----------------------------------------`;
 
-    // Format HTML table for items
     const itemsHtml = cartItems.map((item: any) => `
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #33291e; font-family: sans-serif; font-size: 14px; color: #ebd9b8;">${item.name}</td>
@@ -62,7 +60,7 @@ Contents: ${itemsSummary}
 
           <!-- Instant Courier Copy Block -->
           <div style="background-color: #000000; border: 1px dashed #d4af37; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-            <h4 style="color: #d4af37; font-size: 13px; margin: 0 0 8px 0; font-family: monospace; text-transform: uppercase;">Instant Courier Booking Block</h4>
+            <h4 style="color: #d4af37; font-size: 13px; margin: 0 0 8px 0; font-family: monospace; text-transform: uppercase;">COURIER BOOKING BLOCK</h4>
             <pre style="font-family: monospace; font-size: 12px; color: #f3e5ab; margin: 0; white-space: pre-wrap;">${courierBlock}</pre>
           </div>
 
@@ -135,8 +133,8 @@ Contents: ${itemsSummary}
         <div style="max-width: 600px; margin: 0 auto; background: #1c1917; border: 1px solid #d4af37; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
           <div style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid #33291e; padding-bottom: 15px;">
             <h1 style="color: #d4af37; font-size: 26px; margin-bottom: 5px; font-family: serif;">SomaShiva™ Sacred Offerings</h1>
-            <p style="font-family: sans-serif; font-size: 14px; color: #ebd9b8; font-style: italic;">Har Har Mahadev, ${customerName}.</p>
-            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">Your consecrated order (${orderId}) is registered under our 100% Prepaid Sanctum Policy. Status: PENDING UPI VERIFICATION.</div>
+            <p style="font-family: sans-serif; font-size: 14px; color: #ebd9b8; font-style: italic;">Har Har Mahadev, ${customerName}</p>
+            <div style="margin-top: 10px; display: inline-block; background-color: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 9999px; font-family: sans-serif; font-size: 11px; font-weight: bold;">[PREPAID ACTION REQUIRED] Awaiting UPI Payment Verification</div>
           </div>
 
           <div style="background-color: #0c0a09; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 14px; border: 1px solid #33291e;">
@@ -145,10 +143,10 @@ Contents: ${itemsSummary}
           </div>
 
           <div style="background-color: #2a241e; border: 1px solid #d4af37; border-radius: 8px; padding: 15px; margin: 20px 0; font-family: sans-serif; font-size: 13px; color: #ebd9b8;">
-            <p style="margin: 0 0 5px 0; font-weight: bold; color: #d4af37;">🔒 Prepaid Payment & Next Steps:</p>
-            <p style="margin: 0 0 12px 0;">Our concierge team will connect with you on WhatsApp (+91 ${cleanPhone}) with your official UPI QR/payment link, or you may initiate instant verification below. Once confirmed, your Airway Bill (AWB) number and live courier tracking link will be transmitted directly to your WhatsApp.</p>
+            <p style="margin: 0 0 5px 0; font-weight: bold; color: #d4af37;">🔒 100% Prepaid UPI Verification Instructions:</p>
+            <p style="margin: 0 0 12px 0;">Our concierge team will connect with you on WhatsApp (+91 ${cleanPhone}) with your official UPI payment verification details. Once verified, your live WhatsApp AWB tracking notice will be dispatched immediately.</p>
             <div style="text-align: center;">
-              <a href="https://wa.me/919180603108?text=${encodeURIComponent(`Namaste Somashiva, I have registered order ${orderId} (₹${cartTotal}). Please share the UPI payment details for verification.`)}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 12px;">Complete UPI Verification on WhatsApp</a>
+              <a href="https://wa.me/919180603108?text=${encodeURIComponent(`Namaste Somashiva, I have registered order ${orderId} (₹${cartTotal}). Please share the UPI payment details for verification.`)}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 12px;">Complete UPI Verification on WhatsApp (+91 9080603108)</a>
             </div>
           </div>
 
@@ -174,7 +172,7 @@ Contents: ${itemsSummary}
           </table>
 
           <div style="margin-top: 25px; padding: 12px; background-color: #2a1e1e; border: 1px solid #7f1d1d; border-radius: 8px; font-family: sans-serif; font-size: 12px; color: #fca5a5;">
-            <p style="margin: 0;"><strong>Sanctum Guarantee:</strong> We provide 100% replacement exclusively for manufacturing defects or transit damage. Kindly record a continuous, uncut unboxing video showing the shipping label and original seal opening, and submit any claim via WhatsApp to +91 9180603108 within 48 hours of delivery.</p>
+            <p style="margin: 0;"><strong>Sanctum Replacement Policy:</strong> No returns for change of mind. 100% replacement strictly for manufacturing defects or shipping damage verified via a continuous, uncut unboxing video sent to WhatsApp +91 9080603108 within 48 hours of delivery.</p>
           </div>
 
           <div style="margin-top: 30px; text-align: center; font-family: sans-serif; font-size: 13px; color: #ebd9b8; border-top: 1px solid #33291e; padding-top: 20px;">
@@ -185,9 +183,29 @@ Contents: ${itemsSummary}
       </div>
     `;
 
+    const sendEmailWithFallback = async (emailParams: any) => {
+      const senders = [
+        'SomaShiva Sacred Store <orders@somashiva.com>',
+        'orders@somshiva.com',
+        'onboarding@resend.dev'
+      ];
+      let lastError = null;
+      for (const sender of senders) {
+        try {
+          const res = await resend.emails.send({ ...emailParams, from: sender });
+          if (!res.error) {
+            return res;
+          }
+          lastError = res.error;
+        } catch (err: any) {
+          lastError = { message: err.message };
+        }
+      }
+      return { data: null, error: lastError || { message: 'Failed to send email with all senders' } };
+    };
+
     // Send Admin Manifest via Resend
-    const storeRes = await resend.emails.send({
-      from: sender,
+    const storeRes = await sendEmailWithFallback({
       to: [storeEmail],
       replyTo: customerEmail,
       subject: `[ORDER MANIFEST] ${orderId} - ₹${cartTotal} from ${customerName} [PREPAID PENDING]`,
@@ -202,11 +220,10 @@ Contents: ${itemsSummary}
     }
 
     // Send Customer Receipt via Resend
-    const customerRes = await resend.emails.send({
-      from: sender,
+    const customerRes = await sendEmailWithFallback({
       to: [customerEmail],
       replyTo: storeEmail,
-      subject: `Order Registered: ${orderId} | Somashiva Sacred Store`,
+      subject: `Order Registered: ${orderId} | SomaShiva™ Sacred Store`,
       html: customerEmailHtml,
     });
 

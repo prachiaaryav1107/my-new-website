@@ -58,14 +58,17 @@ try {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- PWA & TWA Manifest & Theme -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#faf6ef" />
+
     <!-- Open Graph / Social Sharing -->
-    <meta property="og:site_name" content="Somashiva" />
-    <meta property="og:title" content="Somashiva | Ethically Sourced Crystals & Sound Healing" />
+    <meta property="og:site_name" content="SomaShiva" />
+    <meta property="og:title" content="SomaShiva™ | Ethically Sourced Crystals & Sound Healing" />
     <meta property="og:description" content="Authentic, hand-crafted sacred brass idols, consecrated Rudraksha, and spiritual sanctum pieces." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={image} />
-    <meta name="theme-color" content="#fbf8f3" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -87,9 +90,16 @@ try {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        overscroll-behavior-y: contain;
+        -webkit-tap-highlight-color: transparent;
       }
       *, *::before, *::after {
         box-sizing: border-box;
+      }
+
+      button, a, [role="button"], span {
+        -webkit-user-select: none;
+        user-select: none;
       }
 
       @keyframes universalGradientFlow {
@@ -329,6 +339,13 @@ try {
     <Analytics />
 
     <script>
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+
       const menuBtn = document.getElementById('menu-btn');
       const mobileMenu = document.getElementById('mobile-menu');
 

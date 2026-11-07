@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "SomaShiva Sacred Store",
+  "short_name": "SomaShiva",
+  "description": "Ethically Sourced Natural Crystals, Sacred Idols & Sound Healing",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6ef",
+  "theme_color": "#faf6ef",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
