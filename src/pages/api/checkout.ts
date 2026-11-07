@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { Resend } from 'resend';
 
 export const prerender = false;
 
@@ -14,8 +15,16 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    const apiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return new Response(JSON.stringify({ success: false, error: 'RESEND_API_KEY is missing in Vercel Environment Variables' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const resend = new Resend(apiKey);
     const orderId = 'SS-' + Date.now().toString().slice(-6);
-    const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
     const sender = 'Somashiva Sacred Store <orders@somashiva.com>';
     const storeEmail = 'somashivaofficial@gmail.com';
     const cleanPhone = String(customerPhone).replace(/\D/g, '').slice(-10);
@@ -123,7 +132,7 @@ export const POST: APIRoute = async ({ request }) => {
             <p style="margin: 0 0 5px 0; font-weight: bold; color: #d4af37;">🔒 Prepaid Payment & Next Steps:</p>
             <p style="margin: 0 0 12px 0;">Our concierge team will connect with you on WhatsApp (+91 ${cleanPhone}) with your official UPI QR/payment link, or you may initiate instant verification below. Once confirmed, your Airway Bill (AWB) number and live courier tracking link will be transmitted directly to your WhatsApp.</p>
             <div style="text-align: center;">
-              <a href="https://wa.me/919080603108?text=${encodeURIComponent(`Namaste Somashiva, I have registered order ${orderId} (₹${cartTotal}). Please share the UPI payment details for verification.`)}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 12px;">Complete UPI Verification on WhatsApp</a>
+              <a href="https://wa.me/919180603108?text=${encodeURIComponent(`Namaste Somashiva, I have registered order ${orderId} (₹${cartTotal}). Please share the UPI payment details for verification.`)}" style="display: inline-block; background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; font-size: 12px;">Complete UPI Verification on WhatsApp</a>
             </div>
           </div>
 
@@ -149,49 +158,53 @@ export const POST: APIRoute = async ({ request }) => {
           </table>
 
           <div style="margin-top: 25px; padding: 12px; background-color: #2a1e1e; border: 1px solid #7f1d1d; border-radius: 8px; font-family: sans-serif; font-size: 12px; color: #fca5a5;">
-            <p style="margin: 0;"><strong>Sanctum Guarantee:</strong> We provide 100% replacement exclusively for manufacturing defects or transit damage. Kindly record a continuous, uncut unboxing video showing the shipping label and original seal opening, and submit any claim via WhatsApp to +91 9080603108 within 48 hours of delivery.</p>
+            <p style="margin: 0;"><strong>Sanctum Guarantee:</strong> We provide 100% replacement exclusively for manufacturing defects or transit damage. Kindly record a continuous, uncut unboxing video showing the shipping label and original seal opening, and submit any claim via WhatsApp to +91 9180603108 within 48 hours of delivery.</p>
           </div>
 
           <div style="margin-top: 30px; text-align: center; font-family: sans-serif; font-size: 13px; color: #ebd9b8; border-top: 1px solid #33291e; padding-top: 20px;">
-            <p>Need assistance or wish to confirm UPI payment? Contact us on WhatsApp at <strong>+91 9080603108</strong>.</p>
+            <p>Need assistance or wish to confirm UPI payment? Contact us on WhatsApp at <strong>+91 9180603108</strong>.</p>
             <p style="color: #888; font-size: 11px; margin-top: 15px;">© SomaShiva™ Official. All rights reserved.</p>
           </div>
         </div>
       </div>
     `;
 
-    // If Resend API key is configured, send emails via Resend
-    if (resendApiKeyCheck(resendApiKey)) {
-      // Send email to store
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: sender,
-          to: [storeEmail],
-          replyTo: customerEmail,
-          subject: `[ORDER MANIFEST] ${orderId} - ₹${cartTotal} from ${customerName} [PREPAID PENDING]`,
-          html: storeEmailHtml,
-        }),
-      });
+    // Send Admin Manifest via Resend
+    const storeRes = await resend.emails.send({
+      from: sender,
+      to: [storeEmail],
+      replyTo: customerEmail,
+      subject: `[ORDER MANIFEST] ${orderId} - ₹${cartTotal} from ${customerName} [PREPAID PENDING]`,
+      html: storeEmailHtml,
+    });
 
-      // Send email to customer
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: sender,
-          to: [customerEmail],
-          replyTo: storeEmail,
-          subject: `Order Registered: ${orderId} | Somashiva Sacred Store`,
-          html: customerEmailHtml,
-        }),
+    if (storeRes.error) {
+      return new Response(JSON.stringify({ success: false, error: storeRes.error.message }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Send Customer Receipt via Resend
+    const customerRes = await resend.emails.send({
+      from: sender,
+      to: [customerEmail],
+      replyTo: storeEmail,
+      subject: `Order Registered: ${orderId} | Somashiva Sacred Store`,
+      html: customerEmailHtml,
+    });
+
+    if (customerRes.error) {
+      return new Response(JSON.stringify({ success: false, error: customerRes.error.message }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (!storeRes.data?.id || !customerRes.data?.id) {
+      return new Response(JSON.stringify({ success: false, error: 'Failed to confirm email dispatch with Resend' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
       });
     }
 
@@ -206,7 +219,3 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 };
-
-function resresendApiKeyCheck(key: string | undefined): boolean {
-  return typeof key === 'string' && key.length > 5;
-}

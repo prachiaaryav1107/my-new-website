@@ -42,7 +42,7 @@
     </button>
     <div class="flex flex-col space-y-1.5 text-center">
       <p class="text-[11px] text-[#8B5E14]/80">⚡ Airway Bill & live tracking updates dispatched directly via WhatsApp.</p>
-      <a href="https://wa.me/919080603108?text=Namaste%20Somashiva,%20I%20have%20an%20inquiry%20regarding%20the%20sacred%20artifacts%20in%20my%20cart." target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#996515] hover:text-[#7A5212] underline decoration-[#E6CA65] font-medium transition">
+      <a href="https://wa.me/919180603108?text=Namaste%20Somashiva,%20I%20have%20an%20inquiry%20regarding%20the%20sacred%20artifacts%20in%20my%20cart." target="_blank" rel="noopener noreferrer" class="text-[11px] text-[#996515] hover:text-[#7A5212] underline decoration-[#E6CA65] font-medium transition">
         Need guidance? Inquire about this cart on WhatsApp
       </a>
     </div>
@@ -400,14 +400,24 @@
         })
       });
 
-      const data = await res.json();
-      const orderId = data.orderId || `SS-${Math.floor(100000 + Math.random() * 900000)}`;
+      const data = await res.json().catch(() => ({ success: false, error: `HTTP ${res.status} - API route did not execute` }));
+
+      if (!res.ok || !data.success) {
+        alert('Checkout Error: ' + (data.error || `Status ${res.status}`));
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Register Order & Proceed to UPI Verification →</span>';
+        }
+        return;
+      }
+
+      const orderId = data.orderId;
 
       // WhatsApp tracking link
       const waMsg = encodeURIComponent(
         `Namaste Somashiva, I just registered order ${orderId} (₹${subtotal}). Please share UPI verification details.`
       );
-      const waLink = `https://wa.me/919080603108?text=${waMsg}`;
+      const waLink = `https://wa.me/919180603108?text=${waMsg}`;
       const successWaBtn = document.getElementById('success-whatsapp-link') as HTMLAnchorElement;
       if (successWaBtn) successWaBtn.href = waLink;
 
@@ -422,10 +432,14 @@
       // Clear cart
       localStorage.removeItem('somashiva_cart');
       updateCartUI();
-    } catch (err) {
-      alert('Order submission failed. Please try again or contact support.');
-    } finally {
+    } catch (err: any) {
+      alert('Order submission failed: ' + (err.message || 'Network error'));
       if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Register Order & Proceed to UPI Verification →</span>';
+      }
+    } finally {
+      if (submitBtn && !orderSuccessScreen?.classList.contains('hidden')) {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<span>Register Order & Proceed to UPI Verification →</span>';
       }
