@@ -1,1 +1,13 @@
 []
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.somashiva.store",
+      "sha256_cert_fingerprints": [
+        "A7:A1:16:FF:7C:03:D0:8F:DC:C6:21:42:8D:DD:97:80:92:AE:C9:04:25:2D:F8:29:60:53:21:91:C7:C1:7E:97"
+      ]
+    }
+  }
+]
