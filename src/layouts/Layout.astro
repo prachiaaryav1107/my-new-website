@@ -53,7 +53,7 @@ try {
 <html lang="en" class="max-w-[100vw] overflow-x-hidden m-0 p-0 box-border">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -85,8 +85,10 @@ try {
 
     <style is:global>
       html, body {
-        max-width: 100vw;
+        touch-action: pan-y !important;
+        -webkit-overflow-scrolling: touch;
         overflow-x: hidden;
+        max-width: 100vw;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -138,30 +140,9 @@ try {
         border-color: rgba(243, 229, 171, 0.75) !important;
         border-radius: 0.5rem;
       }
-
-      .tilt-card {
-        perspective: 1000px;
-        transform-style: preserve-3d;
-        transition: transform 0.15s ease-out, box-shadow 0.25s ease, border-color 0.25s ease;
-      }
-      .card-spotlight {
-        pointer-events: none;
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.18), transparent 80%);
-        z-index: 10;
-      }
     </style>
   </head>
   <body class="bg-[#FAF7F2] text-[#4A3B2C] antialiased font-['Outfit',sans-serif] min-h-screen flex flex-col selection:bg-[#E6CA65]/30 selection:text-amber-950">
-    <!-- Prana Cursor Trail Canvas -->
-    <canvas id="prana-trail-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[5]"></canvas>
-
-    <!-- Google Antigravity App Canvas Background -->
-    <canvas id="antigravity-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
-
     <!-- Fixed Bottom-Left WhatsApp Button (Direct Child of Body) -->
     <a
       id="floating-whatsapp-btn"
@@ -178,7 +159,7 @@ try {
     <!-- Main Content Wrapper with relative z-10 and max-w-full overflow-x-hidden -->
     <div class="relative z-10 flex flex-col min-h-screen w-full max-w-full overflow-x-hidden">
       <!-- Client-Side Security Warning Gate Overlay -->
-      <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-full h-full max-w-full overflow-hidden px-6 bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans hidden py-6">
+      <div id="security-warning-overlay" class="fixed inset-0 z-[9999] w-full h-full max-w-full overflow-hidden px-6 bg-[#202124] text-[#e8eaed] flex flex-col items-center justify-center font-sans hidden py-6 pointer-events-none">
         <div class="max-w-xl w-full space-y-6">
           <!-- Warning Icon -->
           <div class="flex items-center space-x-3">
@@ -220,7 +201,7 @@ try {
         <!-- Passcode Modal Overlay -->
         <div
           id="passcode-modal"
-          class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4"
+          class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[10001] hidden flex items-center justify-center p-4 pointer-events-auto"
         >
           <div class="bg-[#292a2d] border border-stone-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl text-left">
             <h3 class="text-lg font-medium text-white">Enter Access Key</h3>
@@ -378,7 +359,7 @@ try {
         }
       }
 
-      // 1. Clerk Sign-In Direct Handler
+      // Clerk Sign-In Direct Handler
       const signInBtn = document.getElementById('clerk-sign-in-btn');
       if (signInBtn) {
         signInBtn.addEventListener('click', () => {
@@ -409,10 +390,12 @@ try {
       function checkAccess() {
         if (!document.cookie.includes('somashiva_access=granted')) {
           overlay?.classList.remove('hidden');
+          overlay?.classList.remove('pointer-events-none');
           whatsappBtn?.classList.add('hidden', 'opacity-0', 'pointer-events-none');
           whatsappBtn?.classList.remove('opacity-100', 'pointer-events-auto');
         } else {
           overlay?.classList.add('hidden');
+          overlay?.classList.add('pointer-events-none');
           whatsappBtn?.classList.remove('hidden');
           setTimeout(() => {
             whatsappBtn?.classList.remove('opacity-0', 'pointer-events-none');
@@ -442,6 +425,7 @@ try {
           document.cookie = 'somashiva_access=granted; path=/; max-age=2592000; SameSite=Lax';
           modal?.classList.add('hidden');
           overlay?.classList.add('hidden');
+          overlay?.classList.add('pointer-events-none');
           whatsappBtn?.classList.remove('hidden');
           setTimeout(() => {
             whatsappBtn?.classList.remove('opacity-0', 'pointer-events-none');
@@ -457,415 +441,6 @@ try {
           }
         }
       });
-
-      // 2. Google Antigravity Sacred Motifs Canvas & Full-Screen Prana Cursor Trail
-      const canvas = document.getElementById('antigravity-canvas') as HTMLCanvasElement | null;
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        const colors = ['#d4af37', '#c5a059', '#ebd9b8', '#b8860b', '#e6c670', '#f3e5ab'];
-        const motifTypes = ['trishul', 'damru', 'om', 'crescent', 'bilva'];
-        let shapes: any[] = [];
-        let trailMotes: any[] = [];
-        let isMobile = window.innerWidth < 768;
-        let pointer = { x: -9999, y: -9999 };
-
-        const initCanvas = () => {
-          const dpr = window.devicePixelRatio || 1;
-          const w = document.documentElement.clientWidth;
-          const h = window.innerHeight;
-          canvas.width = w * dpr;
-          canvas.height = h * dpr;
-          if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-          isMobile = w < 768;
-          const count = isMobile ? 38 : 85;
-          const minSize = isMobile ? 12 : 18;
-          const maxSize = isMobile ? 26 : 42;
-
-          shapes = Array.from({ length: count }, () => {
-            const depth = 0.4 + Math.random() * 0.8;
-            return {
-              x: Math.random() * w,
-              y: Math.random() * h,
-              vx: (Math.random() - 0.5) * 0.3 * depth,
-              vy: (-0.1 - Math.random() * 0.3) * depth,
-              size: (minSize + Math.random() * (maxSize - minSize)) * depth,
-              depth,
-              angle: Math.random() * Math.PI * 2,
-              vAngle: (Math.random() - 0.5) * 0.008,
-              type: motifTypes[Math.floor(Math.random() * motifTypes.length)],
-              color: colors[Math.floor(Math.random() * colors.length)],
-              alpha: 0.2 + Math.random() * 0.3,
-            };
-          });
-        };
-
-        const drawTrishul = (ctx: CanvasRenderingContext2D, r: number) => {
-          ctx.save();
-          ctx.lineJoin = 'round';
-          ctx.lineCap = 'round';
-          ctx.beginPath();
-          ctx.moveTo(0, -r * 0.2);
-          ctx.lineTo(0, r * 1.4);
-          ctx.moveTo(0, -r * 1.6);
-          ctx.lineTo(-r * 0.22, -r * 0.8);
-          ctx.lineTo(r * 0.22, -r * 0.8);
-          ctx.closePath();
-          ctx.fill();
-          ctx.moveTo(0, -r * 0.5);
-          ctx.bezierCurveTo(-r * 0.8, -r * 0.5, -r * 0.9, -r * 1.1, -r * 0.65, -r * 1.3);
-          ctx.moveTo(0, -r * 0.5);
-          ctx.bezierCurveTo(r * 0.8, -r * 0.5, r * 0.9, -r * 1.1, r * 0.65, -r * 1.3);
-          ctx.moveTo(-r * 0.55, -r * 0.5);
-          ctx.lineTo(r * 0.55, -r * 0.5);
-          ctx.stroke();
-          ctx.restore();
-        };
-
-        const drawDamru = (ctx: CanvasRenderingContext2D, r: number) => {
-          ctx.save();
-          ctx.lineJoin = 'round';
-          ctx.lineCap = 'round';
-          ctx.beginPath();
-          ctx.moveTo(-r * 0.7, -r);
-          ctx.lineTo(r * 0.7, -r);
-          ctx.lineTo(0, 0);
-          ctx.closePath();
-          ctx.moveTo(-r * 0.7, r);
-          ctx.lineTo(r * 0.7, r);
-          ctx.lineTo(0, 0);
-          ctx.closePath();
-          ctx.fill();
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.ellipse(0, -r, r * 0.7, r * 0.18, 0, 0, Math.PI * 2);
-          ctx.ellipse(0, r, r * 0.7, r * 0.18, 0, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.arc(0, 0, r * 0.15, 0, Math.PI * 2);
-          ctx.fillStyle = '#f3e5ab';
-          ctx.fill();
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.moveTo(0, r * 0.1);
-          ctx.quadraticCurveTo(-r * 0.6, r * 0.8, -r * 0.4, r * 1.2);
-          ctx.moveTo(0, r * 0.1);
-          ctx.quadraticCurveTo(r * 0.6, r * 0.8, r * 0.4, r * 1.2);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.arc(-r * 0.4, r * 1.2, r * 0.12, 0, Math.PI * 2);
-          ctx.arc(r * 0.4, r * 1.2, r * 0.12, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-          ctx.restore();
-        };
-
-        const drawOm = (ctx: CanvasRenderingContext2D, r: number) => {
-          ctx.font = `${Math.round(r * 1.6)}px 'Cormorant Garamond', 'Tiro Devanagari Hindi', serif`;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('ॐ', 0, 0);
-        };
-
-        const drawCrescent = (ctx: CanvasRenderingContext2D, r: number) => {
-          ctx.beginPath();
-          ctx.arc(0, 0, r, -Math.PI * 0.7, Math.PI * 0.7, false);
-          ctx.arc(r * 0.35, 0, r * 0.75, Math.PI * 0.7, -Math.PI * 0.7, true);
-          ctx.closePath();
-          ctx.fill();
-        };
-
-        const drawBilva = (ctx: CanvasRenderingContext2D, r: number) => {
-          ctx.save();
-          ctx.translate(0, -r * 0.4);
-          ctx.beginPath();
-          ctx.ellipse(0, 0, r * 0.38, r * 0.55, 0, 0, Math.PI * 2);
-          ctx.fill(); ctx.stroke();
-          ctx.restore();
-          ctx.save();
-          ctx.translate(-r * 0.38, r * 0.15);
-          ctx.rotate(-Math.PI / 3);
-          ctx.beginPath();
-          ctx.ellipse(0, 0, r * 0.32, r * 0.5, 0, 0, Math.PI * 2);
-          ctx.fill(); ctx.stroke();
-          ctx.restore();
-          ctx.save();
-          ctx.translate(r * 0.38, r * 0.15);
-          ctx.rotate(Math.PI / 3);
-          ctx.beginPath();
-          ctx.ellipse(0, 0, r * 0.32, r * 0.5, 0, 0, Math.PI * 2);
-          ctx.fill(); ctx.stroke();
-          ctx.restore();
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(0, r * 0.85);
-          ctx.stroke();
-        };
-
-        const animate = () => {
-          if (!ctx) return;
-          const w = document.documentElement.clientWidth;
-          const h = window.innerHeight;
-          ctx.clearRect(0, 0, w, h);
-          const repelRadius = isMobile ? 85 : 150;
-
-          for (const s of shapes) {
-            const dx = s.x - pointer.x;
-            const dy = s.y - pointer.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < repelRadius && dist > 0) {
-              const force = (1 - dist / repelRadius) * 0.85 * s.depth;
-              s.vx += (dx / dist) * force;
-              s.vy += (dy / dist) * force;
-            }
-
-            s.vx *= 0.95;
-            s.vy = s.vy * 0.95 - 0.012 * s.depth;
-            s.x += s.vx;
-            s.y += s.vy;
-            s.angle += s.vAngle;
-
-            if (s.y < -50) s.y = h + 50;
-            if (s.y > h + 50) s.y = -50;
-            if (s.x < -50) s.x = w + 50;
-            if (s.x > w + 50) s.x = -50;
-
-            ctx.save();
-            ctx.translate(s.x, s.y);
-            ctx.rotate(s.angle);
-            ctx.globalAlpha = s.alpha;
-            ctx.fillStyle = s.color;
-            ctx.strokeStyle = s.color;
-            ctx.lineWidth = isMobile ? 1.2 : 1.8;
-            ctx.shadowColor = s.color;
-            ctx.shadowBlur = isMobile ? 5 : 10;
-
-            const r = s.size / 2;
-            if (s.type === 'trishul') {
-              drawTrishul(ctx, r);
-            } else if (s.type === 'damru') {
-              drawDamru(ctx, r);
-            } else if (s.type === 'om') {
-              drawOm(ctx, r);
-            } else if (s.type === 'crescent') {
-              drawCrescent(ctx, r);
-            } else if (s.type === 'bilva') {
-              drawBilva(ctx, r);
-            }
-            ctx.restore();
-          }
-
-          for (let i = trailMotes.length - 1; i >= 0; i--) {
-            const m = trailMotes[i];
-            m.x += m.vx;
-            m.y += m.vy;
-            m.life -= m.decay;
-            m.alpha = Math.max(0, m.life * 0.6);
-
-            if (m.life <= 0) {
-              trailMotes.splice(i, 1);
-              continue;
-            }
-
-            ctx.save();
-            ctx.globalAlpha = m.alpha;
-            ctx.fillStyle = m.color;
-            ctx.shadowColor = m.color;
-            ctx.shadowBlur = 10;
-            ctx.beginPath();
-            ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-          }
-          requestAnimationFrame(animate);
-        };
-
-        window.addEventListener('mousemove', (e) => {
-          pointer.x = e.clientX;
-          pointer.y = e.clientY;
-
-          if (window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 768) {
-            const moteColors = ['#d4af37', '#f3e5ab', '#ffffff'];
-            const count = 2 + Math.floor(Math.random() * 2);
-            for (let i = 0; i < count; i++) {
-              if (trailMotes.length >= 35) {
-                trailMotes.shift();
-              }
-              trailMotes.push({
-                x: e.clientX + (Math.random() - 0.5) * 12,
-                y: e.clientY + (Math.random() - 0.5) * 12,
-                vx: (Math.random() - 0.5) * 0.6 - 0.3,
-                vy: (Math.random() - 0.5) * 0.6 - 0.3,
-                size: 1.5 + Math.random() * 2.5,
-                color: moteColors[Math.floor(Math.random() * moteColors.length)],
-                alpha: 0.6,
-                life: 1.0,
-                decay: 1.0 / (22 + Math.random() * 6),
-              });
-            }
-          }
-        }, { passive: true });
-
-        window.addEventListener('touchmove', (e) => {
-          if (e.touches[0]) { pointer.x = e.touches[0].clientX; pointer.y = e.touches[0].clientY; }
-        }, { passive: true });
-        window.addEventListener('touchend', () => { pointer.x = -9999; pointer.y = -9999; });
-        window.addEventListener('resize', initCanvas);
-
-        initCanvas();
-        animate();
-      }
-
-      document.querySelectorAll('.tilt-card').forEach(card => {
-        const el = card as HTMLElement;
-        const spotlight = el.querySelector('.card-spotlight') as HTMLElement;
-
-        el.addEventListener('mousemove', (e) => {
-          if (window.innerWidth < 768) return;
-          const rect = el.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const rotateX = ((y - centerY) / centerY) * -7;
-          const rotateY = ((x - centerX) / centerX) * 7;
-
-          el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-          el.style.boxShadow = '0 20px 30px -10px rgba(153, 101, 21, 0.2)';
-          if (spotlight) {
-            spotlight.style.opacity = '1';
-            spotlight.style.setProperty('--mouse-x', `${x}px`);
-            spotlight.style.setProperty('--mouse-y', `${y}px`);
-          }
-        });
-
-        el.addEventListener('mouseleave', () => {
-          el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-          el.style.boxShadow = '';
-          if (spotlight) {
-            spotlight.style.opacity = '0';
-          }
-        });
-
-        el.addEventListener('touchstart', () => {
-          el.style.transform = 'scale(0.98)';
-          el.style.borderColor = '#d4af37';
-        }, { passive: true });
-
-        el.addEventListener('touchend', () => {
-          el.style.transform = 'scale(1)';
-          el.style.borderColor = '';
-        }, { passive: true });
-      });
-
-      document.addEventListener('click', (e) => {
-        const target = (e.target as HTMLElement).closest('button, a, [role="button"], .btn-gradient-all');
-        if (!target) return;
-
-        const clientX = e.clientX || (e as any).touches?.[0]?.clientX || window.innerWidth / 2;
-        const clientY = e.clientY || (e as any).touches?.[0]?.clientY || window.innerHeight / 2;
-
-        const count = 14 + Math.floor(Math.random() * 5);
-        const colors = ['#d4af37', '#f3e5ab', '#ffffff', '#c5a059'];
-
-        for (let i = 0; i < count; i++) {
-          const spark = document.createElement('div');
-          const color = colors[Math.floor(Math.random() * colors.length)];
-          const size = 4 + Math.random() * 6;
-          const angle = Math.random() * Math.PI * 2;
-          const speed = 30 + Math.random() * 70;
-          const destX = Math.cos(angle) * speed;
-          const destY = Math.sin(angle) * speed + 15;
-
-          spark.style.cssText = `
-            position: fixed;
-            left: ${clientX}px;
-            top: ${clientY}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: ${color};
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            box-shadow: 0 0 8px ${color};
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-            transition: transform 600ms cubic-bezier(0.25, 1, 0.5, 1), opacity 600ms ease-out;
-          `;
-
-          document.body.appendChild(spark);
-
-          requestAnimationFrame(() => {
-            spark.style.transform = `translate(calc(-50% + ${destX}px), calc(-50% + ${destY}px)) scale(0.2)`;
-            spark.style.opacity = '0';
-          });
-
-          setTimeout(() => {
-            spark.remove();
-          }, 650);
-        }
-      });
-
-      const trailCanvas = document.getElementById('prana-trail-canvas') as HTMLCanvasElement;
-      const tctx = trailCanvas?.getContext('2d');
-      if (trailCanvas && tctx) {
-        let trailMotes: any[] = [];
-
-        const resizeTrail = () => {
-          trailCanvas.width = window.innerWidth;
-          trailCanvas.height = window.innerHeight;
-        };
-        resizeTrail();
-        window.addEventListener('resize', resizeTrail);
-
-        const animateTrail = () => {
-          tctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
-
-          for (let i = trailMotes.length - 1; i >= 0; i--) {
-            const m = trailMotes[i];
-            m.x += m.vx;
-            m.y += m.vy;
-            m.alpha -= 0.025;
-
-            if (m.alpha <= 0) {
-              trailMotes.splice(i, 1);
-              continue;
-            }
-
-            tctx.save();
-            tctx.globalAlpha = Math.max(0, m.alpha);
-            tctx.fillStyle = m.color;
-            tctx.shadowColor = '#d4af37';
-            tctx.shadowBlur = 6;
-            tctx.beginPath();
-            tctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
-            tctx.fill();
-            tctx.restore();
-          }
-          requestAnimationFrame(animateTrail);
-        };
-
-        window.addEventListener('mousemove', (e) => {
-          if (window.matchMedia('(pointer: fine)').matches) {
-            for (let i = 0; i < 2; i++) {
-              if (trailMotes.length >= 40) {
-                trailMotes.shift();
-              }
-              trailMotes.push({
-                x: e.clientX,
-                y: e.clientY,
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: (Math.random() - 0.5) * 1.5 - 0.5,
-                size: Math.random() * 2.5 + 1.2,
-                alpha: 0.85,
-                color: '#f3e5ab'
-              });
-            }
-          }
-        }, { passive: true });
-
-        animateTrail();
-      }
     </script>
     <CartDrawer />
   </body>
