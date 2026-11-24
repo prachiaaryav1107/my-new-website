@@ -1,10 +1,10 @@
 ---
 ---
 <!-- Cart Drawer Backdrop -->
-<div id="cart-backdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[80] hidden transition-opacity opacity-0"></div>
+<div id="cart-backdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[80] hidden pointer-events-none transition-opacity opacity-0"></div>
 
 <!-- Slide-out Cart Drawer -->
-<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#FAF7F2] shadow-2xl z-[90] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-[#E6CA65]/60">
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-[#FAF7F2] shadow-2xl z-[90] transform translate-x-full pointer-events-none transition-transform duration-300 ease-in-out flex flex-col border-l border-[#E6CA65]/60">
   <!-- Header -->
   <div class="p-6 border-b border-[#E6CA65]/40 flex items-center justify-between bg-white">
     <div class="flex items-center space-x-2">
@@ -50,7 +50,7 @@
 </div>
 
 <!-- Checkout Modal -->
-<div id="checkout-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+<div id="checkout-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden pointer-events-none flex items-center justify-center p-4">
   <div class="bg-white border border-[#E6CA65]/60 rounded-3xl p-8 max-w-lg w-full space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
     <div class="flex justify-between items-center border-b border-[#E6CA65]/40 pb-4">
       <h3 class="text-2xl font-bold font-['Cormorant_Garamond',serif] text-[#7A5212]">Sacred Order Checkout</h3>
@@ -197,11 +197,15 @@
     if (drawer && backdrop) {
       const isOpen = !drawer.classList.contains('translate-x-full');
       if (isOpen) {
-        drawer.classList.add('translate-x-full');
-        backdrop.classList.add('opacity-0', 'hidden');
+        drawer.classList.add('translate-x-full', 'pointer-events-none');
+        drawer.classList.remove('pointer-events-auto');
+        backdrop.classList.add('opacity-0', 'hidden', 'pointer-events-none');
+        backdrop.classList.remove('pointer-events-auto');
       } else {
-        drawer.classList.remove('translate-x-full');
-        backdrop.classList.remove('hidden');
+        drawer.classList.remove('translate-x-full', 'pointer-events-none');
+        drawer.classList.add('pointer-events-auto');
+        backdrop.classList.remove('hidden', 'pointer-events-none');
+        backdrop.classList.add('pointer-events-auto');
         setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
         updateCartUI();
       }
@@ -212,8 +216,10 @@
     const drawer = document.getElementById('cart-drawer');
     const backdrop = document.getElementById('cart-backdrop');
     if (drawer && backdrop) {
-      drawer.classList.remove('translate-x-full');
-      backdrop.classList.remove('hidden');
+      drawer.classList.remove('translate-x-full', 'pointer-events-none');
+      drawer.classList.add('pointer-events-auto');
+      backdrop.classList.remove('hidden', 'pointer-events-none');
+      backdrop.classList.add('pointer-events-auto');
       setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
       updateCartUI();
     }
@@ -353,11 +359,13 @@
     checkoutForm?.classList.remove('hidden');
     orderSuccessScreen?.classList.add('hidden');
     checkoutOrderReview?.classList.remove('hidden');
-    checkoutModal?.classList.remove('hidden');
+    checkoutModal?.classList.remove('hidden', 'pointer-events-none');
+    checkoutModal?.classList.add('pointer-events-auto');
   });
 
   closeCheckoutBtn?.addEventListener('click', () => {
-    checkoutModal?.classList.add('hidden');
+    checkoutModal?.classList.add('hidden', 'pointer-events-none');
+    checkoutModal?.classList.remove('pointer-events-auto');
   });
 
   checkoutForm?.addEventListener('submit', async (e) => {
