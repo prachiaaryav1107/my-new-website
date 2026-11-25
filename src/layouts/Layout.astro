@@ -16,7 +16,7 @@ const {
   title = "SomaShiva™ | Ethically Sourced Crystals & Sound Healing",
   description = "Discover hand-selected natural crystals, sacred geometry towers, and meditative singing bowls designed to align your chakras and elevate your daily practice.",
   image = "https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=1200",
-  canonicalURL = Astro.url.href,
+  canonicalURL = new URL(Astro.url.pathname, 'https://somashiva.com').href,
 } = Astro.props;
 
 const schemaOrgJsonLd = {
